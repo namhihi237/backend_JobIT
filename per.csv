@@ -1,0 +1,7 @@
+roleId,perName,actionCode,check
+601b9d7cdae0a522ac960fea,create account mod,CREATE_MOD,1
+601b9d7cdae0a522ac960fea,accept post,ACCEPT_POST,1
+601b9d7cdae0a522ac960fea,delete post,DELETE_POST,0
+601b9d7cdae0a522ac960fea,update post,UPDATE_POST,0
+601b9d7cdae0a522ac960fea,get all feedbacks,READ_FEEDBAKS,0
+601b9d7cdae0a522ac960fea,get feedback,READ_FEEDBACK,0

@@ -30,7 +30,7 @@ const CompanySchema = new Schema(
         },
         role: {
             type: String,
-            default: "iter",
+            default: "company",
         },
     },
     { timestamps: true }

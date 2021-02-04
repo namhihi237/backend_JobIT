@@ -22,7 +22,7 @@ const ModeratorSchema = new Schema(
         },
         role: {
             type: String,
-            default: "iter",
+            default: "moderator",
         },
     },
     { timestamps: true }

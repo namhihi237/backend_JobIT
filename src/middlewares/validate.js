@@ -3,7 +3,7 @@ import { validateRequest } from "../utils";
 
 const registerITerSchema = (req, res, next) => {
     const schema = Joi.object({
-        fullName: Joi.string().min(3).max(20),
+        fullName: Joi.string().required(),
         password: Joi.string().required().min(6).max(50),
         email: Joi.string().email().required(),
         gender: Joi.string().required().valid("Male", "Female"),
@@ -31,5 +31,29 @@ const loginSchema = (req, res, next) => {
     });
     validateRequest(req, next, schema);
 };
+/*-------------admin------------------- */
 
-export const validateRequestBody = { registerITerSchema, registerCompanySchema, loginSchema };
+const loginAdminSchema = (req, res, next) => {
+    const schema = Joi.object({
+        userName: Joi.string().required(),
+        password: Joi.string().min(6).max(50).empty("").required(),
+    });
+    validateRequest(req, next, schema);
+};
+
+const createModSchema = (req, res, next) => {
+    const schema = Joi.object({
+        userName: Joi.string().required(),
+        password: Joi.string().min(6).max(50).empty("").required(),
+        fullName: Joi.string().required(),
+    });
+    validateRequest(req, next, schema);
+};
+
+export const validateRequestBody = {
+    registerITerSchema,
+    registerCompanySchema,
+    loginSchema,
+    createModSchema,
+    loginAdminSchema,
+};
