@@ -5,6 +5,9 @@ export class HttpServer {
         this.app = express();
     }
 
+    getApp() {
+        return this.app;
+    }
     registerMiddleware(middleware) {
         middleware(this.app);
     }

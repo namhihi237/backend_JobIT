@@ -17,7 +17,9 @@
         "esm": "^3.2.25",
         "express": "^4.17.1",
         "helmet": "^4.4.1",
+        "joi": "^17.3.0",
         "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.11.15",
         "nodemailer": "^6.4.17"
     },
     "devDependencies": {
