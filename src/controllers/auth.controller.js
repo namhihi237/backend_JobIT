@@ -63,7 +63,7 @@ const registerIter = async (req, res, next) => {
  * @apiGroup Auth
  * @apiParam {String} email email's  company account
  * @apiParam {String} password password's company account
- * @apiParam {String} nameCompany full name's company
+ * @apiParam {String} companyName name's company
  * @apiParam {String} address address's company
  * @apiParam {String} role role's company requre "company"
  * @apiSuccess {String} msg <code>Sign up success</code> if everything went fine.
@@ -81,7 +81,7 @@ const registerIter = async (req, res, next) => {
  *     }
  */
 const registerCompany = async (req, res, next) => {
-    let { password, email, role, address, nameCompany } = req.body;
+    let { password, email, role, address, companyName } = req.body;
     email = email.toLowerCase();
     try {
         const [_com, _it] = await Promise.all([
@@ -104,7 +104,7 @@ const registerCompany = async (req, res, next) => {
             email,
             password: hash,
             address,
-            nameCompany,
+            companyName,
             roleId: _role._id,
         });
         res.status(200).json({

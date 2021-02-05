@@ -1,5 +1,4 @@
-import { Role, Permission } from "../models";
-import { HttpError } from "../utils";
+import { HttpError, checkRoleAndPer } from "../utils";
 /* check role - permision user*/
 
 const createModPer = async (req, res, next) => {
@@ -14,21 +13,28 @@ const createModPer = async (req, res, next) => {
     }
 };
 
-/* check role and permission of role*/
-const checkRoleAndPer = async (role, actionCode) => {
+const createPostPer = async (req, res, next) => {
+    const { role } = req.user;
     try {
-        const _role = await Role.findOne({ roleName: role });
-        if (!_role) {
-            return false;
+        if (!(await checkRoleAndPer(role, "CREATE_POST"))) {
+            throw new HttpError("Denny permission create post", 401);
         }
-        const per = await Permission.findOne({ roleId: _role._id, actionCode, check: true });
-        if (!per) {
-            return false;
-        }
-        return true;
+        next();
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 };
 
-export const roleMiddleware = { createModPer };
+const viewPostNeedAcceptPer = async (req, res, next) => {
+    const { role } = req.user;
+    try {
+        if (!(await checkRoleAndPer(role, "VIEW_POSTS_NEED_ACCEPT"))) {
+            throw new HttpError("Denny permission get all post need accept", 401);
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const roleMiddleware = { createModPer, createPostPer, viewPostNeedAcceptPer };

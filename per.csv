@@ -1,7 +1,15 @@
 roleId,perName,actionCode,check
 601b9d7cdae0a522ac960fea,create account mod,CREATE_MOD,1
+601b9d7cdae0a522ac960fea,get all post need accept,VIEW_POSTS_NEED_ACCEPT,1
+601b9d7cdae0a522ac960fea,create post,CREATE_POST,0
 601b9d7cdae0a522ac960fea,accept post,ACCEPT_POST,1
-601b9d7cdae0a522ac960fea,delete post,DELETE_POST,0
+601b9d7cdae0a522ac960fea,delete post,DELETE_POST,1
 601b9d7cdae0a522ac960fea,update post,UPDATE_POST,0
-601b9d7cdae0a522ac960fea,get all feedbacks,READ_FEEDBAKS,0
-601b9d7cdae0a522ac960fea,get feedback,READ_FEEDBACK,0
+601b9d7cdae0a522ac960fea,get all feedbacks,VIEW_FEEDBAKS,1
+601b9d7cdae0a522ac960fea,get feedback,VIEW_FEEDBAK,1
+601b9d7cdae0a522ac960fe9,view post,VIEW_POST,1
+601b9d7cdae0a522ac960fe9,view all posts,VIEW_POSTS,1
+601b9d7cdae0a522ac960fe9,create post,CREATE_POST,1
+601b9d7cdae0a522ac960fe9,accept post,ACCEPT_POST,0
+601b9d7cdae0a522ac960fe9,delete post,DELETE_POST,1
+601b9d7cdae0a522ac960fe9,update post,UPDATE_POST,1
