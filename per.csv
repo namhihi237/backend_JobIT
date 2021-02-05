@@ -3,7 +3,7 @@ roleId,perName,actionCode,check
 601b9d7cdae0a522ac960fea,get all post need accept,VIEW_POSTS_NEED_ACCEPT,1
 601b9d7cdae0a522ac960fea,create post,CREATE_POST,0
 601b9d7cdae0a522ac960fea,accept post,ACCEPT_POST,1
-601b9d7cdae0a522ac960fea,delete post,DELETE_POST,1
+601b9d7cdae0a522ac960fea,delete post,DELETE_POST,0
 601b9d7cdae0a522ac960fea,update post,UPDATE_POST,0
 601b9d7cdae0a522ac960fea,get all feedbacks,VIEW_FEEDBAKS,1
 601b9d7cdae0a522ac960fea,get feedback,VIEW_FEEDBAK,1

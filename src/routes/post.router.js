@@ -4,9 +4,9 @@ import { validateRequestBody, authMiddleware, roleMiddleware } from "../middlewa
 import { Router } from "express";
 
 const { jwtMidleware } = authMiddleware;
-const { createPostPer, viewPostNeedAcceptPer } = roleMiddleware;
+const { createPostPer, viewPostNeedAcceptPer, updatePostPer, deletePostPer } = roleMiddleware;
 const { createPostSchema } = validateRequestBody;
-const { createPost, getAcceptedPosts, getPostsNeedAccept } = postController;
+const { createPost, getAcceptedPosts, getPostsNeedAccept, updatePost, deletePost } = postController;
 
 export const postRouter = Router();
 
@@ -18,6 +18,8 @@ postRouter
 
 postRouter.route("/api/v1/posts").post(jwtMidleware, createPostPer, createPostSchema, createPost); // CREATE_POST
 
-postRouter.route("/api/v1/posts").put();
+postRouter
+    .route("/api/v1/posts/:postId")
+    .put(jwtMidleware, updatePostPer, createPostSchema, updatePost); // UPDATE_POST
 
-postRouter.route("/api/v1/posts").delete();
+postRouter.route("/api/v1/posts/:postId").delete(jwtMidleware, deletePostPer, deletePost); // DELETE_POST

@@ -1,3 +1,4 @@
+import mongo from "mongoose";
 import { Post, ITer, Company } from "../models";
 import { HttpError } from "../utils";
 
@@ -168,4 +169,109 @@ const getPostsNeedAccept = async (req, res, next) => {
     }
 };
 
-export const postController = { createPost, getAcceptedPosts, getPostsNeedAccept };
+/**
+ * @api {put} /api/v1/posts/[postId] company update post
+ * @apiName Update post
+ * @apiGroup Post
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiParam {Array} skill vd : ["java","nodejs"]
+ * @apiParam {Array} position vd : ["inter,"fresher"]
+ * @apiParam {String} address address's job
+ * @apiParam {String} salary salary's job
+ * @apiParam {String} endTime endTime's job
+ * @apiParam {String} description description's job
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success"
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission update post"
+ *     }
+ */
+const updatePost = async (req, res, next) => {
+    const { _id } = req.user;
+    const { postId } = req.params;
+    const { skill, position, address, salary, endTime, description } = req.body;
+    try {
+        if (!mongo.Types.ObjectId.isValid(postId)) {
+            throw new HttpError("Not found post!", 400);
+        }
+        const postWithUser = await Post.findOne({ companyId: _id, _id: postId }, { __v: 1 });
+        if (!postWithUser) {
+            throw new HttpError("Deny update!", 401);
+        }
+        await Post.findByIdAndUpdate(
+            { _id: postId },
+            { skill, position, address, salary, endTime, description }
+        );
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * @api {delete} /api/v1/posts/[postId]  delete post
+ * @apiName Delete post
+ * @apiGroup Post
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success"
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission delete post"
+ *     }
+ */
+const deletePost = async (req, res, next) => {
+    const { _id, role } = req.user;
+    const { postId } = req.params;
+    try {
+        if (!mongo.Types.ObjectId.isValid(postId)) {
+            throw new HttpError("Not found post!", 400);
+        }
+        if (role != "admin" && role != "moderator") {
+            const postWithUser = await Post.findOne({ companyId: _id, _id: postId }, { __v: 1 });
+            if (!postWithUser) {
+                throw new HttpError("Deny delete post!", 401);
+            }
+        }
+
+        await Post.findByIdAndDelete({ _id: postId });
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const postController = {
+    createPost,
+    getAcceptedPosts,
+    getPostsNeedAccept,
+    updatePost,
+    deletePost,
+};

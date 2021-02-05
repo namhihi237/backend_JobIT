@@ -5,7 +5,7 @@ const createModPer = async (req, res, next) => {
     const { role } = req.user;
     try {
         if (!(await checkRoleAndPer(role, "CREATE_MOD"))) {
-            throw new HttpError("Denny permission create account mod", 401);
+            throw new HttpError("Deny permission create account mod", 401);
         }
         next();
     } catch (error) {
@@ -17,7 +17,31 @@ const createPostPer = async (req, res, next) => {
     const { role } = req.user;
     try {
         if (!(await checkRoleAndPer(role, "CREATE_POST"))) {
-            throw new HttpError("Denny permission create post", 401);
+            throw new HttpError("Deny permission create post", 401);
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
+
+const updatePostPer = async (req, res, next) => {
+    const { role } = req.user;
+    try {
+        if (!(await checkRoleAndPer(role, "UPDATE_POST"))) {
+            throw new HttpError("Deny permission update post", 401);
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
+
+const deletePostPer = async (req, res, next) => {
+    const { role } = req.user;
+    try {
+        if (!(await checkRoleAndPer(role, "DELETE_POST"))) {
+            throw new HttpError("Deny permission delete post", 401);
         }
         next();
     } catch (error) {
@@ -29,7 +53,7 @@ const viewPostNeedAcceptPer = async (req, res, next) => {
     const { role } = req.user;
     try {
         if (!(await checkRoleAndPer(role, "VIEW_POSTS_NEED_ACCEPT"))) {
-            throw new HttpError("Denny permission get all post need accept", 401);
+            throw new HttpError("Deny permission get all post need accept", 401);
         }
         next();
     } catch (error) {
@@ -37,4 +61,10 @@ const viewPostNeedAcceptPer = async (req, res, next) => {
     }
 };
 
-export const roleMiddleware = { createModPer, createPostPer, viewPostNeedAcceptPer };
+export const roleMiddleware = {
+    createModPer,
+    createPostPer,
+    viewPostNeedAcceptPer,
+    updatePostPer,
+    deletePostPer,
+};
