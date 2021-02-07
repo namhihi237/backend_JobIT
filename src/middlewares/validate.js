@@ -71,6 +71,12 @@ const createPostSchema = (req, res, next) => {
     validateRequest(req, next, schema);
 };
 
+const createFeedbackSchema = (req, res, next) => {
+    const schema = Joi.object({
+        content: Joi.string().required(),
+    });
+    validateRequest(req, next, schema);
+};
 export const validateRequestBody = {
     registerITerSchema,
     registerCompanySchema,
@@ -78,4 +84,5 @@ export const validateRequestBody = {
     createModSchema,
     loginAdminSchema,
     createPostSchema,
+    createFeedbackSchema,
 };

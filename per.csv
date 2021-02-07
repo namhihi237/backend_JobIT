@@ -5,11 +5,16 @@ roleId,perName,actionCode,check
 601b9d7cdae0a522ac960fea,accept post,ACCEPT_POST,1
 601b9d7cdae0a522ac960fea,delete post,DELETE_POST,0
 601b9d7cdae0a522ac960fea,update post,UPDATE_POST,0
-601b9d7cdae0a522ac960fea,get all feedbacks,VIEW_FEEDBAKS,1
-601b9d7cdae0a522ac960fea,get feedback,VIEW_FEEDBAK,1
+601b9d7cdae0a522ac960fea,create feedback,CREATE_FEEDBACK,1
+601b9d7cdae0a522ac960fea,get all feedbacks,VIEW_FEEDBACKS,1
+601b9d7cdae0a522ac960fea,get feedback,DELETE_FEEDBACK,1
 601b9d7cdae0a522ac960fe9,view post,VIEW_POST,1
 601b9d7cdae0a522ac960fe9,view all posts,VIEW_POSTS,1
 601b9d7cdae0a522ac960fe9,create post,CREATE_POST,1
 601b9d7cdae0a522ac960fe9,accept post,ACCEPT_POST,0
 601b9d7cdae0a522ac960fe9,delete post,DELETE_POST,1
 601b9d7cdae0a522ac960fe9,update post,UPDATE_POST,1
+601b9d7cdae0a522ac960fe9,create feedback,CREATE_FEEDBACK,1
+601b9d7cdae0a522ac960fe9,get all feedbacks,VIEW_FEEDBACKS,0
+601b9d7cdae0a522ac960fe9,get feedback,DELETE_FEEDBACK,0
+601b9d7cdae0a522ac960feb,accept post,ACCEPT_POST,1

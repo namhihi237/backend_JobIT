@@ -320,6 +320,224 @@
   },
   {
     "type": "post",
+    "url": "/api/v1/feedbacks",
+    "title": "create feedback",
+    "name": "create_feedback",
+    "group": "Feedback",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "content",
+            "description": "<p>content's feedback</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission create feedback\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/feedback.controller.js",
+    "groupTitle": "Feedback"
+  },
+  {
+    "type": "delete",
+    "url": "/api/v1/feedbacks/[feedbackId]",
+    "title": "delete feedback",
+    "name": "delete_feedback",
+    "group": "Feedback",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission delete feedback\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/feedback.controller.js",
+    "groupTitle": "Feedback"
+  },
+  {
+    "type": "get",
+    "url": "/api/v1/feedbacks",
+    "title": "get all feedbacks",
+    "name": "get_feedbacks",
+    "group": "Feedback",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "feedbacks",
+            "description": "<p><code>Array Objects feedback</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n       \"feedbacks\": [\n                {\n                    \"_id\": \"601fc082633e8c3688fc64b2\",\n                    \"userId\": \"601d07f259e12e126c0a2af4\",\n                    \"content\": \"code ngao vl\",\n                    \"createdAt\": \"2021-02-07T10:27:14.957Z\",\n                },\n                {\n                    \"_id\": \"601fc0af633e8c3688fc64b3\",\n                    \"userId\": \"601d07f259e12e126c0a2af4\",\n                    \"content\": \"code ngao vl hihi\",\n                    \"createdAt\": \"2021-02-07T10:27:59.483Z\",\n                }\n]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission get feedbacks\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/feedback.controller.js",
+    "groupTitle": "Feedback"
+  },
+  {
+    "type": "post",
     "url": "/api/v1/admin/login",
     "title": "login admin, mod",
     "name": "Login_mod_adminn",
@@ -383,6 +601,72 @@
     "version": "0.0.0",
     "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/admin.conntroller.js",
     "groupTitle": "Mod"
+  },
+  {
+    "type": "patch",
+    "url": "/api/v1/posts/[postId]/accept-post",
+    "title": "accept post",
+    "name": "Accept_post",
+    "group": "Post",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code> if everything went fine.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission accept post\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/post.controller.js",
+    "groupTitle": "Post"
   },
   {
     "type": "post",

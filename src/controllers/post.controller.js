@@ -268,10 +268,51 @@ const deletePost = async (req, res, next) => {
     }
 };
 
+/**
+ * @api {patch} /api/v1/posts/[postId]/accept-post  accept post
+ * @apiName Accept post
+ * @apiGroup Post
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success"
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission accept post"
+ *     }
+ */
+const acceptPost = async (req, res, next) => {
+    const { postId } = req.params;
+    try {
+        if (!mongo.Types.ObjectId.isValid(postId)) {
+            throw new HttpError("Not found post!", 400);
+        }
+        const accepted = await Post.findByIdAndUpdate({ _id: postId }, { accept: true });
+        if (!accepted) {
+            throw new HttpError("Not found post!", 400);
+        }
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 export const postController = {
     createPost,
     getAcceptedPosts,
     getPostsNeedAccept,
     updatePost,
     deletePost,
+    acceptPost,
 };

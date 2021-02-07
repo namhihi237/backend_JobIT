@@ -61,10 +61,62 @@ const viewPostNeedAcceptPer = async (req, res, next) => {
     }
 };
 
+const acceptPostPer = async (req, res, next) => {
+    const { role } = req.user;
+    try {
+        if (!(await checkRoleAndPer(role, "ACCEPT_POST"))) {
+            throw new HttpError("Deny permission accept post", 401);
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
+
+const getFeebackper = async (req, res, next) => {
+    const { role } = req.user;
+    try {
+        if (!(await checkRoleAndPer(role, "VIEW_FEEDBACKS"))) {
+            throw new HttpError("Deny permission get feedbacks", 401);
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
+
+const createFeebackper = async (req, res, next) => {
+    const { role } = req.user;
+    try {
+        if (!(await checkRoleAndPer(role, "CREATE_FEEDBACK"))) {
+            throw new HttpError("Deny permission create feedback", 401);
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
+
+const deleteFeebackper = async (req, res, next) => {
+    const { role } = req.user;
+    try {
+        if (!(await checkRoleAndPer(role, "DELETE_FEEDBACK"))) {
+            throw new HttpError("Deny permission delete feedback", 401);
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const roleMiddleware = {
     createModPer,
     createPostPer,
     viewPostNeedAcceptPer,
     updatePostPer,
     deletePostPer,
+    acceptPostPer,
+    getFeebackper,
+    createFeebackper,
+    deleteFeebackper,
 };

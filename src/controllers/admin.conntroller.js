@@ -63,11 +63,11 @@ const registerAdmin = async (req, res, next) => {
 const login = async (req, res, next) => {
     const { userName, password } = req.body;
     try {
-        const [admin, mod, role] = await Promise.all([
+        const [admin, mod] = await Promise.all([
             Admin.findOne({ userName }),
             Moderator.findOne({ userName }),
         ]);
-        if (!admin || mod) {
+        if (!admin && !mod) {
             throw new HttpError("userName or password is incorrect", 400);
         }
         const user = mod || admin;
