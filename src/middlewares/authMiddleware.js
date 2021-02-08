@@ -15,6 +15,7 @@ const jwtMidleware = async (req, res, next) => {
             throw new HttpError("Token is invalid", 400);
         }
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };

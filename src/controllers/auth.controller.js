@@ -175,4 +175,58 @@ const login = async (req, res, next) => {
     }
 };
 
-export const authController = { registerIter, registerCompany, login };
+/**
+ * @api {post} /api/v1/auth/update-password update password
+ * @apiName Update password
+ * @apiGroup Auth
+ * @apiParam {String} password current password's  account
+ * @apiParam {String} newPassword new password's account
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success"
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 400
+ *     {
+ *       "status" : 400,
+ *       "msg": "password is incorrect"
+ *     }
+ */
+const updatePassword = async (req, res, next) => {
+    const { password, newPassword } = req.body;
+    const { _id, role } = req.user;
+    try {
+        let user;
+        if (role === "iter") {
+            user = await ITer.findById({ _id }, { password: 1 });
+        }
+        if (role === "company") {
+            user = await Company.findById({ _id }, { password: 1 });
+        }
+        if (!user) {
+            throw new HttpError("User not found", 400);
+        }
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) {
+            throw new HttpError("password is incorrect", 400);
+        }
+        const hash = await bcrypt.hash(newPassword, 12);
+        if (role === "iter") {
+            await ITer.findByIdAndUpdate({ _id }, { password: hash });
+        }
+        if (role === "company") {
+            await Company.findByIdAndUpdate({ _id }, { password: hash });
+        }
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const authController = { registerIter, registerCompany, login, updatePassword };

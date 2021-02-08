@@ -17,4 +17,8 @@ roleId,perName,actionCode,check
 601b9d7cdae0a522ac960fe9,create feedback,CREATE_FEEDBACK,1
 601b9d7cdae0a522ac960fe9,get all feedbacks,VIEW_FEEDBACKS,0
 601b9d7cdae0a522ac960fe9,get feedback,DELETE_FEEDBACK,0
+601b9d7cdae0a522ac960fe9,get profile,VIEW_PROFILE,1
+601b9d7cdae0a522ac960fe9,update profile,UPDATE_PROFILE,1
+601b9d7cdae0a522ac960fe8,get profile,VIEW_PROFILE,1
+601b9d7cdae0a522ac960fe8,update profile,UPDATE_PROFILE,1
 601b9d7cdae0a522ac960feb,accept post,ACCEPT_POST,1

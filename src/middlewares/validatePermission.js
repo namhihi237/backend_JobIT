@@ -109,6 +109,32 @@ const deleteFeebackper = async (req, res, next) => {
     }
 };
 
+const getProfilePer = async (req, res, next) => {
+    const { role } = req.user;
+    console.log(req.user._id, role);
+    try {
+        if (!(await checkRoleAndPer(role, "VIEW_PROFILE"))) {
+            throw new HttpError("Deny permission get profile", 401);
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
+
+const updateProfilePer = async (req, res, next) => {
+    const { role } = req.user;
+    console.log(req.user._id, role);
+    try {
+        if (!(await checkRoleAndPer(role, "UPDATE_PROFILE"))) {
+            throw new HttpError("Deny permission get profile", 401);
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const roleMiddleware = {
     createModPer,
     createPostPer,
@@ -119,4 +145,6 @@ export const roleMiddleware = {
     getFeebackper,
     createFeebackper,
     deleteFeebackper,
+    getProfilePer,
+    updateProfilePer,
 };

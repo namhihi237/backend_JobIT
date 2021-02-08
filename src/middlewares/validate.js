@@ -4,7 +4,7 @@ import { validateRequest } from "../utils";
 const registerITerSchema = (req, res, next) => {
     const schema = Joi.object({
         fullName: Joi.string().required(),
-        password: Joi.string().required().min(6).max(50),
+        password: Joi.string().alphanum().required().min(6).max(50),
         email: Joi.string().email().required(),
         gender: Joi.string().required().valid("Male", "Female"),
         birthday: Joi.string().required(),
@@ -13,10 +13,19 @@ const registerITerSchema = (req, res, next) => {
     validateRequest(req, next, schema);
 };
 
+const updateIterSchema = (req, res, next) => {
+    const schema = Joi.object({
+        fullName: Joi.string().required(),
+        gender: Joi.string().required().valid("Male", "Female"),
+        birthday: Joi.string().required(),
+    });
+    validateRequest(req, next, schema);
+};
+
 const registerCompanySchema = (req, res, next) => {
     const schema = Joi.object({
         companyName: Joi.string().required(),
-        password: Joi.string().required().min(6).max(50),
+        password: Joi.string().alphanum().required().min(6).max(50),
         email: Joi.string().email().required(),
         address: Joi.string().required(),
         role: Joi.string().valid("company").required(),
@@ -24,10 +33,26 @@ const registerCompanySchema = (req, res, next) => {
     validateRequest(req, next, schema);
 };
 
+const updateCompanySchema = (req, res, next) => {
+    const schema = Joi.object({
+        companyName: Joi.string().required(),
+        address: Joi.string().required(),
+    });
+    validateRequest(req, next, schema);
+};
+
 const loginSchema = (req, res, next) => {
     const schema = Joi.object({
         email: Joi.string().email().required(),
-        password: Joi.string().min(6).max(50).empty("").required(),
+        password: Joi.string().alphanum().min(6).max(50).empty("").required(),
+    });
+    validateRequest(req, next, schema);
+};
+
+const updatePassSchema = (req, res, next) => {
+    const schema = Joi.object({
+        password: Joi.string().alphanum().min(6).max(50).empty("").required(),
+        newPassword: Joi.string().alphanum().min(6).max(50).empty("").required(),
     });
     validateRequest(req, next, schema);
 };
@@ -85,4 +110,7 @@ export const validateRequestBody = {
     loginAdminSchema,
     createPostSchema,
     createFeedbackSchema,
+    updateCompanySchema,
+    updateIterSchema,
+    updatePassSchema,
 };

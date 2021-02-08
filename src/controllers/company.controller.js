@@ -1,10 +1,9 @@
 import { ITer, Cv, Company } from "../models";
 import { HttpError } from "../utils";
-
 /**
- * @api {get} /api/v1/iter/profile get profile
+ * @api {get} /api/v1/company/profile get profile
  * @apiName get profile
- * @apiGroup Iter
+ * @apiGroup Company
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
@@ -16,13 +15,14 @@ import { HttpError } from "../utils";
  *     {
  *         status: 200,
  *         msg: "Success",
-          "user": {
-                "_id": "6020bd895d7a6b07b0b0eef9",
-                "email": "yentth@gmail.com",
-                "fullName": "Le Trung Nam",
-                "gender": "Male",
-                "birthday": "23/07/1999"
-            }
+ *         "user": {
+                "_id": "601d07f259e12e126c0a2af4",
+                "email": "yentth239@gmail.com",
+                "address": "144 nlb",
+                "companyName": "FPT",
+                "roleId": "601b9d7cdae0a522ac960fe9"
+            } 
+            
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 401
@@ -31,19 +31,20 @@ import { HttpError } from "../utils";
  *       "msg": "Denny permission get profile"
  *     }
  */
-const getUserProfile = async (req, res, next) => {
+const getProfile = async (req, res, next) => {
     const { _id } = req.user;
     try {
-        const user = await ITer.findById(
+        const user = await Company.findById(
             { _id },
             {
                 __v: 0,
                 password: 0,
                 createdAt: 0,
-                updatedAt: 0,
+                updateAt: 0,
                 receiveMailJob: 0,
                 role: 0,
                 roleId: 0,
+                rate: 0,
             }
         );
 
@@ -67,9 +68,8 @@ const getUserProfile = async (req, res, next) => {
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
- * @apiParam {String} fullName fullname's company
- * @apiParam {String} gender gender's company
- * @apiParam {String} birthday birthday's company
+ * @apiParam {String} address address's company
+ * @apiParam {String} companyName name's company
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code>
  * @apiSuccessExample {json} Success-Example
@@ -86,10 +86,10 @@ const getUserProfile = async (req, res, next) => {
  *     }
  */
 const updateProfile = async (req, res, next) => {
-    const { fullName, gender, birthday } = req.user;
+    const { companyName, address } = req.user;
     const { _id } = req.user;
     try {
-        await ITer.findByIdAndUpdate({ _id }, { fullName, gender, birthday });
+        await Company.findByIdAndUpdate({ _id }, { companyName, address });
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -99,7 +99,7 @@ const updateProfile = async (req, res, next) => {
     }
 };
 
-export const iterController = {
-    getUserProfile,
+export const companyController = {
+    getProfile,
     updateProfile,
 };

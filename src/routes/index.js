@@ -3,5 +3,15 @@ import { adminRouter } from "./admin.router";
 import { postRouter } from "./post.router";
 import { modRouter } from "./mod.router";
 import { feedbackRouter } from "./feedback.router";
+import { iterRouter } from "./iter.router";
+import { companyRouter } from "./company.router";
 
-export { authRouter, adminRouter, postRouter, modRouter, feedbackRouter };
+export {
+    authRouter,
+    adminRouter,
+    postRouter,
+    modRouter,
+    feedbackRouter,
+    iterRouter,
+    companyRouter,
+};
