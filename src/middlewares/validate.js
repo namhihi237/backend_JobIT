@@ -6,7 +6,7 @@ const registerITerSchema = (req, res, next) => {
         fullName: Joi.string().required(),
         password: Joi.string().alphanum().required().min(6).max(50),
         email: Joi.string().email().required(),
-        gender: Joi.string().required().valid("Male", "Female"),
+        gender: Joi.string().messages({ "string.valid": `gender cannot be an empty field` }),
         birthday: Joi.string().required(),
         role: Joi.string().valid("iter").required(),
     });

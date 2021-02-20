@@ -104,6 +104,7 @@ const getAcceptedPosts = async (req, res, next) => {
             posts,
         });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
