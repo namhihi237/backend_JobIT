@@ -1,24 +1,25 @@
 roleId,perName,actionCode,check
-601b9d7cdae0a522ac960fea,create account mod,CREATE_MOD,1
-601b9d7cdae0a522ac960fea,get all post need accept,VIEW_POSTS_NEED_ACCEPT,1
-601b9d7cdae0a522ac960fea,create post,CREATE_POST,0
-601b9d7cdae0a522ac960fea,accept post,ACCEPT_POST,1
-601b9d7cdae0a522ac960fea,delete post,DELETE_POST,0
-601b9d7cdae0a522ac960fea,update post,UPDATE_POST,0
-601b9d7cdae0a522ac960fea,create feedback,CREATE_FEEDBACK,1
-601b9d7cdae0a522ac960fea,get all feedbacks,VIEW_FEEDBACKS,1
-601b9d7cdae0a522ac960fea,get feedback,DELETE_FEEDBACK,1
-601b9d7cdae0a522ac960fe9,view post,VIEW_POST,1
-601b9d7cdae0a522ac960fe9,view all posts,VIEW_POSTS,1
-601b9d7cdae0a522ac960fe9,create post,CREATE_POST,1
-601b9d7cdae0a522ac960fe9,accept post,ACCEPT_POST,0
-601b9d7cdae0a522ac960fe9,delete post,DELETE_POST,1
-601b9d7cdae0a522ac960fe9,update post,UPDATE_POST,1
-601b9d7cdae0a522ac960fe9,create feedback,CREATE_FEEDBACK,1
-601b9d7cdae0a522ac960fe9,get all feedbacks,VIEW_FEEDBACKS,0
-601b9d7cdae0a522ac960fe9,get feedback,DELETE_FEEDBACK,0
-601b9d7cdae0a522ac960fe9,get profile,VIEW_PROFILE,1
-601b9d7cdae0a522ac960fe9,update profile,UPDATE_PROFILE,1
-601b9d7cdae0a522ac960fe8,get profile,VIEW_PROFILE,1
-601b9d7cdae0a522ac960fe8,update profile,UPDATE_PROFILE,1
-601b9d7cdae0a522ac960feb,accept post,ACCEPT_POST,1
+603106be0d56cb0015848bd5,create account mod,CREATE_MOD,1
+603106be0d56cb0015848bd5,get all post need accept,VIEW_POSTS_NEED_ACCEPT,1
+603106be0d56cb0015848bd5,create post,CREATE_POST,0
+603106be0d56cb0015848bd5,accept post,ACCEPT_POST,1
+603106be0d56cb0015848bd5,delete post,DELETE_POST,0
+603106be0d56cb0015848bd5,update post,UPDATE_POST,0
+603106be0d56cb0015848bd5,create feedback,CREATE_FEEDBACK,1
+603106be0d56cb0015848bd5,get all feedbacks,VIEW_FEEDBACKS,1
+603106be0d56cb0015848bd5,get feedback,DELETE_FEEDBACK,1
+603106be0d56cb0015848bd4,view post,VIEW_POST,1
+603106be0d56cb0015848bd4,view all posts,VIEW_POSTS,1
+603106be0d56cb0015848bd4,create post,CREATE_POST,1
+603106be0d56cb0015848bd4,get company post,GET_COMPANY_POST,1
+603106be0d56cb0015848bd4,accept post,ACCEPT_POST,0
+603106be0d56cb0015848bd4,delete post,DELETE_POST,1
+603106be0d56cb0015848bd4,update post,UPDATE_POST,1
+603106be0d56cb0015848bd4,create feedback,CREATE_FEEDBACK,1
+603106be0d56cb0015848bd4,get all feedbacks,VIEW_FEEDBACKS,0
+603106be0d56cb0015848bd4,get feedback,DELETE_FEEDBACK,0
+603106be0d56cb0015848bd4,get profile,VIEW_PROFILE,1
+603106be0d56cb0015848bd4,update profile,UPDATE_PROFILE,1
+603106bd0d56cb0015848bd3,get profile,VIEW_PROFILE,1
+603106bd0d56cb0015848bd3,update profile,UPDATE_PROFILE,1
+603106be0d56cb0015848bd6,accept post,ACCEPT_POST,1

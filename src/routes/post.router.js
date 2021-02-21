@@ -10,6 +10,7 @@ const {
     updatePostPer,
     deletePostPer,
     acceptPostPer,
+    getCompanyPostPer,
 } = roleMiddleware;
 const { createPostSchema } = validateRequestBody;
 const {
@@ -19,6 +20,7 @@ const {
     updatePost,
     deletePost,
     acceptPost,
+    getCompanyPost,
 } = postController;
 
 export const postRouter = Router();
@@ -37,4 +39,8 @@ postRouter
 
 postRouter.route("/api/v1/posts/:postId").delete(jwtMidleware, deletePostPer, deletePost); // DELETE_POST
 
-postRouter.route("/api/v1/post/:postId/accept-post").patch(jwtMidleware, acceptPostPer, acceptPost); // ACCEPT_POST
+postRouter
+    .route("/api/v1/posts/:postId/accept-post")
+    .patch(jwtMidleware, acceptPostPer, acceptPost); // ACCEPT_POST
+
+postRouter.route("/api/v1/posts/company").get(jwtMidleware, getCompanyPostPer, getCompanyPost); // ACCEPT_COMPANY_POST

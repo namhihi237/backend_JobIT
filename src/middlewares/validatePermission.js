@@ -73,6 +73,18 @@ const acceptPostPer = async (req, res, next) => {
     }
 };
 
+const getCompanyPostPer = async (req, res, next) => {
+    const { role } = req.user;
+    try {
+        if (!(await checkRoleAndPer(role, "GET_COMPANY_POST"))) {
+            throw new HttpError("Deny permission get company post", 401);
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
+
 const getFeebackper = async (req, res, next) => {
     const { role } = req.user;
     try {
@@ -147,4 +159,5 @@ export const roleMiddleware = {
     deleteFeebackper,
     getProfilePer,
     updateProfilePer,
+    getCompanyPostPer,
 };

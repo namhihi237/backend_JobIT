@@ -309,6 +309,62 @@ const acceptPost = async (req, res, next) => {
         next(error);
     }
 };
+
+/**
+ * @api {get} /api/v1/posts/accept get company post
+ * @apiName get company post
+ * @apiGroup Post
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * @apiSuccess {Array} posts <code>Array Objects post</code> show all company post
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+ *        posts : [
+ *          {
+ *           "skill": [
+ *               "java",
+ *               "nodejs"
+ *           ],
+ *           "position": [
+ *               "inter",
+ *               "fresher"
+ *           ],
+ *           "comment": [],
+ *           "_id": "601d12b5f391e21c38ea6bfe",
+ *           "companyId": "601d07f259e12e126c0a2af4",
+ *            "companyName": "FPT",
+ *            "address": "1444 nlb",
+ *            "salary": "1200 to 2000$",
+ *            "endTime": "21/3/2021",
+ *            "description": "nodejs >= 3 year experience",
+ *            },
+ *          ......
+ *         ]
+ *     }
+ */
+const getCompanyPost = async (req, res, next) => {
+    const { _id } = req.user;
+    try {
+        const posts = await Post.find(
+            { companyId: _id },
+            { __v: 0, active: 0, createdAt: 0, updatedAt: 0, apply: 0 }
+        );
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+            posts,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const postController = {
     createPost,
     getAcceptedPosts,
@@ -316,4 +372,5 @@ export const postController = {
     updatePost,
     deletePost,
     acceptPost,
+    getCompanyPost,
 };
