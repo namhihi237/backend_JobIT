@@ -1,6 +1,6 @@
-import { ITer, Company, Role } from "../models";
+import { ITer, Company, Role, Code } from "../models";
 import bcrypt from "bcryptjs";
-import { HttpError, tokenEncode } from "../utils";
+import { HttpError, tokenEncode, sendEmail, generate } from "../utils";
 
 /**
  * @api {post} /api/v1/auth/register-iter register iter
@@ -179,6 +179,8 @@ const login = async (req, res, next) => {
  * @api {post} /api/v1/auth/update-password update password
  * @apiName Update password
  * @apiGroup Auth
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
  * @apiParam {String} password current password's  account
  * @apiParam {String} newPassword new password's account
  * @apiSuccess {String} msg <code>Success</code> if everything went fine.
@@ -229,4 +231,149 @@ const updatePassword = async (req, res, next) => {
     }
 };
 
-export const authController = { registerIter, registerCompany, login, updatePassword };
+/**
+ * @api {post} /api/v1/auth/reset-password reset password
+ * @apiName Reset password
+ * @apiGroup Auth
+ * @apiParam {String} email  email of account need reset password
+ * @apiSuccess {Number} status <code>200</code> if everything went fine.
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "We sent code to your email, tt has a deadline of 5 minutes"
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 400
+ *     {
+ *       "status" : 400,
+ *       "msg": "Email does not exist in the system"
+ *     }
+ */
+const requestResetPassword = async (req, res, next) => {
+    let { email } = req.body;
+    try {
+        email = email.toLowerCase();
+        const [user1, user2] = await Promise.all([
+            ITer.findOne({ email }, { email: 1 }),
+            Company.findOne({ email }, { email: 1, _id: 1 }),
+        ]);
+
+        if (!user1 && !user2) {
+            throw new HttpError("Email does not exist in the system", 400);
+        }
+        const roleName = user1 ? user1.role : user2.role;
+        const userId = user1 ? user1._id : user2._id;
+        const code = generate();
+
+        await sendEmail(code, email);
+        await Promise.all([
+            Code.findOneAndRemove({ email }),
+            Code.create({ email, code, roleName, userId }),
+        ]);
+        res.status(200).json({
+            status: 200,
+            msg: "We sent code to your email, tt has a deadline of 5 minutes",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * @api {post} /api/v1/auth/confirm-code confirmcode reset password
+ * @apiName confrim code reset password
+ * @apiGroup Auth
+ * @apiParam {String} email  email of account need reset password
+ * @apiParam {String} code  code in your email
+ * @apiSuccess {Number} status <code>200</code> if everything went fine.
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success"
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 400
+ *     {
+ *       "status" : 400,
+ *       "msg": "Your code is incorrect"
+ *     }
+ */
+const comfirmCode = async (req, res, next) => {
+    let { email, code } = req.body;
+    try {
+        email = email.toLowerCase();
+        const existCode = await Code.findOne({ email, code });
+        if (!existCode) {
+            throw new HttpError("Your code is incorrect", 400);
+        }
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * @api {post} /api/v1/auth/change-password change password reset
+ * @apiName change password
+ * @apiGroup Auth
+ * @apiParam {String} email  email of account need reset password
+ * @apiParam {String} code  code in your email
+ * @apiParam {String} password  new password need update
+ * @apiSuccess {Number} status <code>200</code> if everything went fine.
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Password has updated"
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 400
+ *     {
+ *       "status" : 400,
+ *       "msg": "Fail"
+ *     }
+ */
+const changePasswordReset = async (req, res, next) => {
+    let { email, code, password } = req.body;
+    try {
+        email = email.toLowerCase();
+        const existCode = await Code.findOne({ email, code });
+        if (!existCode) {
+            throw new HttpError("Fail", 400);
+        }
+        const hash = await bcrypt.hash(password, 12);
+        const role = existCode.role;
+
+        if (role === "iter") {
+            await ITer.findByIdAndUpdate({ _id: existCode.userId }, { password: hash });
+        }
+        if (role === "company") {
+            await Company.findByIdAndUpdate({ _id: existCode.userId }, { password: hash });
+        }
+        await Code.findByIdAndDelete({ _id: existCode._id });
+        res.status(200).json({
+            status: 200,
+            msg: "Password has updated",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const authController = {
+    registerIter,
+    registerCompany,
+    login,
+    updatePassword,
+    requestResetPassword,
+    comfirmCode,
+    changePasswordReset,
+};

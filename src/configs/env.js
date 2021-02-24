@@ -8,7 +8,7 @@ export const envVariables = {
     jwtSecret: process.env.JWT_SECRET || "doancnpm!@#",
     nodeEnv: process.env.NODE_ENV || "development",
     gmail: process.env.GMAIL,
-    pass: process.env.GMAIL,
+    pass: process.env.PASSWORD,
     text: process.env.TEXT || "Code reset password: ",
     subject: process.env.SUBJECT || "[CODE RESET :]",
     cloudName: process.env.CLOUD_NAME,

@@ -7,5 +7,6 @@ import { Permission } from "./Permission.model";
 import { Cv } from "./Cv.model";
 import { Post } from "./Post.model";
 import { Feedback } from "./Feedback.model";
+import { Code } from "./codeReset";
 
-export { Admin, Company, ITer, Moderator, Role, Permission, Cv, Post, Feedback };
+export { Admin, Company, ITer, Moderator, Role, Permission, Cv, Post, Feedback, Code };

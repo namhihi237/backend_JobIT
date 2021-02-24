@@ -63,7 +63,7 @@ const getUserProfile = async (req, res, next) => {
 /**
  * @api {post} /api/v1/company/profile update profile
  * @apiName update profile
- * @apiGroup Company
+ * @apiGroup Iter
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"

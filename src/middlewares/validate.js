@@ -56,6 +56,22 @@ const updatePassSchema = (req, res, next) => {
     });
     validateRequest(req, next, schema);
 };
+
+const requestResetPass = (req, res, next) => {
+    const schema = Joi.object({
+        email: Joi.string().email().required(),
+    });
+    validateRequest(req, next, schema);
+};
+
+const changeResetPass = (req, res, next) => {
+    const schema = Joi.object({
+        email: Joi.string().email().required(),
+        code: Joi.string().required(),
+        password: Joi.string().alphanum().min(6).max(50).empty("").required(),
+    });
+    validateRequest(req, next, schema);
+};
 /*-------------admin------------------- */
 
 const loginAdminSchema = (req, res, next) => {
@@ -113,4 +129,6 @@ export const validateRequestBody = {
     updateCompanySchema,
     updateIterSchema,
     updatePassSchema,
+    requestResetPass,
+    changeResetPass,
 };

@@ -1,6 +1,6 @@
 import { HttpError } from "./httpError";
 import { validateRequest } from "./joiValidate";
-import { sendEmail } from "./sendMail";
+import { sendEmail, generate } from "./sendMail";
 import { tokenEncode, verifyToken } from "./token";
 import { initialRole } from "./initRole";
 import { checkRoleAndPer } from "./checkPermission";
@@ -13,4 +13,5 @@ export {
     verifyToken,
     initialRole,
     checkRoleAndPer,
+    generate,
 };
