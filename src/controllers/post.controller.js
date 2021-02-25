@@ -1,6 +1,6 @@
 import mongo from "mongoose";
 import { Post, ITer, Company } from "../models";
-import { HttpError } from "../utils";
+import { HttpError, sendMailJob } from "../utils";
 
 /**
  * @api {post} /api/v1/posts company create post
@@ -301,6 +301,8 @@ const acceptPost = async (req, res, next) => {
         if (!accepted) {
             throw new HttpError("Not found post!", 400);
         }
+        const skills = accepted.skill;
+        // const users = await IT.find({ $or: [{}] }, { email: 1 });
         res.status(200).json({
             status: 200,
             msg: "Success",

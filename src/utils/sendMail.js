@@ -3,6 +3,24 @@ import { envVariables } from "../configs";
 const { gmail, pass, text, subject } = envVariables;
 const ALPHABET = "0123456789ABCDEFGHIKLMNOPQRSTUVWXYZ";
 
+export const sendMailJob = async (email, skill, linkJob) => {
+    let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+            user: gmail,
+            pass: pass,
+        },
+    });
+    await transporter.sendMail({
+        from: gmail,
+        to: email,
+        subject: `New job for you`,
+        text: `Đã có job mới về ${skill} tại ${linkJob}`,
+    });
+};
+
 export const sendEmail = async (code, email) => {
     let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
