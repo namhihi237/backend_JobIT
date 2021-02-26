@@ -5,6 +5,7 @@ import { modRouter } from "./mod.router";
 import { feedbackRouter } from "./feedback.router";
 import { iterRouter } from "./iter.router";
 import { companyRouter } from "./company.router";
+import { cvRouter } from "./cv.router";
 
 export {
     authRouter,
@@ -14,4 +15,5 @@ export {
     feedbackRouter,
     iterRouter,
     companyRouter,
+    cvRouter,
 };

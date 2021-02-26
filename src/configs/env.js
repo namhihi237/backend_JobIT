@@ -15,4 +15,5 @@ export const envVariables = {
     api_key_cloud: process.env.API_KEY_CLOUD,
     api_secret_cloud: process.env.API_SECRET_CLOUD,
     key_admin: "123qwe!@#",
+    url_fe: "http://localhost/",
 };

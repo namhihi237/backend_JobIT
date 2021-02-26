@@ -5,6 +5,7 @@ import { postController } from "./post.controller";
 import { feedbackCotroller } from "./feedback.controller";
 import { iterController } from "./iter.controller";
 import { companyController } from "./company.controller";
+import { cvController } from "./cv.controller";
 export {
     authController,
     modCotroller,
@@ -13,4 +14,5 @@ export {
     feedbackCotroller,
     iterController,
     companyController,
+    cvController,
 };

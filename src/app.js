@@ -11,6 +11,7 @@ import {
     feedbackRouter,
     iterRouter,
     companyRouter,
+    cvRouter,
 } from "./routes";
 
 import { initialRole } from "./utils";
@@ -29,6 +30,7 @@ const main = async () => {
     server.registerRouter(feedbackRouter);
     server.registerRouter(iterRouter);
     server.registerRouter(companyRouter);
+    server.registerRouter(cvRouter);
     // initial default role
     initialRole();
 

@@ -1,7 +1,9 @@
+import csvParser from "csv-parser";
 import mongo from "mongoose";
-import { Post, ITer, Company } from "../models";
+import { Post, ITer, Company, Cv } from "../models";
 import { HttpError, sendMailJob } from "../utils";
-
+import { envVariables } from "../configs";
+const { url_fe } = envVariables;
 /**
  * @api {post} /api/v1/posts company create post
  * @apiName Create post
@@ -302,7 +304,29 @@ const acceptPost = async (req, res, next) => {
             throw new HttpError("Not found post!", 400);
         }
         const skills = accepted.skill;
-        // const users = await IT.find({ $or: [{}] }, { email: 1 });
+        // console.log(skills);
+        const listCv = await Cv.find(
+            { skill: { $in: [...skills] }, receiveMail: true },
+            {
+                __v: 0,
+                createdAt: 0,
+                updatedAt: 0,
+                education: 0,
+                description: 0,
+                personalSkill: 0,
+                linkGit: 0,
+                experience: 0,
+                _id: 0,
+                receiveMail: 0,
+                iterId: 0,
+            }
+        );
+        // console.log(listCv);
+        const sendMailList = listCv.map((cv) => {
+            sendMailJob(cv.email, skills, `${url_fe}/job/${accepted._id}`);
+        });
+
+        await Promise.all(sendMailList);
         res.status(200).json({
             status: 200,
             msg: "Success",

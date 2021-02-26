@@ -16,7 +16,7 @@ export const sendMailJob = async (email, skill, linkJob) => {
     await transporter.sendMail({
         from: gmail,
         to: email,
-        subject: `New job for you`,
+        subject: `[NEW JOB FOR YOU]`,
         text: `Đã có job mới về ${skill} tại ${linkJob}`,
     });
 };

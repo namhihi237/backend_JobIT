@@ -118,6 +118,23 @@ const createFeedbackSchema = (req, res, next) => {
     });
     validateRequest(req, next, schema);
 };
+
+const createCvSchema = (req, res, next) => {
+    const schema = Joi.object({
+        linkGit: Joi.string().required(),
+        skill: Joi.array()
+            .min(1)
+            .items(Joi.string())
+            .required()
+            .messages({ "array.min": `skill cannot be an empty field` }),
+        personalSkill: Joi.string().required(),
+        education: Joi.string().required(),
+        experience: Joi.string().required(),
+        description: Joi.string().required(),
+    });
+    validateRequest(req, next, schema);
+};
+
 export const validateRequestBody = {
     registerITerSchema,
     registerCompanySchema,
@@ -131,4 +148,5 @@ export const validateRequestBody = {
     updatePassSchema,
     requestResetPass,
     changeResetPass,
+    createCvSchema,
 };
