@@ -22,6 +22,7 @@ roleId,perName,actionCode,check
 603106be0d56cb0015848bd4,update profile,UPDATE_PROFILE,1
 603106bd0d56cb0015848bd3,get profile,VIEW_PROFILE,1
 603106bd0d56cb0015848bd3,update profile,UPDATE_PROFILE,1
+603106bd0d56cb0015848bd3,create new cv,CREATE_CV,1
 603106bd0d56cb0015848bd3,register receive email job,RECEIVE_MAIL,1
 603106bd0d56cb0015848bd3,cancel receive email job,CANCEL_RECEIVE_MAIL,1
 603106be0d56cb0015848bd6,accept post,ACCEPT_POST,1
