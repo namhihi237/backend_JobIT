@@ -2,7 +2,7 @@ import { adminController } from "../controllers";
 import { validateRequestBody, authMiddleware, roleMiddleware } from "../middlewares";
 import { Router } from "express";
 const { jwtMidleware } = authMiddleware;
-const { createModPer } = roleMiddleware;
+const { checkPer } = roleMiddleware;
 const { createModSchema, loginAdminSchema } = validateRequestBody;
 const { registerAdmin, createMod, login } = adminController;
 
@@ -14,4 +14,4 @@ adminRouter.route("/api/v1/admin/login").post(loginAdminSchema, login);
 
 adminRouter
     .route("/api/v1/admin/create-mod")
-    .post(jwtMidleware, createModPer, createModSchema, createMod); // check role
+    .post(jwtMidleware, checkPer("CREATE_MOD"), createModSchema, createMod); //  CREATE_MOD

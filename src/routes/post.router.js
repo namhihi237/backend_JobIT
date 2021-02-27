@@ -4,14 +4,7 @@ import { validateRequestBody, authMiddleware, roleMiddleware } from "../middlewa
 import { Router } from "express";
 
 const { jwtMidleware } = authMiddleware;
-const {
-    createPostPer,
-    viewPostNeedAcceptPer,
-    updatePostPer,
-    deletePostPer,
-    acceptPostPer,
-    getCompanyPostPer,
-} = roleMiddleware;
+const { checkPer } = roleMiddleware;
 const { createPostSchema } = validateRequestBody;
 const {
     createPost,
@@ -29,18 +22,22 @@ postRouter.route("/api/v1/posts/accept").get(getAcceptedPosts);
 
 postRouter
     .route("/api/v1/posts/need-accept")
-    .get(jwtMidleware, viewPostNeedAcceptPer, getPostsNeedAccept); // VIEW_POSTS_NEED_ACCEPT
+    .get(jwtMidleware, checkPer("VIEW_POSTS_NEED_ACCEPT"), getPostsNeedAccept); // VIEW_POSTS_NEED_ACCEPT
 
-postRouter.route("/api/v1/posts").post(jwtMidleware, createPostPer, createPostSchema, createPost); // CREATE_POST
+postRouter
+    .route("/api/v1/posts")
+    .post(jwtMidleware, checkPer("CREATE_POST"), createPostSchema, createPost); // CREATE_POST
 
 postRouter
     .route("/api/v1/posts/:postId")
-    .put(jwtMidleware, updatePostPer, createPostSchema, updatePost); // UPDATE_POST
+    .put(jwtMidleware, checkPer("UPDATE_POST"), createPostSchema, updatePost); // UPDATE_POST
 
-postRouter.route("/api/v1/posts/:postId").delete(jwtMidleware, deletePostPer, deletePost); // DELETE_POST
+postRouter.route("/api/v1/posts/:postId").delete(jwtMidleware, checkPer("DELETE_POST"), deletePost); // DELETE_POST
 
 postRouter
     .route("/api/v1/posts/:postId/accept-post")
-    .patch(jwtMidleware, acceptPostPer, acceptPost); // ACCEPT_POST
+    .patch(jwtMidleware, checkPer("ACCEPT_POST"), acceptPost); // ACCEPT_POST
 
-postRouter.route("/api/v1/posts/company").get(jwtMidleware, getCompanyPostPer, getCompanyPost); // ACCEPT_COMPANY_POST
+postRouter
+    .route("/api/v1/posts/company")
+    .get(jwtMidleware, checkPer("ACCEPT_COMPANY_POST"), getCompanyPost); // ACCEPT_COMPANY_POST

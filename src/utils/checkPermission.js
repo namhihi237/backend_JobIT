@@ -13,5 +13,6 @@ export const checkRoleAndPer = async (role, actionCode) => {
         return true;
     } catch (error) {
         console.log(error);
+        return false;
     }
 };
