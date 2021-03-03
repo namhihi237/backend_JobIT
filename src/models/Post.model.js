@@ -1,3 +1,4 @@
+import { defaults } from "joi";
 import { Schema, model } from "mongoose";
 
 const PostSchema = new Schema(
@@ -31,9 +32,14 @@ const PostSchema = new Schema(
         },
         apply: [
             {
-                type: Schema.Types.ObjectId,
-                ref: "iter",
-                default: [],
+                iterId: {
+                    type: Schema.Types.ObjectId,
+                    ref: "iter",
+                },
+                cvId: {
+                    type: Schema.Types.ObjectId,
+                    ref: "cv",
+                },
             },
         ],
         endTime: {

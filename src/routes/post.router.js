@@ -14,11 +14,13 @@ const {
     deletePost,
     acceptPost,
     getCompanyPost,
+    applyJob,
+    listApply,
 } = postController;
 
 export const postRouter = Router();
 
-postRouter.route("/api/v1/posts/accept").get(getAcceptedPosts);
+postRouter.route("/api/v1/posts").get(getAcceptedPosts);
 
 postRouter
     .route("/api/v1/posts/need-accept")
@@ -41,3 +43,7 @@ postRouter
 postRouter
     .route("/api/v1/posts/company")
     .get(jwtMidleware, checkPer("ACCEPT_COMPANY_POST"), getCompanyPost); // ACCEPT_COMPANY_POST
+
+postRouter.route("/api/v1/posts/:_id/apply").get(jwtMidleware, applyJob); // APPLY_JOB
+
+postRouter.route("/api/v1/posts/:_id/apply-list").get(listApply);

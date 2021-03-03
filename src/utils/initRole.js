@@ -1,4 +1,4 @@
-import { Role, Moderator } from "../models";
+import { Role, Permission } from "../models";
 
 export const initialRole = () => {
     Role.estimatedDocumentCount(async (err, count) => {

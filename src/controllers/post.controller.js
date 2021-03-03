@@ -60,7 +60,7 @@ const createPost = async (req, res, next) => {
 };
 
 /**
- * @api {get} /api/v1/posts/accept get all accepted post
+ * @api {get} /api/v1/posts get all accepted post
  * @apiName get accepted post
  * @apiGroup Post
  * @apiSuccess {Number} status <code>200</code>
@@ -337,7 +337,7 @@ const acceptPost = async (req, res, next) => {
 };
 
 /**
- * @api {get} /api/v1/posts/accept get company post
+ * @api {get} /api/v1/posts/company get company post
  * @apiName get company post
  * @apiGroup Post
  * @apiHeader {String} token The token can be generated from your user profile.
@@ -391,6 +391,63 @@ const getCompanyPost = async (req, res, next) => {
     }
 };
 
+/**
+ * @api {get} /api/v1/posts/{_id}/apply apply post
+ * @apiName apply post
+ * @apiGroup Post
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiParam {String} {_id} postId
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * @apiSuccess {Array} posts <code>Array Objects post</code> show all company post
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success"
+ *     }
+ */
+const applyJob = async (req, res, next) => {
+    const { _id } = req.params;
+    const iterId = req.user._id;
+    try {
+        const existIter = await Post.findOne({ _id, apply: { $elemMatch: { iterId } } });
+        if (existIter) {
+            throw new HttpError("you have already applied it before", 400);
+        }
+        const cv = await Cv.findOne({ iterId });
+        if (!cv) {
+            throw new HttpError("You have not a Cv", 400);
+        }
+        const cvId = cv._id;
+        await Post.findByIdAndUpdate({ _id }, { $push: { apply: { iterId, cvId } } });
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const listApply = async (req, res, next) => {
+    const { _id } = req.params;
+    console.log(_id);
+    try {
+        const post = await Post.findById({ _id }, { comment: 0 });
+        const applys = post.apply;
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+            applys,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const postController = {
     createPost,
     getAcceptedPosts,
@@ -399,4 +456,6 @@ export const postController = {
     deletePost,
     acceptPost,
     getCompanyPost,
+    applyJob,
+    listApply,
 };
