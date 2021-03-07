@@ -1,4 +1,3 @@
-import csvParser from "csv-parser";
 import mongo from "mongoose";
 import { Post, ITer, Company, Cv } from "../models";
 import { HttpError, sendMailJob } from "../utils";
@@ -398,10 +397,8 @@ const getCompanyPost = async (req, res, next) => {
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
- * @apiParam {String} {_id} postId
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code>
- * @apiSuccess {Array} posts <code>Array Objects post</code> show all company post
  * @apiSuccessExample {json} Success-Example
  *     HTTP/1.1 200 OK
  *     {
@@ -432,9 +429,25 @@ const applyJob = async (req, res, next) => {
     }
 };
 
+/**
+ * @api {get} /api/v1/posts/{_id}/apply-list list apply
+ * @apiName list apply
+ * @apiGroup Post
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * @apiSuccess {Array} applys <code>Array Objects post</code> show all list apply
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success"
+ *     }
+ */
 const listApply = async (req, res, next) => {
     const { _id } = req.params;
-    console.log(_id);
     try {
         const post = await Post.findById({ _id }, { comment: 0 });
         const applys = post.apply;

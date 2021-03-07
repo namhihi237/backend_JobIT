@@ -42,7 +42,7 @@ postRouter
 
 postRouter
     .route("/api/v1/posts/company")
-    .get(jwtMidleware, checkPer("ACCEPT_COMPANY_POST"), getCompanyPost); // ACCEPT_COMPANY_POST
+    .get(jwtMidleware, checkPer("GET_COMPANY_POST"), getCompanyPost); // GET_COMPANY_POST
 
 postRouter.route("/api/v1/posts/:_id/apply").get(jwtMidleware, applyJob); // APPLY_JOB
 
