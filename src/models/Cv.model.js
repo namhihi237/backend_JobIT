@@ -4,7 +4,7 @@ const CvSchema = new Schema(
     {
         iterId: {
             type: Schema.Types.ObjectId,
-            ref: "iter",
+            ref: "account",
             required: true,
         },
         iterName: {

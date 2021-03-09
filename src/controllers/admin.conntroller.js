@@ -1,7 +1,6 @@
 import { envVariables } from "../configs";
 import bcrypt from "bcryptjs";
 import { tokenEncode, verifyToken, HttpError } from "../utils";
-import mongo from "mongoose";
 import { Moderator, Admin, Role } from "../models";
 
 const { key_admin } = envVariables;
@@ -10,20 +9,15 @@ const { key_admin } = envVariables;
  */
 const registerAdmin = async (req, res, next) => {
     const { userName, password, keyAdmin } = req.body;
-    if (keyAdmin != key_admin) {
-        throw new HttpError("Failed", 400);
-    }
-    if (!userName || !password) {
-        throw new HttpError("userName or password is empty", 400);
-    }
+    if (keyAdmin != key_admin) throw new HttpError("Failed", 400);
+
+    if (!userName || !password) throw new HttpError("userName or password is empty", 400);
+
     const hash = await bcrypt.hash(password, 12);
-    if (!hash) {
-        throw new HttpError("hash password failed", 400);
-    }
+    if (!hash) throw new HttpError("hash password failed", 400);
+
     const _role = await Role.findOne({ roleName: "admin" });
-    if (!_role) {
-        throw new HttpError("failed", 400);
-    }
+    if (!_role) throw new HttpError("failed", 400);
 
     await Admin.create({ userName, password: hash, roleId: _role._id });
 
@@ -39,7 +33,7 @@ const registerAdmin = async (req, res, next) => {
 };
 /**
  * @api {post} /api/v1/admin/login login admin, mod
- * @apiName Login mod adminn
+ * @apiName Login mod admin
  * @apiGroup Mod
  * @apiParam {String} userName username's  account
  * @apiParam {String} password password's account
@@ -67,14 +61,12 @@ const login = async (req, res, next) => {
             Admin.findOne({ userName }),
             Moderator.findOne({ userName }),
         ]);
-        if (!admin && !mod) {
-            throw new HttpError("userName or password is incorrect", 400);
-        }
+        if (!admin && !mod) throw new HttpError("userName or password is incorrect", 400);
+
         const user = mod || admin;
         const match = await bcrypt.compare(password, user.password);
-        if (!match) {
-            throw new HttpError("userName or password is incorrect", 400);
-        }
+        if (!match) throw new HttpError("userName or password is incorrect", 400);
+
         const data = {
             userName,
             _id: user._id,
@@ -88,7 +80,6 @@ const login = async (req, res, next) => {
             role: user.role,
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };

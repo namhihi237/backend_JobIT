@@ -6,7 +6,6 @@ const registerITerSchema = (req, res, next) => {
         fullName: Joi.string().required(),
         password: Joi.string().alphanum().required().min(6).max(50),
         email: Joi.string().email().required(),
-        role: Joi.string().valid("iter").required(),
     });
     validateRequest(req, next, schema);
 };
@@ -23,7 +22,6 @@ const registerCompanySchema = (req, res, next) => {
         companyName: Joi.string().required(),
         password: Joi.string().alphanum().required().min(6).max(50),
         email: Joi.string().email().required(),
-        role: Joi.string().valid("company").required(),
     });
     validateRequest(req, next, schema);
 };

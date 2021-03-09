@@ -33,7 +33,7 @@ const createCv = async (req, res, next) => {
     const { _id } = req.user;
     let { linkGit, skill, personalSkill, education, experience, description } = req.body;
     try {
-        const user = await ITer.findById({ _id });
+        const user = await ITer.findOne({ accountId: _id });
         const { email, fullName } = user;
         await Cv.create({
             iterId: _id,
@@ -68,7 +68,7 @@ const createCv = async (req, res, next) => {
  *     HTTP/1.1 200 OK
  *     {
  *         status: 200,
- *         msg: "Registed receive email"
+ *         msg: "Register receive email"
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 401
@@ -81,12 +81,10 @@ const receiveMail = async (req, res, next) => {
     const { _id } = req.user;
     try {
         const cv = await Cv.findOneAndUpdate({ iterId: _id }, { receiveMail: true });
-        if (!cv) {
-            throw new HttpError("You are not have cv", 400);
-        }
+        if (!cv) throw new HttpError("You are not have cv", 400);
         res.status(200).json({
             status: 200,
-            msg: "Registed receive email ",
+            msg: "Register receive email ",
         });
     } catch (error) {
         next(error);
@@ -106,7 +104,7 @@ const receiveMail = async (req, res, next) => {
  *     HTTP/1.1 200 OK
  *     {
  *         status: 200,
- *         msg: "Registed receive email"
+ *         msg: "Register receive email"
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 401

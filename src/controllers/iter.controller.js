@@ -29,12 +29,11 @@ import { HttpError } from "../utils";
  *       "msg": "Denny permission get profile"
  *     }
  */
-
 const getUserProfile = async (req, res, next) => {
     const { _id } = req.user;
     try {
-        const user = await ITer.findById(
-            { _id },
+        const user = await ITer.findOne(
+            { accountId: _id },
             {
                 __v: 0,
                 password: 0,
@@ -45,10 +44,7 @@ const getUserProfile = async (req, res, next) => {
                 roleId: 0,
             }
         );
-
-        if (!user) {
-            throw new HttpError("User not found", 400);
-        }
+        if (!user) throw new HttpError("User not found", 400);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -86,7 +82,7 @@ const updateProfile = async (req, res, next) => {
     const { fullName } = req.user;
     const { _id } = req.user;
     try {
-        await ITer.findByIdAndUpdate({ _id }, { fullName });
+        await ITer.findOneAndUpdate({ accountId: _id }, { fullName });
         res.status(200).json({
             status: 200,
             msg: "Success",

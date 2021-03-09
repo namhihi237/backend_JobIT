@@ -33,8 +33,8 @@ import { HttpError } from "../utils";
 const getProfile = async (req, res, next) => {
     const { _id } = req.user;
     try {
-        const user = await Company.findById(
-            { _id },
+        const user = await Company.findOne(
+            { accountId: _id },
             {
                 __v: 0,
                 password: 0,
@@ -47,9 +47,8 @@ const getProfile = async (req, res, next) => {
             }
         );
 
-        if (!user) {
-            throw new HttpError("User not found", 400);
-        }
+        if (!user) throw new HttpError("User not found", 400);
+
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -87,7 +86,7 @@ const updateProfile = async (req, res, next) => {
     const { companyName } = req.user;
     const { _id } = req.user;
     try {
-        await Company.findByIdAndUpdate({ _id }, { companyName });
+        await Company.findOneAndUpdate({ accountId: _id }, { companyName });
         res.status(200).json({
             status: 200,
             msg: "Success",

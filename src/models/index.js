@@ -8,5 +8,6 @@ import { Cv } from "./Cv.model";
 import { Post } from "./Post.model";
 import { Feedback } from "./Feedback.model";
 import { Code } from "./codeReset";
+import { Account } from "./Account";
 
-export { Admin, Company, ITer, Moderator, Role, Permission, Cv, Post, Feedback, Code };
+export { Admin, Company, ITer, Moderator, Role, Permission, Cv, Post, Feedback, Code, Account };

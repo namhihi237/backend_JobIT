@@ -6,16 +6,15 @@ const codeSchema = new Schema(
             type: String,
             required: true,
         },
-        userId: {
+        accountId: {
             type: Schema.Types.ObjectId,
+            ref: "account",
         },
         email: {
             type: String,
             required: true,
         },
-        roleName: {
-            type: String,
-        },
+
         expireAt: {
             type: Date,
             default: Date.now,

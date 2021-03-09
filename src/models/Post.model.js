@@ -5,7 +5,7 @@ const PostSchema = new Schema(
     {
         companyId: {
             type: Schema.Types.ObjectId,
-            ref: "company",
+            ref: "account",
             required: true,
         },
         companyName: {
@@ -34,7 +34,7 @@ const PostSchema = new Schema(
             {
                 iterId: {
                     type: Schema.Types.ObjectId,
-                    ref: "iter",
+                    ref: "account",
                 },
                 cvId: {
                     type: Schema.Types.ObjectId,
