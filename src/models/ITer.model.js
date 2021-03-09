@@ -13,13 +13,6 @@ const ITerSchema = new Schema(
         fullName: {
             type: String,
         },
-        gender: {
-            type: String,
-            enum: ["Male", "Female"],
-        },
-        birthday: {
-            type: String,
-        },
         image: {
             type: String,
         },

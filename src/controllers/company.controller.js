@@ -18,7 +18,6 @@ import { HttpError } from "../utils";
  *         "user": {
                 "_id": "601d07f259e12e126c0a2af4",
                 "email": "yentth239@gmail.com",
-                "address": "144 nlb",
                 "companyName": "FPT",
                 "roleId": "601b9d7cdae0a522ac960fe9"
             } 
@@ -68,7 +67,6 @@ const getProfile = async (req, res, next) => {
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
- * @apiParam {String} address address's company
  * @apiParam {String} companyName name's company
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code>
@@ -86,10 +84,10 @@ const getProfile = async (req, res, next) => {
  *     }
  */
 const updateProfile = async (req, res, next) => {
-    const { companyName, address } = req.user;
+    const { companyName } = req.user;
     const { _id } = req.user;
     try {
-        await Company.findByIdAndUpdate({ _id }, { companyName, address });
+        await Company.findByIdAndUpdate({ _id }, { companyName });
         res.status(200).json({
             status: 200,
             msg: "Success",

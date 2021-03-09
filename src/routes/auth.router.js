@@ -17,7 +17,7 @@ const {
     login,
     updatePassword,
     requestResetPassword,
-    comfirmCode,
+    confirmCode,
     changePasswordReset,
 } = authController;
 
@@ -35,6 +35,6 @@ authRouter
 
 authRouter.route("/api/v1/auth/reset-password").post(requestResetPass, requestResetPassword);
 
-authRouter.route("/api/v1/auth/confirm-code").post(comfirmCode);
+authRouter.route("/api/v1/auth/confirm-code").post(confirmCode);
 
 authRouter.route("/api/v1/auth/change-password").post(changeResetPass, changePasswordReset);

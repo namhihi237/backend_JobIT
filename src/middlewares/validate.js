@@ -6,8 +6,6 @@ const registerITerSchema = (req, res, next) => {
         fullName: Joi.string().required(),
         password: Joi.string().alphanum().required().min(6).max(50),
         email: Joi.string().email().required(),
-        gender: Joi.string().messages({ "string.valid": `gender cannot be an empty field` }),
-        birthday: Joi.string().required(),
         role: Joi.string().valid("iter").required(),
     });
     validateRequest(req, next, schema);
@@ -16,8 +14,6 @@ const registerITerSchema = (req, res, next) => {
 const updateIterSchema = (req, res, next) => {
     const schema = Joi.object({
         fullName: Joi.string().required(),
-        gender: Joi.string().required().valid("Male", "Female"),
-        birthday: Joi.string().required(),
     });
     validateRequest(req, next, schema);
 };
@@ -27,7 +23,6 @@ const registerCompanySchema = (req, res, next) => {
         companyName: Joi.string().required(),
         password: Joi.string().alphanum().required().min(6).max(50),
         email: Joi.string().email().required(),
-        address: Joi.string().required(),
         role: Joi.string().valid("company").required(),
     });
     validateRequest(req, next, schema);
@@ -36,7 +31,6 @@ const registerCompanySchema = (req, res, next) => {
 const updateCompanySchema = (req, res, next) => {
     const schema = Joi.object({
         companyName: Joi.string().required(),
-        address: Joi.string().required(),
     });
     validateRequest(req, next, schema);
 };

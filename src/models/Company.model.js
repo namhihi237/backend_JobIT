@@ -14,9 +14,6 @@ const CompanySchema = new Schema(
             type: String,
             required: true,
         },
-        address: {
-            type: String,
-        },
         logo: {
             type: String,
         },

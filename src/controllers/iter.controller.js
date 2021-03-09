@@ -20,8 +20,6 @@ import { HttpError } from "../utils";
                 "_id": "6020bd895d7a6b07b0b0eef9",
                 "email": "yentth@gmail.com",
                 "fullName": "Le Trung Nam",
-                "gender": "Male",
-                "birthday": "23/07/1999"
             }
  *     }
  * @apiErrorExample Response (example):
@@ -31,6 +29,7 @@ import { HttpError } from "../utils";
  *       "msg": "Denny permission get profile"
  *     }
  */
+
 const getUserProfile = async (req, res, next) => {
     const { _id } = req.user;
     try {
@@ -68,8 +67,6 @@ const getUserProfile = async (req, res, next) => {
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
  * @apiParam {String} fullName fullname's company
- * @apiParam {String} gender gender's company
- * @apiParam {String} birthday birthday's company
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code>
  * @apiSuccessExample {json} Success-Example
@@ -86,10 +83,10 @@ const getUserProfile = async (req, res, next) => {
  *     }
  */
 const updateProfile = async (req, res, next) => {
-    const { fullName, gender, birthday } = req.user;
+    const { fullName } = req.user;
     const { _id } = req.user;
     try {
-        await ITer.findByIdAndUpdate({ _id }, { fullName, gender, birthday });
+        await ITer.findByIdAndUpdate({ _id }, { fullName });
         res.status(200).json({
             status: 200,
             msg: "Success",

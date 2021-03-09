@@ -9,9 +9,7 @@ import { HttpError, tokenEncode, sendEmail, generate } from "../utils";
  * @apiParam {String} email email's  iter account
  * @apiParam {String} password password's iter account
  * @apiParam {String} fullName full name's iter
- * @apiParam {String} gender gender's iter
- * @apiParam {String} birthday birthday's iter
- * @apiParam {String} role role's iter requre "iter"
+ * @apiParam {String} role role's iter required :"iter"
  * @apiSuccess {String} msg <code>Sign up success</code> if everything went fine.
  * @apiSuccessExample {json} Success-Example
  *     HTTP/1.1 200 OK
@@ -23,11 +21,11 @@ import { HttpError, tokenEncode, sendEmail, generate } from "../utils";
  *     HTTP/1.1 400
  *     {
  *       "status" : 400,
- *       "msg": "\"birthday\" is required, \"role\" is required"
+ *       "msg": "password length must be at least 6 characters long"
  *     }
  */
 const registerIter = async (req, res, next) => {
-    let { password, email, role, gender, birthday, fullName } = req.body;
+    let { password, email, role, fullName } = req.body;
     email = email.toLowerCase();
     try {
         const [_com, _it] = await Promise.all([
@@ -46,13 +44,12 @@ const registerIter = async (req, res, next) => {
         if (!_role) {
             throw new HttpError("Error, please try again", 400);
         }
-        await ITer.create({ email, password: hash, fullName, gender, birthday, roleId: _role._id });
+        await ITer.create({ email, password: hash, fullName, roleId: _role._id });
         res.status(200).json({
             status: 200,
             msg: "Sign up success",
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };
@@ -64,8 +61,7 @@ const registerIter = async (req, res, next) => {
  * @apiParam {String} email email's  company account
  * @apiParam {String} password password's company account
  * @apiParam {String} companyName name's company
- * @apiParam {String} address address's company
- * @apiParam {String} role role's company requre "company"
+ * @apiParam {String} role role's company required "company"
  * @apiSuccess {String} msg <code>Sign up success</code> if everything went fine.
  * @apiSuccessExample {json} Success-Example
  *     HTTP/1.1 200 OK
@@ -77,11 +73,11 @@ const registerIter = async (req, res, next) => {
  *     HTTP/1.1 400
  *     {
  *       "status" : 400,
- *       "msg": "\"role\" is required"
+ *       "msg": "role is required"
  *     }
  */
 const registerCompany = async (req, res, next) => {
-    let { password, email, role, address, companyName } = req.body;
+    let { password, email, role, companyName } = req.body;
     email = email.toLowerCase();
     try {
         const [_com, _it] = await Promise.all([
@@ -103,7 +99,6 @@ const registerCompany = async (req, res, next) => {
         await Company.create({
             email,
             password: hash,
-            address,
             companyName,
             roleId: _role._id,
         });
@@ -112,7 +107,6 @@ const registerCompany = async (req, res, next) => {
             msg: "Sign up success",
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };
@@ -170,7 +164,6 @@ const login = async (req, res, next) => {
             token,
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };
@@ -282,8 +275,8 @@ const requestResetPassword = async (req, res, next) => {
 };
 
 /**
- * @api {post} /api/v1/auth/confirm-code confirmcode reset password
- * @apiName confrim code reset password
+ * @api {post} /api/v1/auth/confirm-code confirm code reset password
+ * @apiName confỉrm code reset password
  * @apiGroup Auth
  * @apiParam {String} email  email of account need reset password
  * @apiParam {String} code  code in your email
@@ -302,7 +295,7 @@ const requestResetPassword = async (req, res, next) => {
  *       "msg": "Your code is incorrect"
  *     }
  */
-const comfirmCode = async (req, res, next) => {
+const confirmCode = async (req, res, next) => {
     let { email, code } = req.body;
     try {
         email = email.toLowerCase();
@@ -374,6 +367,6 @@ export const authController = {
     login,
     updatePassword,
     requestResetPassword,
-    comfirmCode,
+    confirmCode,
     changePasswordReset,
 };

@@ -10,7 +10,6 @@ const AdminSchema = new Schema(
             type: String,
             required: true,
         },
-
         roleId: {
             type: Schema.Types.ObjectId,
             ref: "role",
