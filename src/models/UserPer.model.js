@@ -1,12 +1,11 @@
 import { Schema, model } from "mongoose";
-
 const userPerSchema = new Schema(
     {
         userId: {
             type: Schema.Types.ObjectId,
             ref: "account",
         },
-        permissions: [{ type: String }],
+        permissions: [{ actionCode: { type: String }, check: { type: Boolean } }],
     },
     { timestamps: true }
 );

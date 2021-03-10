@@ -17,10 +17,11 @@ const registerAdmin = async (req, res, next) => {
     if (!hash) throw new HttpError("hash password failed", 400);
 
     const admin = await Admin.create({ userName, password: hash, role: "admin" });
-    const permissions = await Permission.find({ role: "admin", check: true });
-    const actionCodes = [];
-    permissions.forEach((e) => actionCodes.push(e.actionCode));
-    await UserPer.create({ userId: admin._id, permissions: actionCodes });
+    let permissions = await Permission.find({ role: "admin" });
+    permissions = permissions.map((e) => {
+        return { actionCode: e.actionCode, check: e.check };
+    });
+    await UserPer.create({ userId: admin._id, permissions });
     res.status(200).json({
         status: 200,
         msg: "Success",
@@ -31,6 +32,7 @@ const registerAdmin = async (req, res, next) => {
         next(error);
     }
 };
+
 /**
  * @api {post} /api/v1/admin/login login admin, mod
  * @apiName Login mod admin
@@ -57,23 +59,24 @@ const registerAdmin = async (req, res, next) => {
 const login = async (req, res, next) => {
     const { userName, password } = req.body;
     try {
-        const account = Admin.findOne({ email });
+        const account = await Admin.findOne({ userName });
         if (!account) throw new HttpError("userName or password is incorrect", 400);
         const match = await bcrypt.compare(password, account.password);
         if (!match) throw new HttpError("userName or password is incorrect", 400);
         const data = {
             userName,
-            _id: user._id,
-            role: user.role,
+            _id: account._id,
+            role: account.role,
         };
         const token = tokenEncode(data);
         res.status(200).json({
             status: 200,
             msg: "Success",
             token,
-            role: user.role,
+            role: account.role,
         });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
@@ -111,11 +114,12 @@ const createMod = async (req, res, next) => {
         const hash = await bcrypt.hash(password, 12);
         if (!hash) throw new HttpError("Fail", 400);
         const acc = await Admin.create({ userName, password: hash, role: "moderator" });
-        const permissions = await Permission.find({ role: "moderator", check: true });
-        const actionCodes = [];
-        permissions.forEach((e) => actionCodes.push(e.actionCode));
+        let permissions = await Permission.find({ role: "moderator", check: true });
+        permissions = permissions.map((e) => {
+            return { actionCode: e.actionCode, check: e.check };
+        });
 
-        await UserPer.create({ userId: acc._id, permissions: actionCodes });
+        await UserPer.create({ userId: acc._id, permissions });
         res.status(200).json({
             status: 200,
             msg: "Create mod success",

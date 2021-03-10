@@ -4,7 +4,7 @@ export const checkRoleAndPer = async (userId, actionCode) => {
     try {
         const userPermission = await UserPer.findOne({
             userId,
-            permissions: { $in: [actionCode] },
+            permissions: { $elemMatch: { actionCode, check: true } },
         });
         if (!userPermission) {
             return false;

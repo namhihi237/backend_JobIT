@@ -37,13 +37,13 @@ const registerIter = async (req, res, next) => {
             throw new HttpError("Error, please try again", 400);
         }
         let acc = await Account.create({ email, password: hash, role: "iter" });
-        const permissions = await Permission.find({ role: "iter", check: true });
-        const actionCodes = [];
-        permissions.forEach((e) => actionCodes.push(e.actionCode));
-
+        let permissions = await Permission.find({ role: "iter", check: true });
+        permissions = permissions.map((e) => {
+            return { actionCode: e.actionCode, check: e.check };
+        });
         await Promise.all([
             ITer.create({ fullName, accountId: acc._id, email }),
-            UserPer.create({ userId: acc._id, permissions: actionCodes }),
+            UserPer.create({ userId: acc._id, permissions }),
         ]);
         res.status(200).json({
             status: 200,
@@ -88,13 +88,14 @@ const registerCompany = async (req, res, next) => {
             throw new HttpError("Error, please try again", 400);
         }
         let acc = await Account.create({ email, password: hash, role: "company" });
-        const permissions = await Permission.find({ role: "company", check: true });
-        const actionCodes = [];
-        permissions.forEach((e) => actionCodes.push(e.actionCode));
+        let permissions = await Permission.find({ role: "company", check: true });
+        permissions = permissions.map((e) => {
+            return { actionCode: e.actionCode, check: e.check };
+        });
 
         await Promise.all([
             Company.create({ companyName, accountId: acc._id, email }),
-            UserPer.create({ userId: acc._id, permissions: actionCodes }),
+            UserPer.create({ userId: acc._id, permissions }),
         ]);
 
         res.status(200).json({

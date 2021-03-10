@@ -78,7 +78,6 @@ const createModSchema = (req, res, next) => {
     const schema = Joi.object({
         userName: Joi.string().required(),
         password: Joi.string().min(6).max(50).empty("").required(),
-        fullName: Joi.string().required(),
     });
     validateRequest(req, next, schema);
 };
