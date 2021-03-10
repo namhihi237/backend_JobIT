@@ -1,4 +1,4 @@
-import { ITer, Company, Role, Code, Account } from "../models";
+import { ITer, Company, Code, Account, UserPer, Permission } from "../models";
 import bcrypt from "bcryptjs";
 import { HttpError, tokenEncode, sendEmail, generate } from "../utils";
 
@@ -37,9 +37,14 @@ const registerIter = async (req, res, next) => {
             throw new HttpError("Error, please try again", 400);
         }
         let acc = await Account.create({ email, password: hash, role: "iter" });
+        const permissions = await Permission.find({ role: "iter", check: true });
+        const actionCodes = [];
+        permissions.forEach((e) => actionCodes.push(e.actionCode));
 
-        await ITer.create({ fullName, accountId: acc._id, email });
-
+        await Promise.all([
+            ITer.create({ fullName, accountId: acc._id, email }),
+            UserPer.create({ userId: acc._id, permissions: actionCodes }),
+        ]);
         res.status(200).json({
             status: 200,
             msg: "Sign up success",
@@ -83,12 +88,15 @@ const registerCompany = async (req, res, next) => {
             throw new HttpError("Error, please try again", 400);
         }
         let acc = await Account.create({ email, password: hash, role: "company" });
+        const permissions = await Permission.find({ role: "company", check: true });
+        const actionCodes = [];
+        permissions.forEach((e) => actionCodes.push(e.actionCode));
 
-        await Company.create({
-            companyName,
-            accountId: acc._id,
-            email,
-        });
+        await Promise.all([
+            Company.create({ companyName, accountId: acc._id, email }),
+            UserPer.create({ userId: acc._id, permissions: actionCodes }),
+        ]);
+
         res.status(200).json({
             status: 200,
             msg: "Sign up success",

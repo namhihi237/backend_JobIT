@@ -7,7 +7,6 @@ import {
     authRouter,
     adminRouter,
     postRouter,
-    modRouter,
     feedbackRouter,
     iterRouter,
     companyRouter,
@@ -26,7 +25,6 @@ const main = async () => {
     server.registerRouter(authRouter);
     server.registerRouter(adminRouter);
     server.registerRouter(postRouter);
-    server.registerRouter(modRouter);
     server.registerRouter(feedbackRouter);
     server.registerRouter(iterRouter);
     server.registerRouter(companyRouter);

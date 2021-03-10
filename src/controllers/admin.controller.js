@@ -1,7 +1,7 @@
 import { envVariables } from "../configs";
 import bcrypt from "bcryptjs";
 import { tokenEncode, verifyToken, HttpError } from "../utils";
-import { Moderator, Admin, Role } from "../models";
+import { Admin, Permission, UserPer } from "../models";
 
 const { key_admin } = envVariables;
 /*
@@ -16,11 +16,11 @@ const registerAdmin = async (req, res, next) => {
     const hash = await bcrypt.hash(password, 12);
     if (!hash) throw new HttpError("hash password failed", 400);
 
-    const _role = await Role.findOne({ roleName: "admin" });
-    if (!_role) throw new HttpError("failed", 400);
-
-    await Admin.create({ userName, password: hash, roleId: _role._id });
-
+    const admin = await Admin.create({ userName, password: hash, role: "admin" });
+    const permissions = await Permission.find({ role: "admin", check: true });
+    const actionCodes = [];
+    permissions.forEach((e) => actionCodes.push(e.actionCode));
+    await UserPer.create({ userId: admin._id, permissions: actionCodes });
     res.status(200).json({
         status: 200,
         msg: "Success",
@@ -57,16 +57,10 @@ const registerAdmin = async (req, res, next) => {
 const login = async (req, res, next) => {
     const { userName, password } = req.body;
     try {
-        const [admin, mod] = await Promise.all([
-            Admin.findOne({ userName }),
-            Moderator.findOne({ userName }),
-        ]);
-        if (!admin && !mod) throw new HttpError("userName or password is incorrect", 400);
-
-        const user = mod || admin;
-        const match = await bcrypt.compare(password, user.password);
+        const account = Admin.findOne({ email });
+        if (!account) throw new HttpError("userName or password is incorrect", 400);
+        const match = await bcrypt.compare(password, account.password);
         if (!match) throw new HttpError("userName or password is incorrect", 400);
-
         const data = {
             userName,
             _id: user._id,
@@ -93,7 +87,6 @@ const login = async (req, res, next) => {
  *     "Authorization: Bearer AAA.BBB.CCC"
  * @apiParam {String} userName username's mod account
  * @apiParam {String} password password's mod account
- * @apiParam {String} fullName full name's mod
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Create mod success</code> if everything went fine.
  * @apiSuccessExample {json} Success-Example
@@ -110,20 +103,19 @@ const login = async (req, res, next) => {
  *     }
  */
 const createMod = async (req, res, next) => {
-    let { userName, password, fullName } = req.body;
+    let { userName, password } = req.body;
     userName = userName.toLowerCase();
     try {
-        const mod = await Moderator.findOne({ userName }, { password: 0 });
-
-        if (mod) {
-            throw new HttpError("username is exist", 400);
-        }
+        const mod = await Admin.findOne({ userName }, { password: 0 });
+        if (mod) throw new HttpError("username is exist", 400);
         const hash = await bcrypt.hash(password, 12);
-        if (!hash) {
-            throw new HttpError("Fail", 400);
-        }
-        const role = await Role.findOne({ roleName: "moderator" });
-        await Moderator.create({ userName, fullName, password: hash, roleId: role._id });
+        if (!hash) throw new HttpError("Fail", 400);
+        const acc = await Admin.create({ userName, password: hash, role: "moderator" });
+        const permissions = await Permission.find({ role: "moderator", check: true });
+        const actionCodes = [];
+        permissions.forEach((e) => actionCodes.push(e.actionCode));
+
+        await UserPer.create({ userId: acc._id, permissions: actionCodes });
         res.status(200).json({
             status: 200,
             msg: "Create mod success",

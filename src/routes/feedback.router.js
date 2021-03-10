@@ -1,10 +1,10 @@
-import { feedbackCotroller } from "../controllers";
+import { feedbackController } from "../controllers";
 import { validateRequestBody, authMiddleware, roleMiddleware } from "../middlewares";
 import { Router } from "express";
 const { jwtMidleware } = authMiddleware;
 const { checkPer } = roleMiddleware;
 const { createFeedbackSchema } = validateRequestBody;
-const { getFeedbacks, createFeedback, deleteFeedback } = feedbackCotroller;
+const { getFeedbacks, createFeedback, deleteFeedback } = feedbackController;
 
 export const feedbackRouter = Router();
 
