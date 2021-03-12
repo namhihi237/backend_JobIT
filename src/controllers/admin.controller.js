@@ -2,6 +2,7 @@ import { envVariables } from "../configs";
 import bcrypt from "bcryptjs";
 import { tokenEncode, verifyToken, HttpError } from "../utils";
 import { Admin, Permission, UserPer } from "../models";
+import mongo from "mongoose";
 
 const { key_admin } = envVariables;
 /*
@@ -82,7 +83,7 @@ const login = async (req, res, next) => {
 };
 
 /**
- * @api {post} /api/v1/admin/create-mod create acc mod
+ * @api {post} /api/v1/mod create acc mod
  * @apiName Create mod
  * @apiGroup Admin
  * @apiHeader {String} token The token can be generated from your user profile.
@@ -129,4 +130,160 @@ const createMod = async (req, res, next) => {
     }
 };
 
-export const adminController = { registerAdmin, createMod, login };
+/**
+ * @api {get} /api/v1/permissions get permissions
+ * @apiName Get permissions
+ * @apiGroup Admin
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiExample {bash} Curl example
+ * curl -X GET -H "Authorization: token 5f048fe" -i https://api.example.com/api/v1/admin/permissions?role=iter
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Create mod success</code>
+ * @apiSuccess {Array} permissions
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+ *         permissions: [
+            {
+                "check": true,
+                "_id": "6048a3b886af931754624be1",
+                "role": "iter",
+                "perName": "cancel receive email job",
+                "actionCode": "CANCEL_RECEIVE_MAIL"
+            },
+            {
+                "check": true,
+                "_id": "6048a3b886af931754624bdf",
+                "role": "iter",
+                "perName": "create new cv",
+                "actionCode": "CREATE_CV"
+            },
+            {
+                "check": true,
+                "_id": "6048a3b886af931754624be0",
+                "role": "iter",
+                "perName": "register receive email job",
+                "actionCode": "RECEIVE_MAIL"
+            }
+        ]
+ *
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 400
+ *     {
+ *       "status" : 401,
+ *       "msg": "No token, authorization denied"
+ *     }
+ */
+
+const getPermissions = async (req, res, next) => {
+    const role = req.query.role || "";
+    try {
+        console.log(role);
+        let permissions;
+        if (!role) permissions = await Permission.find();
+        else permissions = await Permission.find({ role });
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+            permissions,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * @api {get} /api/v1/users/:id/permissions get user permissions
+ * @apiName Get user permissions
+ * @apiGroup Admin
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiExample {bash} Curl example
+ * curl -X GET -H "Authorization: token 5f048fe" -i https://api.example.com/api/v1/users/646dgdh/permissions
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Create mod success</code>
+ * @apiSuccess {Array} permissions
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+ *         "permissions": {
+        "_id": "6048d0149f2a0a2a14fdb3a8",
+        "userId": "6048d0139f2a0a2a14fdb3a7",
+        "permissions": [
+            {
+                "_id": "6048d0149f2a0a2a14fdb3a9",
+                "actionCode": "CREATE_MOD",
+                "check": true
+            },
+            {
+                "_id": "6048d0149f2a0a2a14fdb3aa",
+                "actionCode": "VIEW_POSTS_NEED_ACCEPT",
+                "check": true
+            },
+            {
+                "_id": "6048d0149f2a0a2a14fdb3ab",
+                "actionCode": "ACCEPT_POST",
+                "check": true
+            }
+        ],
+        "createdAt": "2021-03-10T13:56:36.563Z",
+        "updatedAt": "2021-03-10T13:56:36.563Z",
+        "__v": 0
+    }
+ *
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 400
+ *     {
+ *       "status" : 401,
+ *       "msg": "No token, authorization denied"
+ *     }
+ */
+const getUserPermission = async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        if (!mongo.Types.ObjectId.isValid(id)) {
+            throw new HttpError("id is not found", 400);
+        }
+        const permissions = await UserPer.findOne({ userId: id });
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+            permissions,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const updatePermission = async (req, res, next) => {
+    try {
+    } catch (error) {
+        next(error);
+    }
+};
+
+const updateUserPermission = async (req, res, next) => {
+    try {
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const adminController = {
+    registerAdmin,
+    createMod,
+    login,
+    getPermissions,
+    getUserPermission,
+    updatePermission,
+    updateUserPermission,
+};

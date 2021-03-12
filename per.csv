@@ -5,7 +5,11 @@ admin,accept post,ACCEPT_POST,1
 admin,delete post,DELETE_POST,1
 admin,get all feedbacks,VIEW_FEEDBACKS,1
 admin,get feedback,DELETE_FEEDBACK,1
-company,view post,VIEW_POST,1
+admin,get permission,GET_PERMISSIONS,1
+admin,get get user permission,GET_USER_PERMISSIONS,1
+admin,update permission,UPDATE_PERMISSION,1
+admin,update user permission,UPDATE_USER_PERMISSION,1
+company,view post,VIEW_POST,1   
 company,view all posts,VIEW_POSTS,1
 company,create post,CREATE_POST,1
 company,get company post,GET_COMPANY_POST,1
