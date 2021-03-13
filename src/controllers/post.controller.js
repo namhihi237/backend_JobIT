@@ -35,12 +35,11 @@ const createPost = async (req, res, next) => {
     const { _id } = req.user;
     const { skill, position, address, salary, endTime, description } = req.body;
     try {
-        const company = await Company.findById({ _id });
-        if (!company) {
-            throw new HttpError("Faild", 401);
-        }
+        const company = await Company.findOne({ accountId: _id });
+        if (!company) throw new HttpError("Failed", 401);
+
         await Post.create({
-            companyId: company._id,
+            companyId: _id,
             companyName: company.companyName,
             skill,
             position,
@@ -204,13 +203,11 @@ const updatePost = async (req, res, next) => {
     const { postId } = req.params;
     const { skill, position, address, salary, endTime, description } = req.body;
     try {
-        if (!mongo.Types.ObjectId.isValid(postId)) {
-            throw new HttpError("Not found post!", 400);
-        }
+        if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError("Not found post!", 400);
+
         const postWithUser = await Post.findOne({ companyId: _id, _id: postId }, { __v: 1 });
-        if (!postWithUser) {
-            throw new HttpError("Deny update!", 401);
-        }
+        if (!postWithUser) throw new HttpError("Deny update!", 401);
+
         await Post.findByIdAndUpdate(
             { _id: postId },
             { skill, position, address, salary, endTime, description }
@@ -225,7 +222,7 @@ const updatePost = async (req, res, next) => {
 };
 
 /**
- * @api {delete} /api/v1/posts/[postId]  delete post
+ * @api {delete} /api/v1/posts/{postId}  delete post
  * @apiName Delete post
  * @apiGroup Post
  * @apiHeader {String} token The token can be generated from your user profile.
@@ -250,16 +247,12 @@ const deletePost = async (req, res, next) => {
     const { _id, role } = req.user;
     const { postId } = req.params;
     try {
-        if (!mongo.Types.ObjectId.isValid(postId)) {
-            throw new HttpError("Not found post!", 400);
-        }
+        if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError("Not found post!", 400);
+
         if (role != "admin" && role != "moderator") {
             const postWithUser = await Post.findOne({ companyId: _id, _id: postId }, { __v: 1 });
-            if (!postWithUser) {
-                throw new HttpError("Deny delete post!", 401);
-            }
+            if (!postWithUser) throw new HttpError("Deny delete post!", 401);
         }
-
         await Post.findByIdAndDelete({ _id: postId });
         res.status(200).json({
             status: 200,
@@ -292,16 +285,15 @@ const deletePost = async (req, res, next) => {
  *       "msg": "Denny permission accept post"
  *     }
  */
+
 const acceptPost = async (req, res, next) => {
     const { postId } = req.params;
     try {
-        if (!mongo.Types.ObjectId.isValid(postId)) {
-            throw new HttpError("Not found post!", 400);
-        }
+        if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError("Not found post!", 400);
+
         const accepted = await Post.findByIdAndUpdate({ _id: postId }, { accept: true });
-        if (!accepted) {
-            throw new HttpError("Not found post!", 400);
-        }
+        if (!accepted) throw new HttpError("Not found post!", 400);
+
         const skills = accepted.skill;
         // console.log(skills);
         const listCv = await Cv.find(
@@ -411,13 +403,9 @@ const applyJob = async (req, res, next) => {
     const iterId = req.user._id;
     try {
         const existIter = await Post.findOne({ _id, apply: { $elemMatch: { iterId } } });
-        if (existIter) {
-            throw new HttpError("you have already applied it before", 400);
-        }
+        if (existIter) throw new HttpError("you have already applied it before", 400);
         const cv = await Cv.findOne({ iterId });
-        if (!cv) {
-            throw new HttpError("You have not a Cv", 400);
-        }
+        if (!cv) throw new HttpError("You have not a Cv", 400);
         const cvId = cv._id;
         await Post.findByIdAndUpdate({ _id }, { $push: { apply: { iterId, cvId } } });
         res.status(200).json({
@@ -438,7 +426,7 @@ const applyJob = async (req, res, next) => {
  *     "Authorization: Bearer AAA.BBB.CCC"
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code>
- * @apiSuccess {Array} applys <code>Array Objects post</code> show all list apply
+ * @apiSuccess {Array} applies <code>Array Objects post</code> show all list apply
  * @apiSuccessExample {json} Success-Example
  *     HTTP/1.1 200 OK
  *     {
@@ -446,15 +434,16 @@ const applyJob = async (req, res, next) => {
  *         msg: "Success"
  *     }
  */
+
 const listApply = async (req, res, next) => {
     const { _id } = req.params;
     try {
         const post = await Post.findById({ _id }, { comment: 0 });
-        const applys = post.apply;
+        const applies = post.apply;
         res.status(200).json({
             status: 200,
             msg: "Success",
-            applys,
+            applies,
         });
     } catch (error) {
         next(error);

@@ -41,13 +41,6 @@ define({ "api": [
             "optional": false,
             "field": "password",
             "description": "<p>password's mod account</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "fullName",
-            "description": "<p>full name's mod</p>"
           }
         ]
       }
@@ -89,7 +82,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/admin.conntroller.js",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/admin.controller.js",
     "groupTitle": "Admin"
   },
   {
@@ -180,27 +173,6 @@ define({ "api": [
             "optional": false,
             "field": "fullName",
             "description": "<p>full name's iter</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "gender",
-            "description": "<p>gender's iter</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "birthday",
-            "description": "<p>birthday's iter</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "role",
-            "description": "<p>role's iter requre &quot;iter&quot;</p>"
           }
         ]
       }
@@ -229,7 +201,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Response (example):",
-          "content": "HTTP/1.1 400\n{\n  \"status\" : 400,\n  \"msg\": \"\\\"birthday\\\" is required, \\\"role\\\" is required\"\n}",
+          "content": "HTTP/1.1 400\n{\n  \"status\" : 400,\n  \"msg\": \"password length must be at least 6 characters long\"\n}",
           "type": "json"
         }
       ]
@@ -267,20 +239,6 @@ define({ "api": [
             "optional": false,
             "field": "companyName",
             "description": "<p>name's company</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "address",
-            "description": "<p>address's company</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "role",
-            "description": "<p>role's company requre &quot;company&quot;</p>"
           }
         ]
       }
@@ -309,7 +267,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Response (example):",
-          "content": "HTTP/1.1 400\n{\n  \"status\" : 400,\n  \"msg\": \"\\\"role\\\" is required\"\n}",
+          "content": "HTTP/1.1 400\n{\n  \"status\" : 400,\n  \"msg\": \"password length must be at least 6 characters long\"\n}",
           "type": "json"
         }
       ]
@@ -359,7 +317,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"We sent code to your email, tt has a deadline of 5 minutes\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"We sent code to your email, the code only lasts for 5 minutes\"\n}",
           "type": "json"
         }
       ]
@@ -521,8 +479,8 @@ define({ "api": [
   {
     "type": "post",
     "url": "/api/v1/auth/confirm-code",
-    "title": "confirmcode reset password",
-    "name": "confrim_code_reset_password",
+    "title": "confirm code reset password",
+    "name": "confỉrm_code_reset_password",
     "group": "Auth",
     "parameter": {
       "fields": {
@@ -639,7 +597,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"user\": {\n            \"_id\": \"601d07f259e12e126c0a2af4\",\n            \"email\": \"yentth239@gmail.com\",\n            \"address\": \"144 nlb\",\n            \"companyName\": \"FPT\",\n            \"roleId\": \"601b9d7cdae0a522ac960fe9\"\n        } \n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"user\": {\n            \"_id\": \"601d07f259e12e126c0a2af4\",\n            \"email\": \"yentth239@gmail.com\",\n            \"companyName\": \"FPT\",\n            \"roleId\": \"601b9d7cdae0a522ac960fe9\"\n        } \n}",
           "type": "json"
         }
       ]
@@ -686,13 +644,6 @@ define({ "api": [
     "parameter": {
       "fields": {
         "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "address",
-            "description": "<p>address's company</p>"
-          },
           {
             "group": "Parameter",
             "type": "String",
@@ -791,7 +742,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Registed receive email\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Register receive email\"\n}",
           "type": "json"
         }
       ]
@@ -971,7 +922,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Registed receive email\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Register receive email\"\n}",
           "type": "json"
         }
       ]
@@ -1189,7 +1140,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n       \"feedbacks\": [\n                {\n                    \"_id\": \"601fc082633e8c3688fc64b2\",\n                    \"userId\": \"601d07f259e12e126c0a2af4\",\n                    \"content\": \"code ngao vl\",\n                    \"createdAt\": \"2021-02-07T10:27:14.957Z\",\n                },\n                {\n                    \"_id\": \"601fc0af633e8c3688fc64b3\",\n                    \"userId\": \"601d07f259e12e126c0a2af4\",\n                    \"content\": \"code ngao vl hihi\",\n                    \"createdAt\": \"2021-02-07T10:27:59.483Z\",\n                }\n]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n       \"feedbacks\": [\n                {\n                    \"_id\": \"601fc082633e8c3688fc64b2\",\n                    \"userId\": \"601d07f259e12e126c0a2af4\",\n                    \"content\": \"code te\",\n                    \"createdAt\": \"2021-02-07T10:27:14.957Z\",\n                },\n                {\n                    \"_id\": \"601fc0af633e8c3688fc64b3\",\n                    \"userId\": \"601d07f259e12e126c0a2af4\",\n                    \"content\": \"code hay\",\n                    \"createdAt\": \"2021-02-07T10:27:59.483Z\",\n                }\n]\n}",
           "type": "json"
         }
       ]
@@ -1262,7 +1213,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n      \"user\": {\n            \"_id\": \"6020bd895d7a6b07b0b0eef9\",\n            \"email\": \"yentth@gmail.com\",\n            \"fullName\": \"Le Trung Nam\",\n            \"gender\": \"Male\",\n            \"birthday\": \"23/07/1999\"\n        }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n      \"user\": {\n            \"_id\": \"6020bd895d7a6b07b0b0eef9\",\n            \"email\": \"yentth@gmail.com\",\n            \"fullName\": \"Le Trung Nam\",\n        }\n}",
           "type": "json"
         }
       ]
@@ -1315,20 +1266,6 @@ define({ "api": [
             "optional": false,
             "field": "fullName",
             "description": "<p>fullname's company</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "gender",
-            "description": "<p>gender's company</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "birthday",
-            "description": "<p>birthday's company</p>"
           }
         ]
       }
@@ -1377,7 +1314,7 @@ define({ "api": [
     "type": "post",
     "url": "/api/v1/admin/login",
     "title": "login admin, mod",
-    "name": "Login_mod_adminn",
+    "name": "Login_mod_admin",
     "group": "Mod",
     "parameter": {
       "fields": {
@@ -1436,7 +1373,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/admin.conntroller.js",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/admin.controller.js",
     "groupTitle": "Mod"
   },
   {
@@ -1621,7 +1558,7 @@ define({ "api": [
   },
   {
     "type": "delete",
-    "url": "/api/v1/posts/[postId]",
+    "url": "/api/v1/posts/{postId}",
     "title": "delete post",
     "name": "Delete_post",
     "group": "Post",
@@ -2084,7 +2021,7 @@ define({ "api": [
             "group": "Success 200",
             "type": "Array",
             "optional": false,
-            "field": "applys",
+            "field": "applies",
             "description": "<p><code>Array Objects post</code> show all list apply</p>"
           }
         ]

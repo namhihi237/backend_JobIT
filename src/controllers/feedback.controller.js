@@ -19,13 +19,13 @@ import { Company, Feedback, ITer } from "../models";
                     {
                         "_id": "601fc082633e8c3688fc64b2",
                         "userId": "601d07f259e12e126c0a2af4",
-                        "content": "code ngao vl",
+                        "content": "code te",
                         "createdAt": "2021-02-07T10:27:14.957Z",
                     },
                     {
                         "_id": "601fc0af633e8c3688fc64b3",
                         "userId": "601d07f259e12e126c0a2af4",
-                        "content": "code ngao vl hihi",
+                        "content": "code hay",
                         "createdAt": "2021-02-07T10:27:59.483Z",
                     }
     ]
@@ -114,7 +114,7 @@ const deleteFeedback = async (req, res, next) => {
     try {
         const deleted = await Feedback.findByIdAndDelete({ _id: feedbackId });
         if (!deleted) {
-            throw new HttpError("Delete Feedback faild", 400);
+            throw new HttpError("Delete Feedback failed", 400);
         }
         res.status(200).json({
             status: 200,
@@ -125,4 +125,4 @@ const deleteFeedback = async (req, res, next) => {
     }
 };
 
-export const feedbackCotroller = { getFeedbacks, createFeedback, deleteFeedback };
+export const feedbackController = { getFeedbacks, createFeedback, deleteFeedback };

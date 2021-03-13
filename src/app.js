@@ -7,7 +7,6 @@ import {
     authRouter,
     adminRouter,
     postRouter,
-    modRouter,
     feedbackRouter,
     iterRouter,
     companyRouter,
@@ -15,9 +14,9 @@ import {
 } from "./routes";
 
 import { initialRole } from "./utils";
-
+export let server;
 const main = async () => {
-    const server = new HttpServer(port);
+    server = new HttpServer(port);
     server.registerMiddleware(defaultMiddleware);
     server.listen();
 
@@ -26,13 +25,12 @@ const main = async () => {
     server.registerRouter(authRouter);
     server.registerRouter(adminRouter);
     server.registerRouter(postRouter);
-    server.registerRouter(modRouter);
     server.registerRouter(feedbackRouter);
     server.registerRouter(iterRouter);
     server.registerRouter(companyRouter);
     server.registerRouter(cvRouter);
     // initial default role
-    initialRole();
+    // initialRole();
 
     server.registerMiddleware(errorHandle);
 };

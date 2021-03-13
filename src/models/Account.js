@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 
-const AdminSchema = new Schema(
+const AccountSchema = new Schema(
     {
-        userName: {
+        email: {
             type: String,
             required: true,
         },
@@ -10,13 +10,12 @@ const AdminSchema = new Schema(
             type: String,
             required: true,
         },
-
         role: {
             type: String,
-            default: "admin",
+            required: true,
         },
     },
     { timestamps: true }
 );
 
-export const Admin = model("admin", AdminSchema, "admin");
+export const Account = model("account", AccountSchema, "account");

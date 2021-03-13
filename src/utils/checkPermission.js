@@ -1,13 +1,12 @@
-import { Role, Permission } from "../models";
+import { Role, Permission, UserPer } from "../models";
 /* check role and permission of role*/
-export const checkRoleAndPer = async (role, actionCode) => {
+export const checkRoleAndPer = async (userId, actionCode) => {
     try {
-        const _role = await Role.findOne({ roleName: role });
-        if (!_role) {
-            return false;
-        }
-        const per = await Permission.findOne({ roleId: _role._id, actionCode, check: true });
-        if (!per) {
+        const userPermission = await UserPer.findOne({
+            userId,
+            permissions: { $elemMatch: { actionCode, check: true } },
+        });
+        if (!userPermission) {
             return false;
         }
         return true;

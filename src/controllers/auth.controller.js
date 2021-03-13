@@ -1,4 +1,4 @@
-import { ITer, Company, Role, Code } from "../models";
+import { ITer, Company, Code, Account, UserPer, Permission } from "../models";
 import bcrypt from "bcryptjs";
 import { HttpError, tokenEncode, sendEmail, generate } from "../utils";
 
@@ -9,7 +9,6 @@ import { HttpError, tokenEncode, sendEmail, generate } from "../utils";
  * @apiParam {String} email email's  iter account
  * @apiParam {String} password password's iter account
  * @apiParam {String} fullName full name's iter
- * @apiParam {String} role role's iter required :"iter"
  * @apiSuccess {String} msg <code>Sign up success</code> if everything went fine.
  * @apiSuccessExample {json} Success-Example
  *     HTTP/1.1 200 OK
@@ -24,27 +23,28 @@ import { HttpError, tokenEncode, sendEmail, generate } from "../utils";
  *       "msg": "password length must be at least 6 characters long"
  *     }
  */
+
 const registerIter = async (req, res, next) => {
-    let { password, email, role, fullName } = req.body;
+    let { password, email, fullName } = req.body;
     email = email.toLowerCase();
     try {
-        const [_com, _it] = await Promise.all([
-            Company.findOne({ email }),
-            ITer.findOne({ email }),
-        ]);
-
-        if (_com || _it) {
+        const user = await Account.findOne({ email });
+        if (user) {
             throw new HttpError("The email has already been used by another account", 400);
         }
         const hash = await bcrypt.hash(password, 12);
         if (!hash) {
             throw new HttpError("Error, please try again", 400);
         }
-        const _role = await Role.findOne({ roleName: role });
-        if (!_role) {
-            throw new HttpError("Error, please try again", 400);
-        }
-        await ITer.create({ email, password: hash, fullName, roleId: _role._id });
+        let acc = await Account.create({ email, password: hash, role: "iter" });
+        let permissions = await Permission.find({ role: "iter", check: true });
+        permissions = permissions.map((e) => {
+            return { actionCode: e.actionCode, check: e.check };
+        });
+        await Promise.all([
+            ITer.create({ fullName, accountId: acc._id, email }),
+            UserPer.create({ userId: acc._id, permissions }),
+        ]);
         res.status(200).json({
             status: 200,
             msg: "Sign up success",
@@ -61,7 +61,6 @@ const registerIter = async (req, res, next) => {
  * @apiParam {String} email email's  company account
  * @apiParam {String} password password's company account
  * @apiParam {String} companyName name's company
- * @apiParam {String} role role's company required "company"
  * @apiSuccess {String} msg <code>Sign up success</code> if everything went fine.
  * @apiSuccessExample {json} Success-Example
  *     HTTP/1.1 200 OK
@@ -73,35 +72,32 @@ const registerIter = async (req, res, next) => {
  *     HTTP/1.1 400
  *     {
  *       "status" : 400,
- *       "msg": "role is required"
+ *       "msg": "password length must be at least 6 characters long"
  *     }
  */
 const registerCompany = async (req, res, next) => {
-    let { password, email, role, companyName } = req.body;
+    let { password, email, companyName } = req.body;
     email = email.toLowerCase();
     try {
-        const [_com, _it] = await Promise.all([
-            Company.findOne({ email }),
-            ITer.findOne({ email }),
-        ]);
-
-        if (_com || _it) {
+        const user = await Account.findOne({ email });
+        if (user) {
             throw new HttpError("The email has already been used by another account", 400);
         }
         const hash = await bcrypt.hash(password, 12);
         if (!hash) {
             throw new HttpError("Error, please try again", 400);
         }
-        const _role = await Role.findOne({ roleName: role });
-        if (!_role) {
-            throw new HttpError("Error, please try again", 400);
-        }
-        await Company.create({
-            email,
-            password: hash,
-            companyName,
-            roleId: _role._id,
+        let acc = await Account.create({ email, password: hash, role: "company" });
+        let permissions = await Permission.find({ role: "company", check: true });
+        permissions = permissions.map((e) => {
+            return { actionCode: e.actionCode, check: e.check };
         });
+
+        await Promise.all([
+            Company.create({ companyName, accountId: acc._id, email }),
+            UserPer.create({ userId: acc._id, permissions }),
+        ]);
+
         res.status(200).json({
             status: 200,
             msg: "Sign up success",
@@ -137,18 +133,11 @@ const login = async (req, res, next) => {
     let { email, password } = req.body;
     email = email.toLowerCase();
     try {
-        const [iter, company] = await Promise.all([
-            ITer.findOne({ email }),
-            Company.findOne({ email }),
-        ]);
-        if (!iter && !company) {
-            throw new HttpError("Email or password is incorrect", 400);
-        }
-        let user = iter || company;
+        const user = await Account.findOne({ email });
+        if (!user) throw new HttpError("Email or password is incorrect", 400);
+
         const match = await bcrypt.compare(password, user.password);
-        if (!match) {
-            throw new HttpError("Email or password is incorrect", 400);
-        }
+        if (!match) throw new HttpError("Email or password is incorrect", 400);
 
         let data = {
             email: user.email,
@@ -192,29 +181,18 @@ const login = async (req, res, next) => {
  */
 const updatePassword = async (req, res, next) => {
     const { password, newPassword } = req.body;
-    const { _id, role } = req.user;
+    const { _id } = req.user;
     try {
-        let user;
-        if (role === "iter") {
-            user = await ITer.findById({ _id }, { password: 1 });
-        }
-        if (role === "company") {
-            user = await Company.findById({ _id }, { password: 1 });
-        }
-        if (!user) {
-            throw new HttpError("User not found", 400);
-        }
+        let user = await Account.findOne({ _id });
+        if (!user) throw new HttpError("User not found", 400);
+
         const match = await bcrypt.compare(password, user.password);
-        if (!match) {
-            throw new HttpError("password is incorrect", 400);
-        }
+        if (!match) throw new HttpError("password is incorrect", 400);
+
         const hash = await bcrypt.hash(newPassword, 12);
-        if (role === "iter") {
-            await ITer.findByIdAndUpdate({ _id }, { password: hash });
-        }
-        if (role === "company") {
-            await Company.findByIdAndUpdate({ _id }, { password: hash });
-        }
+
+        await Account.findByIdAndUpdate({ _id }, { password: hash });
+
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -235,7 +213,7 @@ const updatePassword = async (req, res, next) => {
  *     HTTP/1.1 200 OK
  *     {
  *         status: 200,
- *         msg: "We sent code to your email, tt has a deadline of 5 minutes"
+ *         msg: "We sent code to your email, the code only lasts for 5 minutes"
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 400
@@ -248,26 +226,17 @@ const requestResetPassword = async (req, res, next) => {
     let { email } = req.body;
     try {
         email = email.toLowerCase();
-        const [user1, user2] = await Promise.all([
-            ITer.findOne({ email }, { email: 1 }),
-            Company.findOne({ email }, { email: 1, _id: 1 }),
-        ]);
-
-        if (!user1 && !user2) {
-            throw new HttpError("Email does not exist in the system", 400);
-        }
-        const roleName = user1 ? user1.role : user2.role;
-        const userId = user1 ? user1._id : user2._id;
+        const user = await Account.findOne({ email });
+        if (!user) throw new HttpError("Email does not exist in the system", 400);
         const code = generate();
-
         await sendEmail(code, email);
         await Promise.all([
             Code.findOneAndRemove({ email }),
-            Code.create({ email, code, roleName, userId }),
+            Code.create({ email, code, accountId: user._id }),
         ]);
         res.status(200).json({
             status: 200,
-            msg: "We sent code to your email, tt has a deadline of 5 minutes",
+            msg: "We sent code to your email, the code only lasts for 5 minutes",
         });
     } catch (error) {
         next(error);
@@ -300,9 +269,7 @@ const confirmCode = async (req, res, next) => {
     try {
         email = email.toLowerCase();
         const existCode = await Code.findOne({ email, code });
-        if (!existCode) {
-            throw new HttpError("Your code is incorrect", 400);
-        }
+        if (!existCode) throw new HttpError("Your code is incorrect", 400);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -339,19 +306,12 @@ const changePasswordReset = async (req, res, next) => {
     try {
         email = email.toLowerCase();
         const existCode = await Code.findOne({ email, code });
-        if (!existCode) {
-            throw new HttpError("Fail", 400);
-        }
+        if (!existCode) throw new HttpError("Fail", 400);
         const hash = await bcrypt.hash(password, 12);
-        const role = existCode.role;
-
-        if (role === "iter") {
-            await ITer.findByIdAndUpdate({ _id: existCode.userId }, { password: hash });
-        }
-        if (role === "company") {
-            await Company.findByIdAndUpdate({ _id: existCode.userId }, { password: hash });
-        }
-        await Code.findByIdAndDelete({ _id: existCode._id });
+        await Promise.all([
+            Account.findByIdAndUpdate({ _id: existCode.accountId }, { password: hash }),
+            Code.findByIdAndDelete({ _id: existCode._id }),
+        ]);
         res.status(200).json({
             status: 200,
             msg: "Password has updated",

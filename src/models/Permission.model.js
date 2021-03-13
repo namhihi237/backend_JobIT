@@ -2,9 +2,8 @@ import { Schema, model } from "mongoose";
 
 const permissionSchema = new Schema(
     {
-        roleId: {
-            type: Schema.Types.ObjectId,
-            ref: "role",
+        role: {
+            type: String,
         },
         perName: {
             type: String,

@@ -2,28 +2,19 @@ import { Schema, model } from "mongoose";
 
 const ITerSchema = new Schema(
     {
-        password: {
-            type: String,
-            required: true,
-        },
-        email: {
-            type: String,
+        accountId: {
+            type: Schema.Types.ObjectId,
+            ref: "account",
             required: true,
         },
         fullName: {
             type: String,
         },
+        email: {
+            type: String,
+        },
         image: {
             type: String,
-        },
-        roleId: {
-            type: Schema.Types.ObjectId,
-            ref: "role",
-            required: true,
-        },
-        role: {
-            type: String,
-            default: "iter",
         },
         receiveMailJob: {
             type: Boolean,

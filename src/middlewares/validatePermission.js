@@ -1,10 +1,10 @@
 import { HttpError, checkRoleAndPer } from "../utils";
-/* check role - permision user*/
+/* check role - permission user*/
 
 const checkPer = (perCode) => async (req, res, next) => {
-    const { role } = req.user;
+    const { _id } = req.user;
     try {
-        if (!(await checkRoleAndPer(role, perCode))) {
+        if (!(await checkRoleAndPer(_id, perCode))) {
             throw new HttpError("Deny permission", 401);
         }
         next();
