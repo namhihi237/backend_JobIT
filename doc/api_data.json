@@ -1,7 +1,7 @@
 [
   {
     "type": "post",
-    "url": "/api/v1/admin/create-mod",
+    "url": "/api/v1/mod",
     "title": "create acc mod",
     "name": "Create_mod",
     "group": "Admin",
@@ -77,6 +77,166 @@
         {
           "title": "Response (example):",
           "content": "HTTP/1.1 400\n{\n  \"status\" : 400,\n  \"msg\": \"username is exist\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/admin.controller.js",
+    "groupTitle": "Admin"
+  },
+  {
+    "type": "get",
+    "url": "/api/v1/permissions",
+    "title": "get permissions",
+    "name": "Get_permissions",
+    "group": "Admin",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "examples": [
+      {
+        "title": "Curl example",
+        "content": "curl -X GET -H \"Authorization: token 5f048fe\" -i https://api.example.com/api/v1/admin/permissions?role=iter",
+        "type": "bash"
+      }
+    ],
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Create mod success</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "permissions",
+            "description": ""
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    permissions: [\n        {\n            \"check\": true,\n            \"_id\": \"6048a3b886af931754624be1\",\n            \"role\": \"iter\",\n            \"perName\": \"cancel receive email job\",\n            \"actionCode\": \"CANCEL_RECEIVE_MAIL\"\n        },\n        {\n            \"check\": true,\n            \"_id\": \"6048a3b886af931754624bdf\",\n            \"role\": \"iter\",\n            \"perName\": \"create new cv\",\n            \"actionCode\": \"CREATE_CV\"\n        },\n        {\n            \"check\": true,\n            \"_id\": \"6048a3b886af931754624be0\",\n            \"role\": \"iter\",\n            \"perName\": \"register receive email job\",\n            \"actionCode\": \"RECEIVE_MAIL\"\n        }\n    ]\n\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 400\n{\n  \"status\" : 401,\n  \"msg\": \"No token, authorization denied\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/admin.controller.js",
+    "groupTitle": "Admin"
+  },
+  {
+    "type": "get",
+    "url": "/api/v1/users/:id/permissions",
+    "title": "get user permissions",
+    "name": "Get_user_permissions",
+    "group": "Admin",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "examples": [
+      {
+        "title": "Curl example",
+        "content": "curl -X GET -H \"Authorization: token 5f048fe\" -i https://api.example.com/api/v1/users/646dgdh/permissions",
+        "type": "bash"
+      }
+    ],
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Create mod success</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "permissions",
+            "description": ""
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"permissions\": {\n    \"_id\": \"6048d0149f2a0a2a14fdb3a8\",\n    \"userId\": \"6048d0139f2a0a2a14fdb3a7\",\n    \"permissions\": [\n        {\n            \"_id\": \"6048d0149f2a0a2a14fdb3a9\",\n            \"actionCode\": \"CREATE_MOD\",\n            \"check\": true\n        },\n        {\n            \"_id\": \"6048d0149f2a0a2a14fdb3aa\",\n            \"actionCode\": \"VIEW_POSTS_NEED_ACCEPT\",\n            \"check\": true\n        },\n        {\n            \"_id\": \"6048d0149f2a0a2a14fdb3ab\",\n            \"actionCode\": \"ACCEPT_POST\",\n            \"check\": true\n        }\n    ],\n    \"createdAt\": \"2021-03-10T13:56:36.563Z\",\n    \"updatedAt\": \"2021-03-10T13:56:36.563Z\",\n    \"__v\": 0\n}\n\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 400\n{\n  \"status\" : 401,\n  \"msg\": \"No token, authorization denied\"\n}",
           "type": "json"
         }
       ]
