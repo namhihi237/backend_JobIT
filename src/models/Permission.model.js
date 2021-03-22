@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const permissionSchema = new Schema(
+export const permissionSchema = new Schema(
     {
         role: {
             type: String,

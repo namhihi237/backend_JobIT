@@ -246,6 +246,83 @@ define({ "api": [
     "groupTitle": "Admin"
   },
   {
+    "type": "put",
+    "url": "/api/v1/permissions",
+    "title": "update permissions of role",
+    "name": "update_permissions_of_role",
+    "group": "Admin",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "array",
+            "optional": false,
+            "field": "permissions",
+            "description": "<p>permissions's role</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "role",
+            "description": "<p>name's role</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n        }\norExample Response (example):\n    HTTP/1.1 400\n    {\n      \"status\" : 401,\n      \"msg\": \"No token, authorization denied\"\n    }",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/admin.controller.js",
+    "groupTitle": "Admin"
+  },
+  {
     "type": "post",
     "url": "/api/v1/auth/login",
     "title": "login user",
@@ -960,22 +1037,8 @@ define({ "api": [
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "linkGit",
-            "description": "<p>linkGit's cv</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
             "field": "personalSkill",
             "description": "<p>personalSkill's jcv</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "education",
-            "description": "<p>education's cv</p>"
           },
           {
             "group": "Parameter",

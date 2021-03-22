@@ -30,7 +30,10 @@ const registerIter = async (req, res, next) => {
     try {
         const user = await Account.findOne({ email });
         if (user) {
-            throw new HttpError("The email has already been used by another account", 400);
+            throw new HttpError(
+                "The email has already been used by another account",
+                400
+            );
         }
         const hash = await bcrypt.hash(password, 12);
         if (!hash) {
@@ -43,7 +46,7 @@ const registerIter = async (req, res, next) => {
         });
         await Promise.all([
             ITer.create({ fullName, accountId: acc._id, email }),
-            UserPer.create({ userId: acc._id, permissions }),
+            UserPer.create({ userId: acc._id, permissions, role: "iter" }),
         ]);
         res.status(200).json({
             status: 200,
@@ -81,21 +84,31 @@ const registerCompany = async (req, res, next) => {
     try {
         const user = await Account.findOne({ email });
         if (user) {
-            throw new HttpError("The email has already been used by another account", 400);
+            throw new HttpError(
+                "The email has already been used by another account",
+                400
+            );
         }
         const hash = await bcrypt.hash(password, 12);
         if (!hash) {
             throw new HttpError("Error, please try again", 400);
         }
-        let acc = await Account.create({ email, password: hash, role: "company" });
-        let permissions = await Permission.find({ role: "company", check: true });
+        let acc = await Account.create({
+            email,
+            password: hash,
+            role: "company",
+        });
+        let permissions = await Permission.find({
+            role: "company",
+            check: true,
+        });
         permissions = permissions.map((e) => {
             return { actionCode: e.actionCode, check: e.check };
         });
 
         await Promise.all([
             Company.create({ companyName, accountId: acc._id, email }),
-            UserPer.create({ userId: acc._id, permissions }),
+            UserPer.create({ userId: acc._id, permissions, role: "company" }),
         ]);
 
         res.status(200).json({
@@ -227,7 +240,8 @@ const requestResetPassword = async (req, res, next) => {
     try {
         email = email.toLowerCase();
         const user = await Account.findOne({ email });
-        if (!user) throw new HttpError("Email does not exist in the system", 400);
+        if (!user)
+            throw new HttpError("Email does not exist in the system", 400);
         const code = generate();
         await sendEmail(code, email);
         await Promise.all([
@@ -236,7 +250,8 @@ const requestResetPassword = async (req, res, next) => {
         ]);
         res.status(200).json({
             status: 200,
-            msg: "We sent code to your email, the code only lasts for 5 minutes",
+            msg:
+                "We sent code to your email, the code only lasts for 5 minutes",
         });
     } catch (error) {
         next(error);
@@ -310,7 +325,10 @@ const changePasswordReset = async (req, res, next) => {
         if (!existCode) throw new HttpError("Fail", 400);
         const hash = await bcrypt.hash(password, 12);
         await Promise.all([
-            Account.findByIdAndUpdate({ _id: existCode.accountId }, { password: hash }),
+            Account.findByIdAndUpdate(
+                { _id: existCode.accountId },
+                { password: hash }
+            ),
             Code.findByIdAndDelete({ _id: existCode._id }),
         ]);
         res.status(200).json({

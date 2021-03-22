@@ -18,7 +18,7 @@ const codeSchema = new Schema(
         expireAt: {
             type: Date,
             default: Date.now,
-            createIndexes: { expires: "5m" },
+            createIndexes: { expires: "30m" },
         },
     },
     { timestamps: true }

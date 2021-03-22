@@ -44,7 +44,12 @@ const loginSchema = (req, res, next) => {
 const updatePassSchema = (req, res, next) => {
     const schema = Joi.object({
         password: Joi.string().alphanum().min(6).max(50).empty("").required(),
-        newPassword: Joi.string().alphanum().min(6).max(50).empty("").required(),
+        newPassword: Joi.string()
+            .alphanum()
+            .min(6)
+            .max(50)
+            .empty("")
+            .required(),
     });
     validateRequest(req, next, schema);
 };
@@ -112,14 +117,12 @@ const createFeedbackSchema = (req, res, next) => {
 
 const createCvSchema = (req, res, next) => {
     const schema = Joi.object({
-        linkGit: Joi.string().required(),
         skill: Joi.array()
             .min(1)
             .items(Joi.string())
             .required()
             .messages({ "array.min": `skill cannot be an empty field` }),
         personalSkill: Joi.string().required(),
-        education: Joi.string().required(),
         experience: Joi.string().required(),
         description: Joi.string().required(),
     });

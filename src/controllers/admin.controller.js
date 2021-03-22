@@ -1,7 +1,7 @@
 import { envVariables } from "../configs";
 import bcrypt from "bcryptjs";
 import { tokenEncode, verifyToken, HttpError } from "../utils";
-import { Admin, Permission, UserPer } from "../models";
+import { Account, Admin, Permission, UserPer } from "../models";
 import mongo from "mongoose";
 
 const { key_admin } = envVariables;
@@ -12,17 +12,24 @@ const registerAdmin = async (req, res, next) => {
     const { userName, password, keyAdmin } = req.body;
     if (keyAdmin != key_admin) throw new HttpError("Failed", 400);
 
-    if (!userName || !password) throw new HttpError("userName or password is empty", 400);
+    if (!userName || !password)
+        throw new HttpError("userName or password is empty", 400);
 
     const hash = await bcrypt.hash(password, 12);
     if (!hash) throw new HttpError("hash password failed", 400);
 
-    const admin = await Admin.create({ userName, password: hash, role: "admin" });
+    const admin = await Admin.create({
+        userName,
+        password: hash,
+        role: "admin",
+    });
     let permissions = await Permission.find({ role: "admin" });
     permissions = permissions.map((e) => {
-        return { actionCode: e.actionCode, check: e.check };
+        // return { actionCode: e.actionCode, check: e.check };
+        return UserPer.create({ userId: admin._id, permission: e });
     });
-    await UserPer.create({ userId: admin._id, permissions });
+    await Promise.all(permissions);
+    // await UserPer.create({ userId: admin._id, permissions });
     res.status(200).json({
         status: 200,
         msg: "Success",
@@ -61,9 +68,11 @@ const login = async (req, res, next) => {
     const { userName, password } = req.body;
     try {
         const account = await Admin.findOne({ userName });
-        if (!account) throw new HttpError("userName or password is incorrect", 400);
+        if (!account)
+            throw new HttpError("userName or password is incorrect", 400);
         const match = await bcrypt.compare(password, account.password);
-        if (!match) throw new HttpError("userName or password is incorrect", 400);
+        if (!match)
+            throw new HttpError("userName or password is incorrect", 400);
         const data = {
             userName,
             _id: account._id,
@@ -114,13 +123,25 @@ const createMod = async (req, res, next) => {
         if (mod) throw new HttpError("username is exist", 400);
         const hash = await bcrypt.hash(password, 12);
         if (!hash) throw new HttpError("Fail", 400);
-        const acc = await Admin.create({ userName, password: hash, role: "moderator" });
-        let permissions = await Permission.find({ role: "moderator", check: true });
-        permissions = permissions.map((e) => {
-            return { actionCode: e.actionCode, check: e.check };
+        const acc = await Admin.create({
+            userName,
+            password: hash,
+            role: "moderator",
         });
-
-        await UserPer.create({ userId: acc._id, permissions });
+        let permissions = await Permission.find({
+            role: "moderator",
+            check: true,
+        });
+        permissions = permissions.map((e) => {
+            // return { actionCode: e.actionCode, check: e.check };
+            return UserPer.create({ userId: acc._id, permission: e });
+        });
+        await Promise.all(permissions);
+        await UserPer.create({
+            userId: acc._id,
+            permissions,
+            role: "moderator",
+        });
         res.status(200).json({
             status: 200,
             msg: "Create mod success",
@@ -264,8 +285,60 @@ const getUserPermission = async (req, res, next) => {
     }
 };
 
+/**
+ * @api {put} /api/v1/permissions update permissions of role
+ * @apiName update permissions of role
+ * @apiGroup Admin
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiParam {array} permissions permissions's role
+ * @apiParam {string} role name's role
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+        }
+orExample Response (example):
+ *     HTTP/1.1 400
+ *     {
+ *       "status" : 401,
+ *       "msg": "No token, authorization denied"
+ *     }
+ */
 const updatePermission = async (req, res, next) => {
     try {
+        const { permissions, role, apply } = req.body;
+        let updatePer = permissions.map((e) => {
+            return Permission.findOneAndUpdate(
+                { _id: e._id, check: !e.check }, // check thay doi state moi doi
+                { check: e.check }
+            );
+        });
+        // let usersRole = await Account.find({ role }, { _id });
+
+        // let updateUserPer = usersRole.map((e) => {
+        //     return UserPer.findOneAndUpdate(
+        //         { userId: e._id },
+        //         { permissions: newPermissions }
+        //     );
+        // });
+
+        const [...changed] = await Promise.all(updatePer);
+        console.log(changed);
+
+        // const newPermissions = await Permission.find({ role, check: true });
+        // newPermissions = newPermissions.map((e) => {
+        //     return { actionCode: e.actionCode, check: e.check };
+        // });
+        // thieu
+        // await Promise.all(updateUserPer);
+        res.status(200).json({
+            msg: "Success",
+        });
     } catch (error) {
         next(error);
     }

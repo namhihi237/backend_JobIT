@@ -11,9 +11,6 @@ const CvSchema = new Schema(
             type: String,
             required: true,
         },
-        linkGit: {
-            type: String,
-        },
         email: {
             type: String,
             required: true,
@@ -22,7 +19,6 @@ const CvSchema = new Schema(
         personalSkill: {
             type: String,
         },
-        education: { type: String },
         experience: { type: String },
         description: {
             type: String,
