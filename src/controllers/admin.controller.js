@@ -23,13 +23,18 @@ const registerAdmin = async (req, res, next) => {
         password: hash,
         role: "admin",
     });
-    let permissions = await Permission.find({ role: "admin" });
+    let permissions = await Permission.find({ role: "admin", check: true });
     permissions = permissions.map((e) => {
         // return { actionCode: e.actionCode, check: e.check };
-        return UserPer.create({ userId: admin._id, permission: e });
+        return UserPer.create({
+            userId: admin._id,
+            perId: e._id,
+            perName: e.perName,
+            actionCode: e.actionCode,
+            check: true,
+        });
     });
     await Promise.all(permissions);
-    // await UserPer.create({ userId: admin._id, permissions });
     res.status(200).json({
         status: 200,
         msg: "Success",
@@ -133,15 +138,16 @@ const createMod = async (req, res, next) => {
             check: true,
         });
         permissions = permissions.map((e) => {
-            // return { actionCode: e.actionCode, check: e.check };
-            return UserPer.create({ userId: acc._id, permission: e });
+            return UserPer.create({
+                userId: acc._id,
+                perId: e._id,
+                perName: e.perName,
+                actionCode: e.actionCode,
+                check: true,
+            });
         });
         await Promise.all(permissions);
-        await UserPer.create({
-            userId: acc._id,
-            permissions,
-            role: "moderator",
-        });
+
         res.status(200).json({
             status: 200,
             msg: "Create mod success",
@@ -318,17 +324,45 @@ const updatePermission = async (req, res, next) => {
                 { check: e.check }
             );
         });
-        // let usersRole = await Account.find({ role }, { _id });
-
-        // let updateUserPer = usersRole.map((e) => {
-        //     return UserPer.findOneAndUpdate(
-        //         { userId: e._id },
-        //         { permissions: newPermissions }
-        //     );
-        // });
-
         const [...changed] = await Promise.all(updatePer);
-        console.log(changed);
+        let changeUserPer = [];
+        let usersRole = await Account.find({ role }, { _id });
+
+        if (apply === false) {
+            let addUserPers = [];
+            for (let item in changed) {
+                if (item) {
+                    if (item.check == true) {
+                        let addUserPer = usersRole.map((e) => {
+                            return UserPer.create({
+                                userId: e._id,
+                                perId: item._id,
+                                perName: item.perName,
+                                actionCode: item.actionCode,
+                                check: false, // no apply
+                            });
+                        });
+                        addUserPers = [...addUserPers, ...addUserPer];
+                    } else {
+                        // xoa user per neu false
+                        let userPerDels = await UserPer.find(
+                            {
+                                perId: item._id,
+                            },
+                            { _id }
+                        );
+                        userPerDels = userPerDels.map((e) =>
+                            UserPer.findByIdAndDelete({ _id: e._id })
+                        );
+                        addUserPers = [...addUserPers, ...userPerDels];
+                    }
+                }
+            }
+            await Promise.all(addUserPers);
+        } else {
+        }
+
+        // console.log(changed);
 
         // const newPermissions = await Permission.find({ role, check: true });
         // newPermissions = newPermissions.map((e) => {
