@@ -320,19 +320,25 @@ const updatePermission = async (req, res, next) => {
         const { permissions, role, apply } = req.body;
         let updatePer = permissions.map((e) => {
             return Permission.findOneAndUpdate(
-                { _id: e._id, check: !e.check }, // check thay doi state moi doi
-                { check: e.check }
+                { _id: e._id, check: !e.check },
+                { check: e.check } // check thay doi state moi doi
             );
         });
         const [...changed] = await Promise.all(updatePer);
-        let changeUserPer = [];
-        let usersRole = await Account.find({ role }, { _id });
-
+        // console.log(...changed);
+        let usersRole = [];
+        if (role != "moderator")
+            usersRole = await Account.find({ role }, { password: 0 });
+        else usersRole = await Admin.find({ role }, { password: 0 });
+        console.log("role ", usersRole);
+        // no apply
         if (apply === false) {
             let addUserPers = [];
-            for (let item in changed) {
+            for (let item of changed) {
                 if (item) {
-                    if (item.check == true) {
+                    if (item.check == false) {
+                        // flase => true
+                        // add permission
                         let addUserPer = usersRole.map((e) => {
                             return UserPer.create({
                                 userId: e._id,
@@ -344,13 +350,15 @@ const updatePermission = async (req, res, next) => {
                         });
                         addUserPers = [...addUserPers, ...addUserPer];
                     } else {
-                        // xoa user per neu false
+                        // remove permission
+                        // xoa user per neu false. true => false
                         let userPerDels = await UserPer.find(
                             {
                                 perId: item._id,
                             },
-                            { _id }
+                            { _id: 1 }
                         );
+                        // console.log(userPerDels);
                         userPerDels = userPerDels.map((e) =>
                             UserPer.findByIdAndDelete({ _id: e._id })
                         );
@@ -360,25 +368,77 @@ const updatePermission = async (req, res, next) => {
             }
             await Promise.all(addUserPers);
         } else {
+            let addUserPers = [];
+            for (let item of changed) {
+                if (item) {
+                    if (item.check == false) {
+                        // flase => true
+                        // add permission
+                        let addUserPer = usersRole.map((e) => {
+                            return UserPer.create({
+                                userId: e._id,
+                                perId: item._id,
+                                perName: item.perName,
+                                actionCode: item.actionCode,
+                                check: true, // no apply
+                            });
+                        });
+                        addUserPers = [...addUserPers, ...addUserPer];
+                    } else {
+                        // remove permission
+                        // xoa user per neu false. true => false
+                        let userPerDels = await UserPer.find(
+                            {
+                                perId: item._id,
+                            },
+                            { _id: 1 }
+                        );
+                        // console.log(userPerDels);
+                        userPerDels = userPerDels.map((e) =>
+                            UserPer.findByIdAndDelete({ _id: e._id })
+                        );
+                        addUserPers = [...addUserPers, ...userPerDels];
+                    }
+                }
+            }
+            await Promise.all(addUserPers);
         }
 
-        // console.log(changed);
-
-        // const newPermissions = await Permission.find({ role, check: true });
-        // newPermissions = newPermissions.map((e) => {
-        //     return { actionCode: e.actionCode, check: e.check };
-        // });
-        // thieu
-        // await Promise.all(updateUserPer);
         res.status(200).json({
+            status: 200,
             msg: "Success",
         });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
 
+/**
+ * @api {put} /api/v1/user/:id/permissions update user permissions 
+ * @apiName update user permissions 
+ * @apiGroup Admin
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiParam {array} permissions permissions's user
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+        }
+orExample Response (example):
+ *     HTTP/1.1 400
+ *     {
+ *       "status" : 401,
+ *       "msg": "No token, authorization denied"
+ *     }
+ */
 const updateUserPermission = async (req, res, next) => {
+    const { id } = req.params;
     try {
     } catch (error) {
         next(error);

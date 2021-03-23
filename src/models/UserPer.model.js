@@ -5,7 +5,7 @@ const userPerSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "account",
         },
-        per_id: {
+        perId: {
             type: Schema.Types.ObjectId,
             ref: "permission",
         },
