@@ -42,11 +42,17 @@ const registerIter = async (req, res, next) => {
         let acc = await Account.create({ email, password: hash, role: "iter" });
         let permissions = await Permission.find({ role: "iter", check: true });
         permissions = permissions.map((e) => {
-            return { actionCode: e.actionCode, check: e.check };
+            return UserPer.create({
+                userId: acc._id,
+                perId: e._id,
+                perName: e.perName,
+                actionCode: e.actionCode,
+                check: true,
+            });
         });
         await Promise.all([
             ITer.create({ fullName, accountId: acc._id, email }),
-            UserPer.create({ userId: acc._id, permissions, role: "iter" }),
+            ...permissions,
         ]);
         res.status(200).json({
             status: 200,
@@ -103,12 +109,18 @@ const registerCompany = async (req, res, next) => {
             check: true,
         });
         permissions = permissions.map((e) => {
-            return { actionCode: e.actionCode, check: e.check };
+            return UserPer.create({
+                userId: acc._id,
+                perId: e._id,
+                perName: e.perName,
+                actionCode: e.actionCode,
+                check: true,
+            });
         });
 
         await Promise.all([
             Company.create({ companyName, accountId: acc._id, email }),
-            UserPer.create({ userId: acc._id, permissions, role: "company" }),
+            ...permissions,
         ]);
 
         res.status(200).json({
