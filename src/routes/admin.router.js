@@ -1,5 +1,9 @@
 import { adminController } from "../controllers";
-import { validateRequestBody, authMiddleware, roleMiddleware } from "../middlewares";
+import {
+    validateRequestBody,
+    authMiddleware,
+    roleMiddleware,
+} from "../middlewares";
 import { Router } from "express";
 const { jwtMidleware } = authMiddleware;
 const { checkPer } = roleMiddleware;
@@ -11,6 +15,7 @@ const {
     getPermissions,
     getUserPermission,
     updatePermission,
+    updateUserPermission,
 } = adminController;
 
 export const adminRouter = Router();
@@ -33,4 +38,6 @@ adminRouter
 
 adminRouter.route("/api/v1/permissions").put(jwtMidleware, updatePermission); //  UPDATE_PERMISSIONS
 
-adminRouter.route("/api/v1/user/:id/permissions").put(jwtMidleware, updatePermission); //  UPDATE_USER_PERMISSIONS
+adminRouter
+    .route("/api/v1/users/:id/permissions")
+    .put(jwtMidleware, updateUserPermission); //  UPDATE_USER_PERMISSIONS

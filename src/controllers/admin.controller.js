@@ -280,7 +280,10 @@ const getUserPermission = async (req, res, next) => {
         if (!mongo.Types.ObjectId.isValid(id)) {
             throw new HttpError("id is not found", 400);
         }
-        const permissions = await UserPer.findOne({ userId: id });
+        const permissions = await UserPer.find(
+            { userId: id },
+            { createdAt: 0, __v: 0, updatedAt: 0 }
+        );
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -330,7 +333,6 @@ const updatePermission = async (req, res, next) => {
         if (role != "moderator")
             usersRole = await Account.find({ role }, { password: 0 });
         else usersRole = await Admin.find({ role }, { password: 0 });
-        console.log("role ", usersRole);
         // no apply
         if (apply === false) {
             let addUserPers = [];
@@ -438,8 +440,20 @@ orExample Response (example):
  *     }
  */
 const updateUserPermission = async (req, res, next) => {
-    const { id } = req.params;
+    const { id } = req.params; // id user
+    const { permissions } = req.body;
     try {
+        const newPermission = permissions.map((e) => {
+            return UserPer.findOneAndUpdate(
+                { userId: id, _id: e._id, check: !e.check },
+                { check: e.check }
+            );
+        });
+        await Promise.all(newPermission);
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+        });
     } catch (error) {
         next(error);
     }
