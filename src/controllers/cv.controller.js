@@ -1,3 +1,4 @@
+import mongo from "mongoose";
 import { ITer, Cv, Company } from "../models";
 import { HttpError } from "../utils";
 
@@ -131,4 +132,60 @@ const cancelReceiveMail = async (req, res, next) => {
     }
 };
 
-export const cvController = { createCv, receiveMail, cancelReceiveMail };
+/**
+ * @api {get} /api/v1/cv/:id get a cv
+ * @apiName Get a cv
+ * @apiGroup Cv
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccess {Object} cv
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+ *         "cv": {
+                "skill": [
+                    "C++"
+                ],
+                "receiveMail": false,
+                "_id": "605a9e1afcedab20d405cc4c",
+                "iterId": "605a9df9fcedab20d405cc44",
+                "iterName": "nam le",
+                "personalSkill": "Good community",
+                "experience": "1 nam kn c++",
+                "description": "la mot nguoi tot",
+                "email": "it1@gmail.com"
+            }
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission"
+ *     }
+ */
+const getCv = async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        if (!mongo.Types.ObjectId.isValid(id)) {
+            throw new HttpError("id is invalid", 400);
+        }
+        const cv = await Cv.findById(
+            { _id: id },
+            { createdAt: 0, updatedAt: 0, __v: 0 }
+        );
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+            cv,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const cvController = { createCv, receiveMail, cancelReceiveMail, getCv };

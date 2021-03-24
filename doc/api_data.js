@@ -156,7 +156,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Response (example):",
-          "content": "HTTP/1.1 400\n{\n  \"status\" : 401,\n  \"msg\": \"No token, authorization denied\"\n}",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"No token, authorization denied\"\n}",
           "type": "json"
         }
       ]
@@ -236,7 +236,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Response (example):",
-          "content": "HTTP/1.1 400\n{\n  \"status\" : 401,\n  \"msg\": \"No token, authorization denied\"\n}",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"No token, authorization denied\"\n}",
           "type": "json"
         }
       ]
@@ -313,7 +313,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n        }\norExample Response (example):\n    HTTP/1.1 400\n    {\n      \"status\" : 401,\n      \"msg\": \"No token, authorization denied\"\n    }",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n        }\norExample Response (example):\n    HTTP/1.1 401\n    {\n      \"status\" : 401,\n      \"msg\": \"No token, authorization denied\"\n    }",
           "type": "json"
         }
       ]
@@ -383,7 +383,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n        }\norExample Response (example):\n    HTTP/1.1 400\n    {\n      \"status\" : 401,\n      \"msg\": \"No token, authorization denied\"\n    }",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n        }\norExample Response (example):\n    HTTP/1.1 401\n    {\n      \"status\" : 401,\n      \"msg\": \"No token, authorization denied\"\n    }",
           "type": "json"
         }
       ]
@@ -1150,6 +1150,79 @@ define({ "api": [
         {
           "title": "Success-Example",
           "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/cv.controller.js",
+    "groupTitle": "Cv"
+  },
+  {
+    "type": "get",
+    "url": "/api/v1/cv/:id",
+    "title": "get a cv",
+    "name": "Get_a_cv",
+    "group": "Cv",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code> if everything went fine.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "cv",
+            "description": ""
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"cv\": {\n            \"skill\": [\n                \"C++\"\n            ],\n            \"receiveMail\": false,\n            \"_id\": \"605a9e1afcedab20d405cc4c\",\n            \"iterId\": \"605a9df9fcedab20d405cc44\",\n            \"iterName\": \"nam le\",\n            \"personalSkill\": \"Good community\",\n            \"experience\": \"1 nam kn c++\",\n            \"description\": \"la mot nguoi tot\",\n            \"email\": \"it1@gmail.com\"\n        }\n}",
           "type": "json"
         }
       ]

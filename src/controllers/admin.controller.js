@@ -200,7 +200,7 @@ const createMod = async (req, res, next) => {
  *
  *     }
  * @apiErrorExample Response (example):
- *     HTTP/1.1 400
+ *     HTTP/1.1 401
  *     {
  *       "status" : 401,
  *       "msg": "No token, authorization denied"
@@ -268,7 +268,7 @@ const getPermissions = async (req, res, next) => {
  *
  *     }
  * @apiErrorExample Response (example):
- *     HTTP/1.1 400
+ *     HTTP/1.1 401
  *     {
  *       "status" : 401,
  *       "msg": "No token, authorization denied"
@@ -312,7 +312,7 @@ const getUserPermission = async (req, res, next) => {
  *         msg: "Success",
         }
 orExample Response (example):
- *     HTTP/1.1 400
+ *     HTTP/1.1 401
  *     {
  *       "status" : 401,
  *       "msg": "No token, authorization denied"
@@ -433,7 +433,7 @@ const updatePermission = async (req, res, next) => {
  *         msg: "Success",
         }
 orExample Response (example):
- *     HTTP/1.1 400
+ *     HTTP/1.1 401
  *     {
  *       "status" : 401,
  *       "msg": "No token, authorization denied"
