@@ -2,7 +2,7 @@ import { ITer, Cv, Company } from "../models";
 import { HttpError } from "../utils";
 
 /**
- * @api {get} /api/v1/iter/profile get profile
+ * @api {get} /api/v1/iters/profile get profile
  * @apiName get profile
  * @apiGroup Iter
  * @apiHeader {String} token The token can be generated from your user profile.
@@ -56,7 +56,7 @@ const getUserProfile = async (req, res, next) => {
 };
 
 /**
- * @api {post} /api/v1/company/profile update profile
+ * @api {post} /api/v1/iters/profile update profile
  * @apiName update profile
  * @apiGroup Iter
  * @apiHeader {String} token The token can be generated from your user profile.
@@ -92,7 +92,44 @@ const updateProfile = async (req, res, next) => {
     }
 };
 
+/**
+ * @api {get} /api/v1/iters get all iters
+ * @apiName get all iters
+ * @apiGroup Iter
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * @apiSuccess {Array} iters
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission update profile"
+ *     }
+ */
+const getIters = async (req, res, next) => {
+    try {
+        const iters = await ITer.find();
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+            iters,
+        });
+    } catch (error) {
+        next();
+    }
+};
+
 export const iterController = {
     getUserProfile,
     updateProfile,
+    getIters,
 };

@@ -851,7 +851,80 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/api/v1/company/profile",
+    "url": "/api/v1/companys",
+    "title": "get all company",
+    "name": "get_all_company",
+    "group": "Company",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "companys",
+            "description": ""
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/company.controller.js",
+    "groupTitle": "Company"
+  },
+  {
+    "type": "get",
+    "url": "/api/v1/companys/profile",
     "title": "get profile",
     "name": "get_profile",
     "group": "Company",
@@ -924,7 +997,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/api/v1/company/profile",
+    "url": "/api/v1/companys/profile",
     "title": "update profile",
     "name": "update_profile",
     "group": "Company",
@@ -992,7 +1065,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Response (example):",
-          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission update profile\"\n}",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
           "type": "json"
         }
       ]
@@ -1526,7 +1599,80 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/api/v1/iter/profile",
+    "url": "/api/v1/iters",
+    "title": "get all iters",
+    "name": "get_all_iters",
+    "group": "Iter",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "iters",
+            "description": ""
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission update profile\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/iter.controller.js",
+    "groupTitle": "Iter"
+  },
+  {
+    "type": "get",
+    "url": "/api/v1/iters/profile",
     "title": "get profile",
     "name": "get_profile",
     "group": "Iter",
@@ -1599,7 +1745,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/api/v1/company/profile",
+    "url": "/api/v1/iters/profile",
     "title": "update profile",
     "name": "update_profile",
     "group": "Iter",
