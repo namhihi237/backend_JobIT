@@ -10,8 +10,8 @@ admin,get get user permission,GET_USER_PERMISSIONS,1
 admin,update permission,UPDATE_PERMISSION,1
 admin,update user permission,UPDATE_USER_PERMISSION,1
 admin,get a cv,GET_CV,1
-admin,get all companys,GET_ALL_COMPANYS,1
-admin, get all iter,GET_ALL_ITERS,1
+admin,get users,GET_USERS,1
+admin, delete user,DELETE_USER,1
 company,view post,VIEW_POST,1   
 company,view all posts,VIEW_POSTS,1
 company,create post,CREATE_POST,1

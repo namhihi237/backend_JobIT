@@ -8,7 +8,7 @@ import {
 const { jwtMidleware } = authMiddleware;
 const { checkPer } = roleMiddleware;
 const { updateIterSchema } = validateRequestBody;
-const { getUserProfile, updateProfile, getIters } = iterController;
+const { getUserProfile, updateProfile, getIters, deleteIter } = iterController;
 
 export const iterRouter = Router();
 
@@ -18,7 +18,11 @@ iterRouter
 
 iterRouter
     .route("/api/v1/iters")
-    .get(jwtMidleware, checkPer("GET_ALL_ITERS"), getIters);
+    .get(jwtMidleware, checkPer("GET_USERS"), getIters); //GET_USERS
+
+iterRouter
+    .route("/api/v1/iters/:id")
+    .delete(jwtMidleware, checkPer("DELETE_USER"), deleteIter); //DELETE_USER
 
 iterRouter
     .route("/api/v1/iters/profile")

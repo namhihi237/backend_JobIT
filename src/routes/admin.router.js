@@ -16,6 +16,7 @@ const {
     getUserPermission,
     updatePermission,
     updateUserPermission,
+    getMods,
 } = adminController;
 
 export const adminRouter = Router();
@@ -36,8 +37,14 @@ adminRouter
     .route("/api/v1/users/:id/permissions")
     .get(jwtMidleware, checkPer("GET_USER_PERMISSIONS"), getUserPermission); //  GET_USER_PERMISSIONS
 
-adminRouter.route("/api/v1/permissions").put(jwtMidleware, updatePermission); //  UPDATE_PERMISSIONS
+adminRouter
+    .route("/api/v1/permissions")
+    .put(jwtMidleware, checkPer("UPDATE_PERMISSIONS"), updatePermission); //  UPDATE_PERMISSIONS
 
 adminRouter
     .route("/api/v1/users/:id/permissions")
     .put(jwtMidleware, updateUserPermission); //  UPDATE_USER_PERMISSIONS
+
+adminRouter
+    .route("/api/v1/moderators")
+    .get(jwtMidleware, checkPer("GET_USERS"), getMods); //  GET_USERS

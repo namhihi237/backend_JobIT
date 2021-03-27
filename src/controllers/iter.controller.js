@@ -1,4 +1,5 @@
-import { ITer, Cv, Company } from "../models";
+import mongo from "mongoose";
+import { ITer, Cv, Company, Account } from "../models";
 import { HttpError } from "../utils";
 
 /**
@@ -107,6 +108,22 @@ const updateProfile = async (req, res, next) => {
  *     {
  *         status: 200,
  *         msg: "Success",
+ *         "iters": [
+                {
+                    "_id": "605a9df9fcedab20d405cc4b",
+                    "fullName": "nam le",
+                    "accountId": "605a9df9fcedab20d405cc44",
+                    "email": "it1@gmail.com",
+                    "createdAt": "2021-03-24T02:03:37.303Z"
+                },
+                {
+                    "_id": "605a9f2baff8e42294ee9b36",
+                    "fullName": "nam le",
+                    "accountId": "605a9f2baff8e42294ee9b2e",
+                    "email": "it2@gmail.com",
+                    "createdAt": "2021-03-24T02:08:43.797Z"
+                }
+            ]
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 401
@@ -117,14 +134,61 @@ const updateProfile = async (req, res, next) => {
  */
 const getIters = async (req, res, next) => {
     try {
-        const iters = await ITer.find();
+        const iters = await ITer.find(
+            {},
+            { __v: 0, updatedAt: 0, receiveMailJob: 0 }
+        );
         res.status(200).json({
             status: 200,
             msg: "Success",
             iters,
         });
     } catch (error) {
-        next();
+        next(error);
+    }
+};
+
+/**
+ * @api {delete} /api/v1/iters/:id delete iter
+ * @apiName delete iter
+ * @apiGroup Iter
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission update profile"
+ *     }
+ */
+const deleteIter = async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        if (!mongo.Types.ObjectId.isValid(id))
+            throw new HttpError("Id incorrect", 401);
+        const iter = await ITer.findById({ _id: id });
+        console.log(iter);
+        if (!iter) throw new HttpError("User not found", 404);
+        await Promise.all([
+            ITer.findByIdAndDelete({ _id: id }),
+            Account.findByIdAndDelete({ _id: iter.accountId }),
+        ]);
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
     }
 };
 
@@ -132,4 +196,5 @@ export const iterController = {
     getUserProfile,
     updateProfile,
     getIters,
+    deleteIter,
 };

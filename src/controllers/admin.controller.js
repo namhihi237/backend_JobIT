@@ -439,6 +439,7 @@ orExample Response (example):
  *       "msg": "No token, authorization denied"
  *     }
  */
+
 const updateUserPermission = async (req, res, next) => {
     const { id } = req.params; // id user
     const { permissions } = req.body;
@@ -459,6 +460,57 @@ const updateUserPermission = async (req, res, next) => {
     }
 };
 
+/**
+ * @api {get} /api/v1/moderators get all moderators
+ * @apiName get all moderators
+ * @apiGroup Admin
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * * @apiSuccess {Array} mods <code>Success</code>
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+           "mods": [
+                {
+                    "_id": "6059bff02008520c0cbfb980",
+                    "userName": "mod2",
+                    "createdAt": "2021-03-23T10:16:16.974Z"
+                },
+                {
+                    "_id": "605a12b88191d91d28754860",
+                    "userName": "mod3",
+                    "createdAt": "2021-03-23T16:09:28.381Z"
+                }
+            ]
+        }
+orExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "No token, authorization denied"
+ *     }
+ */
+const getMods = async (req, res, next) => {
+    try {
+        const mods = await Admin.find(
+            { role: "moderator" },
+            { role: 0, password: 0, __v: 0, updatedAt: 0 }
+        );
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+            mods,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const adminController = {
     registerAdmin,
     createMod,
@@ -467,4 +519,5 @@ export const adminController = {
     getUserPermission,
     updatePermission,
     updateUserPermission,
+    getMods,
 };

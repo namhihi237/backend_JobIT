@@ -1,4 +1,5 @@
-import { ITer, Cv, Company } from "../models";
+import { ITer, Cv, Company, Account } from "../models";
+import mongo from "mongoose";
 import { HttpError } from "../utils";
 /**
  * @api {get} /api/v1/companys/profile get profile
@@ -116,12 +117,21 @@ const updateProfile = async (req, res, next) => {
  *     HTTP/1.1 401
  *     {
  *       "status" : 401,
- *       "msg": "Denny permission"
+ *       "msg": "Denny permission",
+         "companys": [
+                {
+                    "_id": "605f3a2f11c0693270c1f588",
+                    "companyName": "FPT",
+                    "accountId": "605f3a2f11c0693270c1f57d",
+                    "email": "com1@gmail.com",
+                    "createdAt": "2021-03-27T13:59:11.984Z"
+                }
+            ]
  *     }
  */
 const getCompanys = async (req, res, next) => {
     try {
-        const companys = await Company.find();
+        const companys = await Company.find({}, { __v: 0, updatedAt: 0 });
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -132,8 +142,53 @@ const getCompanys = async (req, res, next) => {
     }
 };
 
+/**
+ * @api {delete} /api/v1/companys/:id delete company
+ * @apiName delete company
+ * @apiGroup Iter
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission update profile"
+ *     }
+ */
+const deleteCompany = async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        if (!mongo.Types.ObjectId.isValid(id))
+            throw new HttpError("Id incorrect", 401);
+        const com = await Company.findById({ _id: id });
+        if (!com) throw new HttpError("User not found", 404);
+        console.log(com);
+        await Promise.all([
+            Company.findByIdAndDelete({ _id: id }),
+            Account.findByIdAndDelete({ _id: com.accountId }),
+        ]);
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+        });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
+
 export const companyController = {
     getProfile,
     updateProfile,
     getCompanys,
+    deleteCompany,
 };
