@@ -8,7 +8,7 @@ import {
 const { jwtMidleware } = authMiddleware;
 const { checkPer } = roleMiddleware;
 const { createCvSchema } = validateRequestBody;
-const { createCv, receiveMail, cancelReceiveMail, getCv } = cvController;
+const { createCv, receiveMail, getCv } = cvController;
 
 export const cvRouter = Router();
 
@@ -21,7 +21,3 @@ cvRouter.route("/api/v1/cv/:id").get(jwtMidleware, checkPer("GET_CV"), getCv);
 cvRouter
     .route("/api/v1/cv/receive-mail")
     .get(jwtMidleware, checkPer("RECEIVE_MAIL"), receiveMail);
-
-cvRouter
-    .route("/api/v1/cv/cancel-receive-mail")
-    .get(jwtMidleware, checkPer("CANCEL_RECEIVE_MAIL"), cancelReceiveMail);

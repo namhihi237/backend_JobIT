@@ -1,7 +1,7 @@
 define({ "api": [
   {
     "type": "post",
-    "url": "/api/v1/mod",
+    "url": "/api/v1/moderators",
     "title": "create acc mod",
     "name": "Create_mod",
     "group": "Admin",
@@ -162,7 +162,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/admin.controller.js",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/permission.controller.js",
     "groupTitle": "Admin"
   },
   {
@@ -237,6 +237,202 @@ define({ "api": [
         {
           "title": "Response (example):",
           "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"No token, authorization denied\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/permission.controller.js",
+    "groupTitle": "Admin"
+  },
+  {
+    "type": "post",
+    "url": "/api/v1/admin/login",
+    "title": "login admin, mod",
+    "name": "Login_mod_admin",
+    "group": "Admin",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "userName",
+            "description": "<p>username's  account</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>password's account</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code> if everything went fine.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n    role : \"moderator\"\n    token : \"xxx.xxx.xxx\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 400\n{\n  \"status\" : 400,\n  \"msg\": \"userName or password is incorrect\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/admin.controller.js",
+    "groupTitle": "Admin"
+  },
+  {
+    "type": "delete",
+    "url": "/api/v1/moderators/:id",
+    "title": "delete mod",
+    "name": "ddelete_mod",
+    "group": "Admin",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission update profile\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/admin.controller.js",
+    "groupTitle": "Admin"
+  },
+  {
+    "type": "get",
+    "url": "/api/v1/moderators",
+    "title": "get all moderators",
+    "name": "get_all_moderators",
+    "group": "Admin",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "mods",
+            "description": "<p><code>Success</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n           \"mods\": [\n                {\n                    \"_id\": \"6059bff02008520c0cbfb980\",\n                    \"userName\": \"mod2\",\n                    \"createdAt\": \"2021-03-23T10:16:16.974Z\"\n                },\n                {\n                    \"_id\": \"605a12b88191d91d28754860\",\n                    \"userName\": \"mod3\",\n                    \"createdAt\": \"2021-03-23T16:09:28.381Z\"\n                }\n            ]\n        }\norExample Response (example):\n    HTTP/1.1 401\n    {\n      \"status\" : 401,\n      \"msg\": \"No token, authorization denied\"\n    }",
           "type": "json"
         }
       ]
@@ -319,7 +515,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/admin.controller.js",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/permission.controller.js",
     "groupTitle": "Admin"
   },
   {
@@ -389,7 +585,7 @@ define({ "api": [
       ]
     },
     "version": "0.0.0",
-    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/admin.controller.js",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/permission.controller.js",
     "groupTitle": "Admin"
   },
   {
@@ -913,7 +1109,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Response (example):",
-          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\",\n     \"companys\": [\n            {\n                \"_id\": \"605f3a2f11c0693270c1f588\",\n                \"companyName\": \"FPT\",\n                \"accountId\": \"605f3a2f11c0693270c1f57d\",\n                \"email\": \"com1@gmail.com\",\n                \"createdAt\": \"2021-03-27T13:59:11.984Z\"\n            }\n        ]\n}",
           "type": "json"
         }
       ]
@@ -926,7 +1122,7 @@ define({ "api": [
     "type": "get",
     "url": "/api/v1/companys/profile",
     "title": "get profile",
-    "name": "get_profile",
+    "name": "get_company",
     "group": "Company",
     "header": {
       "fields": {
@@ -998,8 +1194,8 @@ define({ "api": [
   {
     "type": "post",
     "url": "/api/v1/companys/profile",
-    "title": "update profile",
-    "name": "update_profile",
+    "title": "update company",
+    "name": "update_company",
     "group": "Company",
     "header": {
       "fields": {
@@ -1073,72 +1269,6 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/company.controller.js",
     "groupTitle": "Company"
-  },
-  {
-    "type": "get",
-    "url": "/api/v1/cv/cancel-receive-mail",
-    "title": "cancel receive email",
-    "name": "Cancel_receive_email",
-    "group": "Cv",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "token",
-            "description": "<p>The token can be generated from your user profile.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example",
-          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
-          "type": "Header"
-        }
-      ]
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "status",
-            "description": "<p><code>200</code></p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p><code>Success</code> if everything went fine.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Register receive email\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "Response (example):",
-          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/cv.controller.js",
-    "groupTitle": "Cv"
   },
   {
     "type": "post",
@@ -1315,9 +1445,9 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/api/v1/cv/receive-mail",
-    "title": "register receive email",
-    "name": "Register_receive_email",
+    "url": "/api/v1/cv/receive-mail?receiv",
+    "title": "register/cancel receive email",
+    "name": "Register/cancel_receive_email",
     "group": "Cv",
     "header": {
       "fields": {
@@ -1598,6 +1728,138 @@ define({ "api": [
     "groupTitle": "Feedback"
   },
   {
+    "type": "delete",
+    "url": "/api/v1/companys/:id",
+    "title": "delete company",
+    "name": "delete_company",
+    "group": "Iter",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission update profile\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/company.controller.js",
+    "groupTitle": "Iter"
+  },
+  {
+    "type": "delete",
+    "url": "/api/v1/iters/:id",
+    "title": "delete iter",
+    "name": "delete_iter",
+    "group": "Iter",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission update profile\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/iter.controller.js",
+    "groupTitle": "Iter"
+  },
+  {
     "type": "get",
     "url": "/api/v1/iters",
     "title": "get all iters",
@@ -1652,7 +1914,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"iters\": [\n            {\n                \"_id\": \"605a9df9fcedab20d405cc4b\",\n                \"fullName\": \"nam le\",\n                \"accountId\": \"605a9df9fcedab20d405cc44\",\n                \"email\": \"it1@gmail.com\",\n                \"createdAt\": \"2021-03-24T02:03:37.303Z\"\n            },\n            {\n                \"_id\": \"605a9f2baff8e42294ee9b36\",\n                \"fullName\": \"nam le\",\n                \"accountId\": \"605a9f2baff8e42294ee9b2e\",\n                \"email\": \"it2@gmail.com\",\n                \"createdAt\": \"2021-03-24T02:08:43.797Z\"\n            }\n        ]\n}",
           "type": "json"
         }
       ]
@@ -1821,72 +2083,6 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/iter.controller.js",
     "groupTitle": "Iter"
-  },
-  {
-    "type": "post",
-    "url": "/api/v1/admin/login",
-    "title": "login admin, mod",
-    "name": "Login_mod_admin",
-    "group": "Mod",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "userName",
-            "description": "<p>username's  account</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "password",
-            "description": "<p>password's account</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "status",
-            "description": "<p><code>200</code></p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p><code>Success</code> if everything went fine.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n    role : \"moderator\"\n    token : \"xxx.xxx.xxx\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "Response (example):",
-          "content": "HTTP/1.1 400\n{\n  \"status\" : 400,\n  \"msg\": \"userName or password is incorrect\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/admin.controller.js",
-    "groupTitle": "Mod"
   },
   {
     "type": "patch",

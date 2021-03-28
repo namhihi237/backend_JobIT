@@ -3,7 +3,7 @@ import mongo from "mongoose";
 import { HttpError } from "../utils";
 /**
  * @api {get} /api/v1/companys/profile get profile
- * @apiName get profile
+ * @apiName get company
  * @apiGroup Company
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
@@ -31,6 +31,7 @@ import { HttpError } from "../utils";
  *       "msg": "Denny permission get profile"
  *     }
  */
+
 const getProfile = async (req, res, next) => {
     const { _id } = req.user;
     try {
@@ -61,8 +62,8 @@ const getProfile = async (req, res, next) => {
 };
 
 /**
- * @api {post} /api/v1/companys/profile update profile
- * @apiName update profile
+ * @api {post} /api/v1/companys/profile update company
+ * @apiName update company
  * @apiGroup Company
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
@@ -83,6 +84,7 @@ const getProfile = async (req, res, next) => {
  *       "msg": "Denny permission"
  *     }
  */
+
 const updateProfile = async (req, res, next) => {
     const { companyName } = req.user;
     const { _id } = req.user;
