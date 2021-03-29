@@ -1,4 +1,4 @@
-import { Company, Feedback, ITer } from "../models";
+import { Feedback } from "../models";
 
 /**
  * @api {get} /api/v1/feedbacks get all feedbacks
@@ -125,4 +125,8 @@ const deleteFeedback = async (req, res, next) => {
     }
 };
 
-export const feedbackController = { getFeedbacks, createFeedback, deleteFeedback };
+export const feedbackController = {
+    getFeedbacks,
+    createFeedback,
+    deleteFeedback,
+};

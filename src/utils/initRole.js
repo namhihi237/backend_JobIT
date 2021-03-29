@@ -1,4 +1,4 @@
-import { Role, Permission, Admin } from "../models";
+import { UserPer, Permission, Admin } from "../models";
 import bcrypt from "bcryptjs";
 export const initAccountAmin = async () => {
     try {
@@ -8,7 +8,7 @@ export const initAccountAmin = async () => {
             return;
         }
         const password = "123456";
-        const hash = bcrypt.hash(password, 12);
+        const hash = await bcrypt.hash(password, 12);
         admin = await Admin.create({
             userName: "admin",
             password: hash,

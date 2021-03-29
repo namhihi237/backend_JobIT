@@ -4,7 +4,6 @@ import { tokenEncode, verifyToken, HttpError } from "../utils";
 import { Account, Admin, Permission, UserPer } from "../models";
 import mongo from "mongoose";
 
-const { key_admin } = envVariables;
 /*
  * @private
  */

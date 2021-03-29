@@ -1,4 +1,4 @@
-import { Role, Permission, UserPer } from "../models";
+import { UserPer } from "../models";
 /* check role and permission of role*/
 export const checkRoleAndPer = async (userId, actionCode) => {
     try {
