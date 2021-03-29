@@ -2,7 +2,7 @@ import { HttpError } from "./httpError";
 import { validateRequest } from "./joiValidate";
 import { sendEmail, generate, sendMailJob } from "./sendMail";
 import { tokenEncode, verifyToken } from "./token";
-import { initialRole } from "./initRole";
+import { initAccountAmin } from "./initRole";
 import { checkRoleAndPer } from "./checkPermission";
 
 export {
@@ -11,8 +11,8 @@ export {
     sendEmail,
     tokenEncode,
     verifyToken,
-    initialRole,
     checkRoleAndPer,
     generate,
     sendMailJob,
+    initAccountAmin,
 };

@@ -1,49 +1,72 @@
 import { postController } from "../controllers";
-import { validateRequestBody, authMiddleware, roleMiddleware } from "../middlewares";
+import {
+    validateRequestBody,
+    authMiddleware,
+    roleMiddleware,
+} from "../middlewares";
 
 import { Router } from "express";
-
+import constant from "../constant";
+const { ACTION_CODE } = constant;
 const { jwtMidleware } = authMiddleware;
 const { checkPer } = roleMiddleware;
-const { createPostSchema } = validateRequestBody;
-const {
-    createPost,
-    getAcceptedPosts,
-    getPostsNeedAccept,
-    updatePost,
-    deletePost,
-    acceptPost,
-    getCompanyPost,
-    applyJob,
-    listApply,
-} = postController;
 
 export const postRouter = Router();
 
-postRouter.route("/api/v1/posts").get(getAcceptedPosts);
+postRouter.route("/api/v1/posts").get(postController.getAcceptedPosts);
 
 postRouter
     .route("/api/v1/posts/need-accept")
-    .get(jwtMidleware, checkPer("VIEW_POSTS_NEED_ACCEPT"), getPostsNeedAccept); // VIEW_POSTS_NEED_ACCEPT
+    .get(
+        jwtMidleware,
+        checkPer(ACTION_CODE.VIEW_POSTS_NEED_ACCEPT),
+        postController.getPostsNeedAccept
+    );
 
 postRouter
     .route("/api/v1/posts")
-    .post(jwtMidleware, checkPer("CREATE_POST"), createPostSchema, createPost); // CREATE_POST
+    .post(
+        jwtMidleware,
+        checkPer(ACTION_CODE.CREATE_POST),
+        validateRequestBody.createPostSchema,
+        postController.createPost
+    );
 
 postRouter
     .route("/api/v1/posts/:postId")
-    .put(jwtMidleware, checkPer("UPDATE_POST"), createPostSchema, updatePost); // UPDATE_POST
+    .put(
+        jwtMidleware,
+        checkPer(ACTION_CODE.UPDATE_POST),
+        validateRequestBody.createPostSchema,
+        postController.updatePost
+    );
 
-postRouter.route("/api/v1/posts/:postId").delete(jwtMidleware, checkPer("DELETE_POST"), deletePost); // DELETE_POST
+postRouter
+    .route("/api/v1/posts/:postId")
+    .delete(
+        jwtMidleware,
+        checkPer(ACTION_CODE.DELETE_POST),
+        postController.deletePost
+    );
 
 postRouter
     .route("/api/v1/posts/:postId/accept-post")
-    .patch(jwtMidleware, checkPer("ACCEPT_POST"), acceptPost); // ACCEPT_POST
+    .patch(
+        jwtMidleware,
+        checkPer(ACTION_CODE.ACCEPT_POST),
+        postController.acceptPost
+    );
 
 postRouter
     .route("/api/v1/posts/company")
-    .get(jwtMidleware, checkPer("GET_COMPANY_POST"), getCompanyPost); // GET_COMPANY_POST
+    .get(
+        jwtMidleware,
+        checkPer(ACTION_CODE.GET_COMPANY_POST),
+        postController.getCompanyPost
+    );
 
-postRouter.route("/api/v1/posts/:_id/apply").get(jwtMidleware, applyJob); // APPLY_JOB
+postRouter
+    .route("/api/v1/posts/:_id/apply")
+    .get(jwtMidleware, postController.applyJob);
 
-postRouter.route("/api/v1/posts/:_id/apply-list").get(listApply);
+postRouter.route("/api/v1/posts/:_id/apply-list").get(postController.listApply);

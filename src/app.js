@@ -14,7 +14,7 @@ import {
     permissionRouter,
 } from "./routes";
 
-import { initialRole } from "./utils";
+import { initAccountAmin } from "./utils";
 export let server;
 const main = async () => {
     server = new HttpServer(port);
@@ -33,6 +33,7 @@ const main = async () => {
     server.registerRouter(permissionRouter);
     // initial default role
     // initialRole();
+    initAccountAmin();
 
     server.registerMiddleware(errorHandle);
 };

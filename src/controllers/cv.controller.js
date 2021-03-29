@@ -53,7 +53,7 @@ const createCv = async (req, res, next) => {
 };
 
 /**
- * @api {get} /api/v1/cv/receive-mail?receiv register/cancel receive email
+ * @api {get} /api/v1/cv/receive-mail?receive register/cancel receive email
  * @apiName Register/cancel receive email
  * @apiGroup Cv
  * @apiHeader {String} token The token can be generated from your user profile.

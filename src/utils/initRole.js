@@ -1,15 +1,32 @@
-import { Role, Permission } from "../models";
-
-export const initialRole = () => {
-    Role.estimatedDocumentCount(async (err, count) => {
-        if (!err && count === 0) {
-            await Role.create({ roleName: "iter" });
-            await Role.create({ roleName: "company" });
-            await Role.create({ roleName: "admin" });
-            await Role.create({ roleName: "moderator" });
-            console.log("Add role ");
+import { Role, Permission, Admin } from "../models";
+import bcrypt from "bcryptjs";
+export const initAccountAmin = async () => {
+    try {
+        let admin = await Admin.findOne({ userName: "admin" });
+        if (admin) {
+            console.log("Account admin is already");
             return;
         }
-        console.log("Role already ");
-    });
+        const password = "123456";
+        const hash = bcrypt.hash(password, 12);
+        admin = await Admin.create({
+            userName: "admin",
+            password: hash,
+            role: "admin",
+        });
+        let permissions = await Permission.find({ role: "admin", check: true });
+        permissions = permissions.map((e) => {
+            return UserPer.create({
+                userId: admin._id,
+                perId: e._id,
+                perName: e.perName,
+                actionCode: e.actionCode,
+                check: true,
+            });
+        });
+        await Promise.all(permissions);
+        console.log("Account admin has been created.");
+    } catch (error) {
+        console.log(error);
+    }
 };

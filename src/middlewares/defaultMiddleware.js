@@ -11,12 +11,12 @@ const morgan = nodeEnv !== "production" && require("morgan");
 
 export const defaultMiddleware = (app) => {
     app.use(
-        bodyParser.urlencoded({
+        express.urlencoded({
             extended: true,
         })
     );
 
-    app.use(bodyParser.json());
+    app.use(express.json());
     app.use(express.json());
     app.use(
         helmet({

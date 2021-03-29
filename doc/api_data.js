@@ -1445,7 +1445,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/api/v1/cv/receive-mail?receiv",
+    "url": "/api/v1/cv/receive-mail?receive",
     "title": "register/cancel receive email",
     "name": "Register/cancel_receive_email",
     "group": "Cv",
