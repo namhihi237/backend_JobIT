@@ -21,12 +21,9 @@ cvRouter
         cvController.createCv
     );
 
-cvRouter.route("/api/v1/cv/user").get(
-    jwtMidleware,
-    checkPer(ACTION_CODE.GET_CV),
-
-    cvController.getCvByIter
-);
+cvRouter
+    .route("/api/v1/cv/user")
+    .get(jwtMidleware, checkPer(ACTION_CODE.GET_CV), cvController.getCvByIter);
 cvRouter
     .route("/api/v1/cv/:id")
     .get(jwtMidleware, checkPer(ACTION_CODE.GET_CV), cvController.getCv);

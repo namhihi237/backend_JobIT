@@ -185,10 +185,10 @@ const getCv = async (req, res, next) => {
  *     }
  */
 const getCvByIter = async (req, res, next) => {
-    const { id } = req.user;
+    const { _id } = req.user;
     try {
         const cv = await Cv.findById(
-            { iterId: id },
+            { iterId: _id },
             { createdAt: 0, updatedAt: 0, __v: 0 }
         );
         res.status(200).json({
