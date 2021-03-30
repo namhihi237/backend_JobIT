@@ -187,9 +187,6 @@ const getCv = async (req, res, next) => {
 const getCvByIter = async (req, res, next) => {
     const { id } = req.user;
     try {
-        if (!mongo.Types.ObjectId.isValid(id)) {
-            throw new HttpError("id is invalid", 400);
-        }
         const cv = await Cv.findById(
             { iterId: id },
             { createdAt: 0, updatedAt: 0, __v: 0 }
