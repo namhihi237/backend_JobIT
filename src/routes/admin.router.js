@@ -1,4 +1,4 @@
-import { adminController, authController } from "../controllers";
+import { adminController } from "../controllers";
 import {
     validateRequestBody,
     authMiddleware,
@@ -15,7 +15,7 @@ export const adminRouter = Router();
 
 adminRouter
     .route("/api/v1/admin/login")
-    .post(validateRequestBody.loginAdminSchema, authController.login);
+    .post(validateRequestBody.loginAdminSchema, adminController.login);
 
 adminRouter
     .route("/api/v1/moderators")
