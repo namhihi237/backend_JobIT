@@ -185,10 +185,12 @@ const getCv = async (req, res, next) => {
  *     }
  */
 const getCvByIter = async (req, res, next) => {
-    const { _id } = req.user;
+    const { _id } = req.user; //6062ad973bbee800153a7b78 6062ad973bbee800153a7b78
+    console.log(_id);
     try {
-        const cv = await Cv.findById(
-            { iterId: _id },
+        let id = mongo.Types.ObjectId(_id);
+        const cv = await Cv.findOne(
+            { iterId: id },
             { createdAt: 0, updatedAt: 0, __v: 0 }
         );
         res.status(200).json({
@@ -197,6 +199,7 @@ const getCvByIter = async (req, res, next) => {
             cv,
         });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
