@@ -1,9 +1,5 @@
 import { postController } from "../controllers";
-import {
-    validateRequestBody,
-    authMiddleware,
-    roleMiddleware,
-} from "../middlewares";
+import { validateRequestBody, authMiddleware, roleMiddleware } from "../middlewares";
 
 import { Router } from "express";
 import constant from "../constant";
@@ -43,30 +39,16 @@ postRouter
 
 postRouter
     .route("/api/v1/posts/:postId")
-    .delete(
-        jwtMidleware,
-        checkPer(ACTION_CODE.DELETE_POST),
-        postController.deletePost
-    );
+    .delete(jwtMidleware, checkPer(ACTION_CODE.DELETE_POST), postController.deletePost);
 
 postRouter
     .route("/api/v1/posts/:postId/accept-post")
-    .patch(
-        jwtMidleware,
-        checkPer(ACTION_CODE.ACCEPT_POST),
-        postController.acceptPost
-    );
+    .patch(jwtMidleware, checkPer(ACTION_CODE.ACCEPT_POST), postController.acceptPost);
 
 postRouter
     .route("/api/v1/posts/company")
-    .get(
-        jwtMidleware,
-        checkPer(ACTION_CODE.GET_COMPANY_POST),
-        postController.getCompanyPost
-    );
+    .get(jwtMidleware, checkPer(ACTION_CODE.GET_COMPANY_POST), postController.getCompanyPost);
 
-postRouter
-    .route("/api/v1/posts/:_id/apply")
-    .get(jwtMidleware, postController.applyJob);
+postRouter.route("/api/v1/posts/:_id/apply").get(jwtMidleware, postController.applyJob);
 
 postRouter.route("/api/v1/posts/:_id/apply-list").get(postController.listApply);

@@ -2,6 +2,9 @@ import mongo from "mongoose";
 import { Post, ITer, Company, Cv } from "../models";
 import { HttpError, sendMailJob } from "../utils";
 import { envVariables } from "../configs";
+import { PostService } from "../services";
+const postService = new PostService();
+
 const { url_fe } = envVariables;
 /**
  * @api {post} /api/v1/posts company create post
@@ -37,8 +40,7 @@ const createPost = async (req, res, next) => {
     try {
         const company = await Company.findOne({ accountId: _id });
         if (!company) throw new HttpError("Failed", 401);
-
-        await Post.create({
+        const data = {
             companyId: _id,
             companyName: company.companyName,
             skill,
@@ -47,12 +49,15 @@ const createPost = async (req, res, next) => {
             salary,
             endTime,
             description,
-        });
+        };
+        await postService.create(data);
+
         res.status(200).json({
             status: 200,
             msg: "Success",
         });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
@@ -93,11 +98,9 @@ const createPost = async (req, res, next) => {
  *     }
  */
 const getAcceptedPosts = async (req, res, next) => {
+    const { query } = req.query;
     try {
-        const posts = await Post.find(
-            { accept: true },
-            { __v: 0, active: 0, accept: 0, createdAt: 0, updatedAt: 0, apply: 0 }
-        );
+        const posts = await postService.getPosts(query, true);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -155,11 +158,9 @@ const getAcceptedPosts = async (req, res, next) => {
  *     }
  */
 const getPostsNeedAccept = async (req, res, next) => {
+    const { query } = req.query;
     try {
-        const posts = await Post.find(
-            { accept: false },
-            { __v: 0, active: 0, accept: 0, updatedAt: 0, apply: 0 }
-        );
+        const posts = await postService.getPosts(query, false);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -208,10 +209,8 @@ const updatePost = async (req, res, next) => {
         const postWithUser = await Post.findOne({ companyId: _id, _id: postId }, { __v: 1 });
         if (!postWithUser) throw new HttpError("Deny update!", 401);
 
-        await Post.findByIdAndUpdate(
-            { _id: postId },
-            { skill, position, address, salary, endTime, description }
-        );
+        const data = { skill, position, address, salary, endTime, description };
+        if (!(await postService.update(postId, data))) throw new HttpError("Post not found", 404);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -244,16 +243,10 @@ const updatePost = async (req, res, next) => {
  *     }
  */
 const deletePost = async (req, res, next) => {
-    const { _id, role } = req.user;
     const { postId } = req.params;
     try {
-        if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError("Not found post!", 400);
-
-        if (role != "admin" && role != "moderator") {
-            const postWithUser = await Post.findOne({ companyId: _id, _id: postId }, { __v: 1 });
-            if (!postWithUser) throw new HttpError("Deny delete post!", 401);
-        }
-        await Post.findByIdAndDelete({ _id: postId });
+        if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError("Post not found!", 404);
+        if (!(await postService.deletePost(postId))) throw new HttpError("Post not found!", 400);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -289,35 +282,9 @@ const deletePost = async (req, res, next) => {
 const acceptPost = async (req, res, next) => {
     const { postId } = req.params;
     try {
-        if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError("Not found post!", 400);
+        if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError("Post not found!", 400);
 
-        const accepted = await Post.findByIdAndUpdate({ _id: postId }, { accept: true });
-        if (!accepted) throw new HttpError("Not found post!", 400);
-
-        const skills = accepted.skill;
-        // console.log(skills);
-        const listCv = await Cv.find(
-            { skill: { $in: [...skills] }, receiveMail: true },
-            {
-                __v: 0,
-                createdAt: 0,
-                updatedAt: 0,
-                education: 0,
-                description: 0,
-                personalSkill: 0,
-                linkGit: 0,
-                experience: 0,
-                _id: 0,
-                receiveMail: 0,
-                iterId: 0,
-            }
-        );
-        // console.log(listCv);
-        const sendMailList = listCv.map((cv) => {
-            sendMailJob(cv.email, skills, `${url_fe}/job/${accepted._id}`);
-        });
-
-        await Promise.all(sendMailList);
+        if (!(await postService.acceptPost(postId))) throw new HttpError("Post not found!", 400);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -368,10 +335,7 @@ const acceptPost = async (req, res, next) => {
 const getCompanyPost = async (req, res, next) => {
     const { _id } = req.user;
     try {
-        const posts = await Post.find(
-            { companyId: _id },
-            { __v: 0, active: 0, createdAt: 0, updatedAt: 0, apply: 0 }
-        );
+        const posts = await postService.getCompanyPost(_id);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -402,12 +366,8 @@ const applyJob = async (req, res, next) => {
     const { _id } = req.params;
     const iterId = req.user._id;
     try {
-        const existIter = await Post.findOne({ _id, apply: { $elemMatch: { iterId } } });
-        if (existIter) throw new HttpError("you have already applied it before", 400);
-        const cv = await Cv.findOne({ iterId });
-        if (!cv) throw new HttpError("You have not a Cv", 400);
-        const cvId = cv._id;
-        await Post.findByIdAndUpdate({ _id }, { $push: { apply: { iterId, cvId } } });
+        if (!(await postService.acceptPost(_id, iterId)))
+            throw new HttpError("you have already applied it before", 400);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -438,8 +398,7 @@ const applyJob = async (req, res, next) => {
 const listApply = async (req, res, next) => {
     const { _id } = req.params;
     try {
-        const post = await Post.findById({ _id }, { comment: 0 });
-        const applies = post.apply;
+        const applies = await postService.listApply(_id);
         res.status(200).json({
             status: 200,
             msg: "Success",

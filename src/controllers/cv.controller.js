@@ -78,10 +78,7 @@ const receiveMail = async (req, res, next) => {
     const { receive } = req.query;
     const { _id } = req.user;
     try {
-        const cv = await Cv.findOneAndUpdate(
-            { iterId: _id },
-            { receiveMail: receive }
-        );
+        const cv = await Cv.findOneAndUpdate({ iterId: _id }, { receiveMail: receive });
         if (!cv) throw new HttpError("You are not have cv", 400);
         res.status(200).json({
             status: 200,
@@ -134,10 +131,7 @@ const getCv = async (req, res, next) => {
         if (!mongo.Types.ObjectId.isValid(id)) {
             throw new HttpError("id is invalid", 400);
         }
-        const cv = await Cv.findById(
-            { _id: id },
-            { createdAt: 0, updatedAt: 0, __v: 0 }
-        );
+        const cv = await Cv.findById({ _id: id }, { createdAt: 0, updatedAt: 0, __v: 0 });
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -186,13 +180,9 @@ const getCv = async (req, res, next) => {
  */
 const getCvByIter = async (req, res, next) => {
     const { _id } = req.user; //6062ad973bbee800153a7b78 6062ad973bbee800153a7b78
-    console.log(_id);
     try {
         let id = mongo.Types.ObjectId(_id);
-        const cv = await Cv.findOne(
-            { iterId: id },
-            { createdAt: 0, updatedAt: 0, __v: 0 }
-        );
+        const cv = await Cv.findOne({ iterId: id }, { createdAt: 0, updatedAt: 0, __v: 0 });
         res.status(200).json({
             status: 200,
             msg: "Success",

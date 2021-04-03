@@ -1,4 +1,3 @@
-import { defaults } from "joi";
 import { Schema, model } from "mongoose";
 
 const PostSchema = new Schema(
@@ -6,7 +5,7 @@ const PostSchema = new Schema(
         companyId: {
             type: Schema.Types.ObjectId,
             ref: "account",
-            required: true,
+            require: true,
         },
         companyName: {
             type: String,
@@ -62,3 +61,4 @@ const PostSchema = new Schema(
 );
 
 export const Post = model("post", PostSchema, "post");
+Post.createIndexes({ companyName: "text", description: "text", position: "text", skill: "text" });
