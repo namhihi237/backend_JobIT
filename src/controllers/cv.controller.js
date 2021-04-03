@@ -1,7 +1,8 @@
 import mongo from "mongoose";
-import { ITer, Cv, Company } from "../models";
 import { HttpError } from "../utils";
-
+import { CvService, IterService } from "../services";
+const cvService = new CvService();
+const iterService = new IterService();
 /**
  * @api {post} /api/v1/cv create cv
  * @apiName Create cv
@@ -32,9 +33,10 @@ const createCv = async (req, res, next) => {
     const { _id } = req.user;
     let { skill, personalSkill, experience, description } = req.body;
     try {
-        const user = await ITer.findOne({ accountId: _id });
+        const user = await iterService.getIter(_id);
+        if (!user) throw new HttpError("Iter not found", 400);
         const { email, fullName } = user;
-        await Cv.create({
+        const data = {
             iterId: _id,
             skill,
             iterName: fullName,
@@ -42,7 +44,8 @@ const createCv = async (req, res, next) => {
             experience,
             description,
             email,
-        });
+        };
+        await cvService.create(data);
         res.status(200).json({
             status: 200,
             msg: "Create new Cv success",
@@ -78,8 +81,7 @@ const receiveMail = async (req, res, next) => {
     const { receive } = req.query;
     const { _id } = req.user;
     try {
-        const cv = await Cv.findOneAndUpdate({ iterId: _id }, { receiveMail: receive });
-        if (!cv) throw new HttpError("You are not have cv", 400);
+        if (!(await cvService.reciveMail(_id, receive))) throw new HttpError("Iter not found", 400);
         res.status(200).json({
             status: 200,
             msg: "Register receive email ",
@@ -131,7 +133,7 @@ const getCv = async (req, res, next) => {
         if (!mongo.Types.ObjectId.isValid(id)) {
             throw new HttpError("id is invalid", 400);
         }
-        const cv = await Cv.findById({ _id: id }, { createdAt: 0, updatedAt: 0, __v: 0 });
+        const cv = await cvService.getCv(id);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -179,17 +181,15 @@ const getCv = async (req, res, next) => {
  *     }
  */
 const getCvByIter = async (req, res, next) => {
-    const { _id } = req.user; //6062ad973bbee800153a7b78 6062ad973bbee800153a7b78
+    const { _id } = req.user;
     try {
-        let id = mongo.Types.ObjectId(_id);
-        const cv = await Cv.findOne({ iterId: id }, { createdAt: 0, updatedAt: 0, __v: 0 });
+        const cv = await cvService.getCvByUser(_id);
         res.status(200).json({
             status: 200,
             msg: "Success",
             cv,
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };

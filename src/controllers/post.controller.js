@@ -1,11 +1,9 @@
 import mongo from "mongoose";
 import { Post, ITer, Company, Cv } from "../models";
-import { HttpError, sendMailJob } from "../utils";
-import { envVariables } from "../configs";
+import { HttpError } from "../utils";
 import { PostService } from "../services";
 const postService = new PostService();
 
-const { url_fe } = envVariables;
 /**
  * @api {post} /api/v1/posts company create post
  * @apiName Create post

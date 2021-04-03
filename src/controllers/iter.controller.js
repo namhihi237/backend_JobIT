@@ -1,7 +1,7 @@
 import mongo from "mongoose";
-import { ITer, Cv, Company, Account } from "../models";
 import { HttpError } from "../utils";
-
+import { IterService } from "../services";
+const iterService = new IterService();
 /**
  * @api {get} /api/v1/iters/profile get profile
  * @apiName get profile
@@ -33,19 +33,8 @@ import { HttpError } from "../utils";
 const getUserProfile = async (req, res, next) => {
     const { _id } = req.user;
     try {
-        const user = await ITer.findOne(
-            { accountId: _id },
-            {
-                __v: 0,
-                password: 0,
-                createdAt: 0,
-                updatedAt: 0,
-                receiveMailJob: 0,
-                role: 0,
-                roleId: 0,
-            }
-        );
-        if (!user) throw new HttpError("User not found", 400);
+        const user = await iterService.getIter(_id);
+        if (!user) throw new HttpError("Iter not found", 400);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -83,7 +72,8 @@ const updateProfile = async (req, res, next) => {
     const { fullName } = req.user;
     const { _id } = req.user;
     try {
-        await ITer.findOneAndUpdate({ accountId: _id }, { fullName });
+        const data = { fullName };
+        if (!(await iterService.update(_id, data))) throw new HttpError("Iter not found", 400);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -134,10 +124,7 @@ const updateProfile = async (req, res, next) => {
  */
 const getIters = async (req, res, next) => {
     try {
-        const iters = await ITer.find(
-            {},
-            { __v: 0, updatedAt: 0, receiveMailJob: 0 }
-        );
+        const iters = await iterService.getIters();
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -173,21 +160,13 @@ const getIters = async (req, res, next) => {
 const deleteIter = async (req, res, next) => {
     const { id } = req.params;
     try {
-        if (!mongo.Types.ObjectId.isValid(id))
-            throw new HttpError("Id incorrect", 401);
-        const iter = await ITer.findById({ _id: id });
-        console.log(iter);
-        if (!iter) throw new HttpError("User not found", 404);
-        await Promise.all([
-            ITer.findByIdAndDelete({ _id: id }),
-            Account.findByIdAndDelete({ _id: iter.accountId }),
-        ]);
+        if (!mongo.Types.ObjectId.isValid(id)) throw new HttpError("Id incorrect", 401);
+        if (!(await iterService.deleteIter(id))) throw new HttpError("Iter not found", 400);
         res.status(200).json({
             status: 200,
             msg: "Success",
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };
