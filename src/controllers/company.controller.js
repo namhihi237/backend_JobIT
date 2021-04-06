@@ -1,6 +1,7 @@
-import { ITer, Cv, Company, Account } from "../models";
 import mongo from "mongoose";
 import { HttpError } from "../utils";
+import { CompanyService } from "../services";
+const companyService = new CompanyService();
 /**
  * @api {get} /api/v1/companys/profile get profile
  * @apiName get company
@@ -25,31 +26,18 @@ import { HttpError } from "../utils";
             
  *     }
  * @apiErrorExample Response (example):
- *     HTTP/1.1 401
+ *     HTTP/1.1 400
  *     {
  *       "status" : 401,
- *       "msg": "Denny permission get profile"
+ *       "msg": "Company not found""
  *     }
  */
 
 const getProfile = async (req, res, next) => {
     const { _id } = req.user;
     try {
-        const user = await Company.findOne(
-            { accountId: _id },
-            {
-                __v: 0,
-                password: 0,
-                createdAt: 0,
-                updateAt: 0,
-                receiveMailJob: 0,
-                role: 0,
-                roleId: 0,
-                rate: 0,
-            }
-        );
-
-        if (!user) throw new HttpError("User not found", 400);
+        const user = await companyService.getCompany(_id);
+        if (!user) throw new HttpError("Company not found", 400);
 
         res.status(200).json({
             status: 200,
@@ -86,10 +74,12 @@ const getProfile = async (req, res, next) => {
  */
 
 const updateProfile = async (req, res, next) => {
-    const { companyName } = req.user;
+    const { companyName } = req.body;
     const { _id } = req.user;
     try {
-        await Company.findOneAndUpdate({ accountId: _id }, { companyName });
+        const data = { companyName };
+        if (!(await companyService.update(_id, data)))
+            throw new HttpError("Company not found", 400);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -133,7 +123,7 @@ const updateProfile = async (req, res, next) => {
  */
 const getCompanys = async (req, res, next) => {
     try {
-        const companys = await Company.find({}, { __v: 0, updatedAt: 0 });
+        const companys = await companyService.getCompanys();
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -169,21 +159,14 @@ const getCompanys = async (req, res, next) => {
 const deleteCompany = async (req, res, next) => {
     const { id } = req.params;
     try {
-        if (!mongo.Types.ObjectId.isValid(id))
-            throw new HttpError("Id incorrect", 401);
-        const com = await Company.findById({ _id: id });
-        if (!com) throw new HttpError("User not found", 404);
-        console.log(com);
-        await Promise.all([
-            Company.findByIdAndDelete({ _id: id }),
-            Account.findByIdAndDelete({ _id: com.accountId }),
-        ]);
+        if (!mongo.Types.ObjectId.isValid(id)) throw new HttpError("Id incorrect", 401);
+        if (!(await companyService.deleteCompany(id)))
+            throw new HttpError("Company not found", 400);
         res.status(200).json({
             status: 200,
             msg: "Success",
         });
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };

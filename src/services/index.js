@@ -1,3 +1,14 @@
 import PostService from "./post.service";
-
-export { PostService };
+import CompanyService from "./compay.service";
+import IterService from "./iter.service";
+import CvService from "./cv.service";
+import AuthThenticationService from "./auth.service";
+import PermissionService from "./permission.service";
+export {
+    PostService,
+    AuthThenticationService,
+    PermissionService,
+    CompanyService,
+    IterService,
+    CvService,
+};

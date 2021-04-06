@@ -1,6 +1,6 @@
-import { Account, Admin, Permission, UserPer } from "../models";
 import mongo from "mongoose";
-
+import { PermissionService } from "../services";
+const permissionService = new PermissionService();
 /**
  * @api {get} /api/v1/permissions get permissions
  * @apiName Get permissions
@@ -54,10 +54,7 @@ import mongo from "mongoose";
 const getPermissions = async (req, res, next) => {
     const role = req.query.role || "";
     try {
-        console.log(role);
-        let permissions;
-        if (!role) permissions = await Permission.find();
-        else permissions = await Permission.find({ role });
+        let permissions = permissionService.getPermissions(role);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -124,10 +121,7 @@ const getUserPermission = async (req, res, next) => {
         if (!mongo.Types.ObjectId.isValid(id)) {
             throw new HttpError("id is not found", 400);
         }
-        const permissions = await UserPer.find(
-            { userId: id },
-            { createdAt: 0, __v: 0, updatedAt: 0 }
-        );
+        const permissions = await permissionService.getUserPermission(id);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -165,91 +159,7 @@ orExample Response (example):
 const updatePermission = async (req, res, next) => {
     try {
         const { permissions, role, apply } = req.body;
-        let updatePer = permissions.map((e) => {
-            return Permission.findOneAndUpdate(
-                { _id: e._id, check: !e.check },
-                { check: e.check } // check thay doi state moi doi
-            );
-        });
-        const [...changed] = await Promise.all(updatePer);
-        // console.log(...changed);
-        let usersRole = [];
-        if (role != "moderator")
-            usersRole = await Account.find({ role }, { password: 0 });
-        else usersRole = await Admin.find({ role }, { password: 0 });
-        // no apply
-        if (apply === false) {
-            let addUserPers = [];
-            for (let item of changed) {
-                if (item) {
-                    if (item.check == false) {
-                        // flase => true
-                        // add permission
-                        let addUserPer = usersRole.map((e) => {
-                            return UserPer.create({
-                                userId: e._id,
-                                perId: item._id,
-                                perName: item.perName,
-                                actionCode: item.actionCode,
-                                check: false, // no apply
-                            });
-                        });
-                        addUserPers = [...addUserPers, ...addUserPer];
-                    } else {
-                        // remove permission
-                        // xoa user per neu false. true => false
-                        let userPerDels = await UserPer.find(
-                            {
-                                perId: item._id,
-                            },
-                            { _id: 1 }
-                        );
-                        // console.log(userPerDels);
-                        userPerDels = userPerDels.map((e) =>
-                            UserPer.findByIdAndDelete({ _id: e._id })
-                        );
-                        addUserPers = [...addUserPers, ...userPerDels];
-                    }
-                }
-            }
-            await Promise.all(addUserPers);
-        } else {
-            let addUserPers = [];
-            for (let item of changed) {
-                if (item) {
-                    if (item.check == false) {
-                        // flase => true
-                        // add permission
-                        let addUserPer = usersRole.map((e) => {
-                            return UserPer.create({
-                                userId: e._id,
-                                perId: item._id,
-                                perName: item.perName,
-                                actionCode: item.actionCode,
-                                check: true, // no apply
-                            });
-                        });
-                        addUserPers = [...addUserPers, ...addUserPer];
-                    } else {
-                        // remove permission
-                        // xoa user per neu false. true => false
-                        let userPerDels = await UserPer.find(
-                            {
-                                perId: item._id,
-                            },
-                            { _id: 1 }
-                        );
-                        // console.log(userPerDels);
-                        userPerDels = userPerDels.map((e) =>
-                            UserPer.findByIdAndDelete({ _id: e._id })
-                        );
-                        addUserPers = [...addUserPers, ...userPerDels];
-                    }
-                }
-            }
-            await Promise.all(addUserPers);
-        }
-
+        await permissionService.updatePermisson(permissions, role, apply);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -288,13 +198,7 @@ const updateUserPermission = async (req, res, next) => {
     const { id } = req.params; // id user
     const { permissions } = req.body;
     try {
-        const newPermission = permissions.map((e) => {
-            return UserPer.findOneAndUpdate(
-                { userId: id, _id: e._id, check: !e.check },
-                { check: e.check }
-            );
-        });
-        await Promise.all(newPermission);
+        await permissionService.updateUserPermisson(id, permissions);
         res.status(200).json({
             status: 200,
             msg: "Success",

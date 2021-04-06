@@ -1,7 +1,8 @@
 import { ITer, Company, Code, Account, UserPer, Permission } from "../models";
 import bcrypt from "bcryptjs";
 import { HttpError, tokenEncode, sendEmail, generate } from "../utils";
-
+import { AuthThenticationService } from "../services";
+const authService = new AuthThenticationService();
 /**
  * @api {post} /api/v1/auth/register-iter register iter
  * @apiName Register Iter
@@ -28,37 +29,18 @@ const registerIter = async (req, res, next) => {
     let { password, email, fullName } = req.body;
     email = email.toLowerCase();
     try {
-        const user = await Account.findOne({ email });
+        const user = await authService.getAccount({ email });
         if (user) {
-            throw new HttpError(
-                "The email has already been used by another account",
-                400
-            );
+            throw new HttpError("The email has already been used by another account", 400);
         }
-        const hash = await bcrypt.hash(password, 12);
-        if (!hash) {
-            throw new HttpError("Error, please try again", 400);
-        }
-        let acc = await Account.create({ email, password: hash, role: "iter" });
-        let permissions = await Permission.find({ role: "iter", check: true });
-        permissions = permissions.map((e) => {
-            return UserPer.create({
-                userId: acc._id,
-                perId: e._id,
-                perName: e.perName,
-                actionCode: e.actionCode,
-                check: true,
-            });
-        });
-        await Promise.all([
-            ITer.create({ fullName, accountId: acc._id, email }),
-            ...permissions,
-        ]);
+        const data = { email, password, fullName };
+        await authService.register(data, "iter");
         res.status(200).json({
             status: 200,
             msg: "Sign up success",
         });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
@@ -88,40 +70,12 @@ const registerCompany = async (req, res, next) => {
     let { password, email, companyName } = req.body;
     email = email.toLowerCase();
     try {
-        const user = await Account.findOne({ email });
+        const user = await authService.getAccount({ email });
         if (user) {
-            throw new HttpError(
-                "The email has already been used by another account",
-                400
-            );
+            throw new HttpError("The email has already been used by another account", 400);
         }
-        const hash = await bcrypt.hash(password, 12);
-        if (!hash) {
-            throw new HttpError("Error, please try again", 400);
-        }
-        let acc = await Account.create({
-            email,
-            password: hash,
-            role: "company",
-        });
-        let permissions = await Permission.find({
-            role: "company",
-            check: true,
-        });
-        permissions = permissions.map((e) => {
-            return UserPer.create({
-                userId: acc._id,
-                perId: e._id,
-                perName: e.perName,
-                actionCode: e.actionCode,
-                check: true,
-            });
-        });
-
-        await Promise.all([
-            Company.create({ companyName, accountId: acc._id, email }),
-            ...permissions,
-        ]);
+        const data = { email, password, companyName };
+        await authService.register(data, "company");
 
         res.status(200).json({
             status: 200,
@@ -158,7 +112,7 @@ const login = async (req, res, next) => {
     let { email, password } = req.body;
     email = email.toLowerCase();
     try {
-        const user = await Account.findOne({ email });
+        const user = await authService.getAccount({ email });
         if (!user) throw new HttpError("Email or password is incorrect", 400);
 
         const match = await bcrypt.compare(password, user.password);
@@ -208,16 +162,10 @@ const updatePassword = async (req, res, next) => {
     const { password, newPassword } = req.body;
     const { _id } = req.user;
     try {
-        let user = await Account.findOne({ _id });
+        let user = await authService.getAccount({ _id });
         if (!user) throw new HttpError("User not found", 400);
-
-        const match = await bcrypt.compare(password, user.password);
-        if (!match) throw new HttpError("password is incorrect", 400);
-
-        const hash = await bcrypt.hash(newPassword, 12);
-
-        await Account.findByIdAndUpdate({ _id }, { password: hash });
-
+        if (!(await authService.updatePassword(password, newPassword)))
+            throw new HttpError("password is incorrect", 400);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -252,8 +200,7 @@ const requestResetPassword = async (req, res, next) => {
     try {
         email = email.toLowerCase();
         const user = await Account.findOne({ email });
-        if (!user)
-            throw new HttpError("Email does not exist in the system", 400);
+        if (!user) throw new HttpError("Email does not exist in the system", 400);
         const code = generate();
         await sendEmail(code, email);
         await Promise.all([
@@ -262,8 +209,7 @@ const requestResetPassword = async (req, res, next) => {
         ]);
         res.status(200).json({
             status: 200,
-            msg:
-                "We sent code to your email, the code only lasts for 5 minutes",
+            msg: "We sent code to your email, the code only lasts for 5 minutes",
         });
     } catch (error) {
         next(error);
@@ -337,10 +283,7 @@ const changePasswordReset = async (req, res, next) => {
         if (!existCode) throw new HttpError("Fail", 400);
         const hash = await bcrypt.hash(password, 12);
         await Promise.all([
-            Account.findByIdAndUpdate(
-                { _id: existCode.accountId },
-                { password: hash }
-            ),
+            Account.findByIdAndUpdate({ _id: existCode.accountId }, { password: hash }),
             Code.findByIdAndDelete({ _id: existCode._id }),
         ]);
         res.status(200).json({

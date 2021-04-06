@@ -5,32 +5,42 @@ const { url_fe } = envVariables;
 
 export default class PostService {
     async create(data) {
-        await Post.create({
-            companyId: data.companyId,
-            companyName: data.companyName,
-            skill: data.skill,
-            position: data.position,
-            address: data.address,
-            salary: data.salary,
-            endTime: data.endTime,
-            description: data.description,
-        });
+        await Post.create(data);
     }
 
-    async getPosts(query, type) {
+    async getPosts(query, type, page = 0, take = 10) {
         let posts = [];
+        page = isNaN(page) ? 1 : page - 0;
+        take = isNaN(take) ? 10 : take - 0;
+        console.log(page, take);
+        let count = await Post.countDocuments({ accept: type });
+        let numPages = Math.ceil(count / take);
+
+        if (page > numPages) page = numPages;
+        page = page <= 0 ? 1 : page;
+
+        const skip = (page - 1) * take;
         if (!query) {
             posts = await Post.find(
                 { accept: type },
                 { __v: 0, active: 0, accept: 0, createdAt: 0, updatedAt: 0, apply: 0 }
-            );
+            )
+                .skip(skip)
+                .limit(take);
         } else {
             posts = await Post.find(
                 { $text: { $search: `${query}` }, accept: type },
                 { __v: 0, active: 0, accept: 0, createdAt: 0, updatedAt: 0, apply: 0 }
-            );
+            )
+                .skip(skip)
+                .limit(take);
         }
-        return posts;
+
+        return {
+            currentPage: page,
+            numPages,
+            posts,
+        };
     }
 
     async getPost(arg) {
