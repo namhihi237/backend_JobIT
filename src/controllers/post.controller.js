@@ -72,6 +72,8 @@ const createPost = async (req, res, next) => {
  *     {
  *         status: 200,
  *         msg: "Success",
+         "currentPage": 2,
+            "numPages": 2,
  *        posts : [
  *          {
  *           "skill": [
@@ -96,9 +98,9 @@ const createPost = async (req, res, next) => {
  *     }
  */
 const getAcceptedPosts = async (req, res, next) => {
-    const { query } = req.query;
+    const { query, page, take } = req.query;
     try {
-        const posts = await postService.getPosts(query, true);
+        const posts = await postService.getPosts(query, true, page, take);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -123,8 +125,10 @@ const getAcceptedPosts = async (req, res, next) => {
  * @apiSuccessExample {json} Success-Example
  *     HTTP/1.1 200 OK
  *     {
- *         status: 200,
- *         msg: "Success",
+ *        status: 200,
+ *        msg: "Success",
+        "currentPage": 2,
+        "numPages": 2,
  *        posts : [
  *          {
  *           "skill": [
@@ -156,13 +160,13 @@ const getAcceptedPosts = async (req, res, next) => {
  *     }
  */
 const getPostsNeedAccept = async (req, res, next) => {
-    const { query } = req.query;
+    const { query, take, page } = req.query;
     try {
-        const posts = await postService.getPosts(query, false);
+        const data = await postService.getPosts(query, false, page, take);
         res.status(200).json({
             status: 200,
             msg: "Success",
-            posts,
+            ...data,
         });
     } catch (error) {
         next(error);

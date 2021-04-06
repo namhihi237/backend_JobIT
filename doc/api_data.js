@@ -1182,7 +1182,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Response (example):",
-          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission get profile\"\n}",
+          "content": "HTTP/1.1 400\n{\n  \"status\" : 401,\n  \"msg\": \"Company not found\"\"\n}",
           "type": "json"
         }
       ]
@@ -2609,7 +2609,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n   posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"position\": [\n          \"inter\",\n          \"fresher\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"companyName\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n       },\n     ......\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n     \"currentPage\": 2,\n        \"numPages\": 2,\n   posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"position\": [\n          \"inter\",\n          \"fresher\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"companyName\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n       },\n     ......\n    ]\n}",
           "type": "json"
         }
       ]
@@ -2737,7 +2737,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n   posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"position\": [\n          \"inter\",\n          \"fresher\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"companyName\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n        \"createdAt\": \"2021-02-05T09:41:09.446Z\"\n       },\n     ....\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   status: 200,\n   msg: \"Success\",\n    \"currentPage\": 2,\n    \"numPages\": 2,\n   posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"position\": [\n          \"inter\",\n          \"fresher\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"companyName\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n        \"createdAt\": \"2021-02-05T09:41:09.446Z\"\n       },\n     ....\n    ]\n}",
           "type": "json"
         }
       ]
