@@ -11,9 +11,9 @@ export const envVariables = {
     pass: process.env.PASSWORD || "letrungnam23799@",
     text: process.env.TEXT || "Code reset password: ",
     subject: process.env.SUBJECT || "[CODE RESET :]",
-    cloudName: process.env.CLOUD_NAME,
-    api_key_cloud: process.env.API_KEY_CLOUD,
-    api_secret_cloud: process.env.API_SECRET_CLOUD,
+    cloud_name: process.env.CLOUD_NAME || "do-an-cnpm",
+    api_key: process.env.API_KEY_CLOUD || "484176915684615",
+    api_secret: process.env.API_SECRET_CLOUD || "hpWWOxyc-cm_Egs5bqRF4UzPJf8",
     key_admin: "123qwe!@#",
     url_fe: "http://localhost/",
 };

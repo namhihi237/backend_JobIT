@@ -4,7 +4,7 @@ import { sendEmail, generate, sendMailJob } from "./sendMail";
 import { tokenEncode, verifyToken } from "./token";
 import { initAccountAmin } from "./initRole";
 import { checkRoleAndPer } from "./checkPermission";
-
+import { signFileUploadRequest } from "./cloudinary";
 export {
     HttpError,
     validateRequest,
@@ -15,4 +15,5 @@ export {
     generate,
     sendMailJob,
     initAccountAmin,
+    signFileUploadRequest,
 };

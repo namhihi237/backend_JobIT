@@ -6,7 +6,7 @@ import { iterController } from "./iter.controller";
 import { companyController } from "./company.controller";
 import { cvController } from "./cv.controller";
 import { permissionController } from "./permission.controller";
-
+import { imageController } from "./image.controller";
 export {
     authController,
     adminController,
@@ -16,4 +16,5 @@ export {
     companyController,
     cvController,
     permissionController,
+    imageController,
 };

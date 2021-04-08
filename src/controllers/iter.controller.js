@@ -1,6 +1,7 @@
 import mongo from "mongoose";
-import { HttpError } from "../utils";
+import { HttpError, signFileUploadRequest } from "../utils";
 import { IterService } from "../services";
+import { ITer } from "../models";
 const iterService = new IterService();
 /**
  * @api {get} /api/v1/iters/profile get profile
