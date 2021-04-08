@@ -104,7 +104,7 @@ const getAcceptedPosts = async (req, res, next) => {
         res.status(200).json({
             status: 200,
             msg: "Success",
-            posts,
+            data: posts,
         });
     } catch (error) {
         console.log(error);
@@ -127,9 +127,10 @@ const getAcceptedPosts = async (req, res, next) => {
  *     {
  *        status: 200,
  *        msg: "Success",
-        "currentPage": 2,
-        "numPages": 2,
- *        posts : [
+        data : {
+            "currentPage": 2,
+            "numPages": 2,
+ *          posts : [
  *          {
  *           "skill": [
  *               "java",
@@ -151,6 +152,7 @@ const getAcceptedPosts = async (req, res, next) => {
  *            },
  *          ....
  *         ]
+        }
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 401
