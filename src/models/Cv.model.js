@@ -19,6 +19,9 @@ const CvSchema = new Schema(
         personalSkill: {
             type: String,
         },
+        birthday: {
+            type: String,
+        },
         experience: { type: String },
         description: {
             type: String,

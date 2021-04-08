@@ -1,6 +1,7 @@
 import mongo from "mongoose";
 import { HttpError } from "../utils";
 import { CvService, IterService } from "../services";
+import { Cv } from "../models";
 const cvService = new CvService();
 const iterService = new IterService();
 /**
@@ -31,8 +32,10 @@ const iterService = new IterService();
  */
 const createCv = async (req, res, next) => {
     const { _id } = req.user;
-    let { skill, personalSkill, experience, description } = req.body;
+    let { skill, personalSkill, experience, description, birthday } = req.body;
     try {
+        const cvExist = await Cv.findOne({ iterId: _id });
+        if (cvExist) throw new HttpError("You had a cv", 400);
         const user = await iterService.getIter(_id);
         if (!user) throw new HttpError("Iter not found", 400);
         const { email, fullName } = user;
@@ -44,6 +47,7 @@ const createCv = async (req, res, next) => {
             experience,
             description,
             email,
+            birthday,
         };
         await cvService.create(data);
         res.status(200).json({
@@ -193,4 +197,41 @@ const getCvByIter = async (req, res, next) => {
         next(error);
     }
 };
-export const cvController = { createCv, receiveMail, getCv, getCvByIter };
+
+/**
+ * @api {delete} /api/v1/cv delete a cv by iterId
+ * @apiName delete a cv by iterId
+ * @apiGroup Cv
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission"
+ *     }
+ */
+const deleteCv = async (req, res, next) => {
+    const { _id } = req.user;
+    try {
+        if (!(await cvService.getCvByUser(_id))) throw new HttpError("Cv not found ", 400);
+        await cvService.deleteCv(_id);
+        res.status(200).json({
+            status: 200,
+            msg: "Success",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const cvController = { createCv, receiveMail, getCv, getCvByIter, deleteCv };

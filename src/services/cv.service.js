@@ -19,4 +19,8 @@ export default class CvService {
         const cv = await Cv.findOne({ iterId }, { createdAt: 0, updatedAt: 0, __v: 0 });
         return cv;
     }
+
+    async deleteCv(userId) {
+        await Cv.findOneAndDelete({ iterId });
+    }
 }

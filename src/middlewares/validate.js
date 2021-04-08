@@ -44,12 +44,7 @@ const loginSchema = (req, res, next) => {
 const updatePassSchema = (req, res, next) => {
     const schema = Joi.object({
         password: Joi.string().alphanum().min(6).max(50).empty("").required(),
-        newPassword: Joi.string()
-            .alphanum()
-            .min(6)
-            .max(50)
-            .empty("")
-            .required(),
+        newPassword: Joi.string().alphanum().min(6).max(50).empty("").required(),
     });
     validateRequest(req, next, schema);
 };
@@ -125,6 +120,7 @@ const createCvSchema = (req, res, next) => {
         personalSkill: Joi.string().required(),
         experience: Joi.string().required(),
         description: Joi.string().required(),
+        birthday: Joi.string(),
     });
     validateRequest(req, next, schema);
 };
