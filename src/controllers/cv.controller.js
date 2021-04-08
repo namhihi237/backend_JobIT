@@ -38,7 +38,7 @@ const createCv = async (req, res, next) => {
         if (cvExist) throw new HttpError("You had a cv", 400);
         const user = await iterService.getIter(_id);
         if (!user) throw new HttpError("Iter not found", 400);
-        const { email, fullName } = user;
+        const { email, fullName, image } = user;
         const data = {
             iterId: _id,
             skill,
@@ -48,6 +48,7 @@ const createCv = async (req, res, next) => {
             description,
             email,
             birthday,
+            image,
         };
         await cvService.create(data);
         res.status(200).json({
