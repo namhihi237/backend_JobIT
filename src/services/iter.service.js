@@ -1,5 +1,5 @@
 import { ITer, Account } from "../models";
-
+import { pagination } from "../utils";
 export default class IterService {
     async getIter(id) {
         const iter = await ITer.findOne(
@@ -21,9 +21,9 @@ export default class IterService {
         return true;
     }
 
-    async getIters() {
-        const iters = await ITer.find({}, { __v: 0, updatedAt: 0, receiveMailJob: 0 });
-        return iters;
+    async getIters(page, take) {
+        let data = await pagination(ITer, page, take);
+        return data;
     }
 
     async deleteIter(_id) {

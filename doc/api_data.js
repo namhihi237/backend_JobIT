@@ -432,7 +432,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n           \"mods\": [\n                {\n                    \"_id\": \"6059bff02008520c0cbfb980\",\n                    \"userName\": \"mod2\",\n                    \"createdAt\": \"2021-03-23T10:16:16.974Z\"\n                },\n                {\n                    \"_id\": \"605a12b88191d91d28754860\",\n                    \"userName\": \"mod3\",\n                    \"createdAt\": \"2021-03-23T16:09:28.381Z\"\n                }\n            ]\n        }\norExample Response (example):\n    HTTP/1.1 401\n    {\n      \"status\" : 401,\n      \"msg\": \"No token, authorization denied\"\n    }",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n           \"data\": {\n                \"page\": 1,\n                \"numPages\": 2,\n                \"result\": [\n                    {\n                        \"_id\": \"605b34cfd16e2c00151b1f05\",\n                        \"userName\": \"admin\",\n                        \"createdAt\": \"2021-03-24T12:47:11.141Z\"\n                    },\n                    {\n                        \"_id\": \"60650f786f6c98001512685e\",\n                        \"userName\": \"moderator1\",\n                        \"createdAt\": \"2021-04-01T00:10:32.452Z\"\n                    },\n                    {\n                        \"_id\": \"6065133f6f6c980015126864\",\n                        \"userName\": \"moderator2\",\n                        \"createdAt\": \"2021-04-01T00:26:39.324Z\"\n                    },\n                ]\n            }\n        }\norExample Response (example):\n    HTTP/1.1 401\n    {\n      \"status\" : 401,\n      \"msg\": \"No token, authorization denied\"\n    }",
           "type": "json"
         }
       ]
@@ -1071,6 +1071,13 @@ define({ "api": [
         }
       ]
     },
+    "examples": [
+      {
+        "title": "Curl example",
+        "content": "curl -H \"Authorization: token 5f048fe\" -i https://api.example.com/api/v1/companys?page=2&take=3",
+        "type": "bash"
+      }
+    ],
     "success": {
       "fields": {
         "Success 200": [
@@ -1090,9 +1097,9 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "Array",
+            "type": "Object",
             "optional": false,
-            "field": "companys",
+            "field": "data",
             "description": ""
           }
         ]
@@ -1109,7 +1116,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Response (example):",
-          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\",\n     \"companys\": [\n            {\n                \"_id\": \"605f3a2f11c0693270c1f588\",\n                \"companyName\": \"FPT\",\n                \"accountId\": \"605f3a2f11c0693270c1f57d\",\n                \"email\": \"com1@gmail.com\",\n                \"createdAt\": \"2021-03-27T13:59:11.984Z\"\n            }\n        ]\n}",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\",\n     \"data\": {\n        \"page\": 1,\n        \"numPages\": 1,\n        \"result\": [\n            {\n                \"_id\": \"606491e8831e840015befef9\",\n                \"companyName\": \"Madison Technology \",\n                \"accountId\": \"606491e7831e840015befeee\",\n                \"email\": \"com1@gmail.com\",\n                \"createdAt\": \"2021-03-31T15:14:48.629Z\",\n            }\n        ]\n}",
           "type": "json"
         }
       ]
@@ -2183,6 +2190,13 @@ define({ "api": [
         }
       ]
     },
+    "examples": [
+      {
+        "title": "Curl example",
+        "content": "curl -H \"Authorization: token 5f048fe\" -i https://api.example.com/api/v1/iters?page=2&take=3",
+        "type": "bash"
+      }
+    ],
     "success": {
       "fields": {
         "Success 200": [
@@ -2202,9 +2216,9 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "Array",
+            "type": "Object",
             "optional": false,
-            "field": "iters",
+            "field": "data",
             "description": ""
           }
         ]
@@ -2212,7 +2226,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"iters\": [\n            {\n                \"_id\": \"605a9df9fcedab20d405cc4b\",\n                \"fullName\": \"nam le\",\n                \"accountId\": \"605a9df9fcedab20d405cc44\",\n                \"email\": \"it1@gmail.com\",\n                \"createdAt\": \"2021-03-24T02:03:37.303Z\"\n            },\n            {\n                \"_id\": \"605a9f2baff8e42294ee9b36\",\n                \"fullName\": \"nam le\",\n                \"accountId\": \"605a9f2baff8e42294ee9b2e\",\n                \"email\": \"it2@gmail.com\",\n                \"createdAt\": \"2021-03-24T02:08:43.797Z\"\n            }\n        ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"data\": {\n            \"page\": 1,\n            \"numPages\": 1,\n            \"result\": [\n                {\n                    \"receiveMailJob\": false,\n                    \"_id\": \"605af5b86bad1f00159d773f\",\n                    \"fullName\": \"thang\",\n                    \"accountId\": \"605af5b76bad1f00159d7738\",\n                    \"email\": \"thang@gmail.com\",\n                    \"createdAt\": \"2021-03-24T08:18:00.272Z\",\n                    \"image\": \"https://res.cloudinary.com/do-an-cnpm/image/upload/v1617869793/ajdi4nvzeiasleeplveo.jpg\"\n                },\n                {\n                    \"receiveMailJob\": false,\n                    \"_id\": \"6062ad983bbee800153a7b80\",\n                    \"fullName\": \"nam le\",\n                    \"accountId\": \"6062ad973bbee800153a7b78\",\n                    \"email\": \"it@gmail.com\",\n                    \"createdAt\": \"2021-03-30T04:48:24.125Z\",\n                    \"image\": \"https://res.cloudinary.com/do-an-cnpm/image/upload/v1617869793/ajdi4nvzeiasleeplveo.jpg\"\n                },\n            ]\n}",
           "type": "json"
         }
       ]
@@ -2962,7 +2976,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n   status: 200,\n   msg: \"Success\",\n    \"currentPage\": 2,\n    \"numPages\": 2,\n   posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"position\": [\n          \"inter\",\n          \"fresher\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"companyName\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n        \"createdAt\": \"2021-02-05T09:41:09.446Z\"\n       },\n     ....\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   status: 200,\n   msg: \"Success\",\n    data : {\n        \"currentPage\": 2,\n        \"numPages\": 2,\n     posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"position\": [\n          \"inter\",\n          \"fresher\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"companyName\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n        \"createdAt\": \"2021-02-05T09:41:09.446Z\"\n       },\n     ....\n    ]\n    }\n}",
           "type": "json"
         }
       ]

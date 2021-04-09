@@ -96,9 +96,14 @@ const updateProfile = async (req, res, next) => {
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiQuery {Number} page Number of page
+ * @apiQuery {Number} take The number of records per page
+ *
+ * @apiExample {bash} Curl example
+ * curl -H "Authorization: token 5f048fe" -i https://api.example.com/api/v1/companys?page=2&take=3
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code>
- * @apiSuccess {Array} companys
+ * @apiSuccess {Object} data
  * @apiSuccessExample {json} Success-Example
  *     HTTP/1.1 200 OK
  *     {
@@ -110,24 +115,29 @@ const updateProfile = async (req, res, next) => {
  *     {
  *       "status" : 401,
  *       "msg": "Denny permission",
-         "companys": [
+         "data": {
+            "page": 1,
+            "numPages": 1,
+            "result": [
                 {
-                    "_id": "605f3a2f11c0693270c1f588",
-                    "companyName": "FPT",
-                    "accountId": "605f3a2f11c0693270c1f57d",
+                    "_id": "606491e8831e840015befef9",
+                    "companyName": "Madison Technology ",
+                    "accountId": "606491e7831e840015befeee",
                     "email": "com1@gmail.com",
-                    "createdAt": "2021-03-27T13:59:11.984Z"
+                    "createdAt": "2021-03-31T15:14:48.629Z",
                 }
             ]
- *     }
+    }
  */
 const getCompanys = async (req, res, next) => {
+    const { take, page } = req.query;
+
     try {
-        const companys = await companyService.getCompanys();
+        const data = await companyService.getCompanys(page, take);
         res.status(200).json({
             status: 200,
             msg: "Success",
-            companys,
+            data,
         });
     } catch (error) {
         next(error);

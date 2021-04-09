@@ -1,9 +1,5 @@
 import { adminController } from "../controllers";
-import {
-    validateRequestBody,
-    authMiddleware,
-    roleMiddleware,
-} from "../middlewares";
+import { validateRequestBody, authMiddleware, roleMiddleware } from "../middlewares";
 import constant from "../constant";
 const { ACTION_CODE } = constant;
 
@@ -17,6 +13,7 @@ adminRouter
     .route("/api/v1/admin/login")
     .post(validateRequestBody.loginAdminSchema, adminController.login);
 
+adminRouter.route("/api/v1/admin/register").post(adminController.registerAdmin);
 adminRouter
     .route("/api/v1/moderators")
     .post(
@@ -28,16 +25,8 @@ adminRouter
 
 adminRouter
     .route("/api/v1/moderators")
-    .delete(
-        jwtMidleware,
-        checkPer(ACTION_CODE.DELETE_USER),
-        adminController.deleteMod
-    ); //  DELETE_USER
+    .delete(jwtMidleware, checkPer(ACTION_CODE.DELETE_USER), adminController.deleteMod); //  DELETE_USER
 
 adminRouter
     .route("/api/v1/moderators")
-    .get(
-        jwtMidleware,
-        checkPer(ACTION_CODE.GET_USERS),
-        adminController.getMods
-    ); //  GET_USERS
+    .get(jwtMidleware, checkPer(ACTION_CODE.GET_USERS), adminController.getMods); //  GET_USERS

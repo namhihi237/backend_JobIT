@@ -12,7 +12,6 @@ export default class PostService {
         let posts = [];
         page = isNaN(page) ? 1 : page - 0;
         take = isNaN(take) ? 10 : take - 0;
-        console.log(page, take);
         let count = await Post.countDocuments({ accept: type });
         let numPages = Math.ceil(count / take);
 

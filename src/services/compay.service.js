@@ -1,5 +1,5 @@
 import { Company, Account } from "../models";
-
+import { pagination } from "../utils";
 export default class CompayService {
     async getCompany(_id) {
         const company = await Company.findOne(
@@ -22,9 +22,9 @@ export default class CompayService {
         return true;
     }
 
-    async getCompanys() {
-        const companys = await Company.find({}, { __v: 0, updatedAt: 0 });
-        return companys;
+    async getCompanys(page, take) {
+        let data = await pagination(Company, page, take);
+        return data;
     }
 
     async deleteCompany(_id) {

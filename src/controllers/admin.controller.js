@@ -1,6 +1,6 @@
 import { envVariables } from "../configs";
 import bcrypt from "bcryptjs";
-import { tokenEncode, verifyToken, HttpError } from "../utils";
+import { tokenEncode, pagination, HttpError } from "../utils";
 import { Account, Admin, Permission, UserPer } from "../models";
 import mongo from "mongoose";
 
@@ -9,10 +9,9 @@ import mongo from "mongoose";
  */
 const registerAdmin = async (req, res, next) => {
     const { userName, password, keyAdmin } = req.body;
-    if (keyAdmin != key_admin) throw new HttpError("Failed", 400);
+    if (keyAdmin != "1234") throw new HttpError("Failed", 400);
 
-    if (!userName || !password)
-        throw new HttpError("userName or password is empty", 400);
+    if (!userName || !password) throw new HttpError("userName or password is empty", 400);
 
     const hash = await bcrypt.hash(password, 12);
     if (!hash) throw new HttpError("hash password failed", 400);
@@ -72,11 +71,9 @@ const login = async (req, res, next) => {
     const { userName, password } = req.body;
     try {
         const account = await Admin.findOne({ userName });
-        if (!account)
-            throw new HttpError("userName or password is incorrect", 400);
+        if (!account) throw new HttpError("userName or password is incorrect", 400);
         const match = await bcrypt.compare(password, account.password);
-        if (!match)
-            throw new HttpError("userName or password is incorrect", 400);
+        if (!match) throw new HttpError("userName or password is incorrect", 400);
         const data = {
             userName,
             _id: account._id,
@@ -171,18 +168,27 @@ const createMod = async (req, res, next) => {
  *     {
  *         status: 200,
  *         msg: "Success",
-           "mods": [
-                {
-                    "_id": "6059bff02008520c0cbfb980",
-                    "userName": "mod2",
-                    "createdAt": "2021-03-23T10:16:16.974Z"
-                },
-                {
-                    "_id": "605a12b88191d91d28754860",
-                    "userName": "mod3",
-                    "createdAt": "2021-03-23T16:09:28.381Z"
-                }
-            ]
+           "data": {
+                "page": 1,
+                "numPages": 2,
+                "result": [
+                    {
+                        "_id": "605b34cfd16e2c00151b1f05",
+                        "userName": "admin",
+                        "createdAt": "2021-03-24T12:47:11.141Z"
+                    },
+                    {
+                        "_id": "60650f786f6c98001512685e",
+                        "userName": "moderator1",
+                        "createdAt": "2021-04-01T00:10:32.452Z"
+                    },
+                    {
+                        "_id": "6065133f6f6c980015126864",
+                        "userName": "moderator2",
+                        "createdAt": "2021-04-01T00:26:39.324Z"
+                    },
+                ]
+            }
         }
 orExample Response (example):
  *     HTTP/1.1 401
@@ -192,15 +198,13 @@ orExample Response (example):
  *     }
  */
 const getMods = async (req, res, next) => {
+    const { page, take } = req.query;
     try {
-        const mods = await Admin.find(
-            { role: "moderator" },
-            { role: 0, password: 0, __v: 0, updatedAt: 0 }
-        );
+        let data = await pagination(Admin, page, take, { password: 0, role: 0 });
         res.status(200).json({
             status: 200,
             msg: "Success",
-            mods,
+            data,
         });
     } catch (error) {
         next(error);
@@ -232,12 +236,10 @@ const getMods = async (req, res, next) => {
 const deleteMod = async (req, res, next) => {
     const { id } = req.params;
     try {
-        if (!mongo.Types.ObjectId.isValid(id))
-            throw new HttpError("id is incorrect", 400);
+        if (!mongo.Types.ObjectId.isValid(id)) throw new HttpError("id is incorrect", 400);
         const mod = await Admin.findById({ _id: id });
         if (!mod) throw new HttpError("mod not found", 404);
-        if (mod.role == "admin")
-            throw new HttpError("Cant delete admin account", 401);
+        if (mod.role == "admin") throw new HttpError("Cant delete admin account", 401);
         await Admin.findByIdAndDelete({ _id: id });
         res.status(200).json({
             status: 200,

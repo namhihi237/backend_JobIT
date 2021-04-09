@@ -5,6 +5,7 @@ import { tokenEncode, verifyToken } from "./token";
 import { initAccountAmin } from "./initRole";
 import { checkRoleAndPer } from "./checkPermission";
 import { signFileUploadRequest } from "./cloudinary";
+import { pagination } from "./pagination";
 export {
     HttpError,
     validateRequest,
@@ -16,4 +17,5 @@ export {
     sendMailJob,
     initAccountAmin,
     signFileUploadRequest,
+    pagination,
 };

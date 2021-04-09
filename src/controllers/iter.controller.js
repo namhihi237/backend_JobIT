@@ -91,30 +91,42 @@ const updateProfile = async (req, res, next) => {
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiQuery {Number} page Number of page
+ * @apiQuery {Number} take The number of records per page
+ *
+ * @apiExample {bash} Curl example
+ * curl -H "Authorization: token 5f048fe" -i https://api.example.com/api/v1/iters?page=2&take=3
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code>
- * @apiSuccess {Array} iters
+ * @apiSuccess {Object} data
  * @apiSuccessExample {json} Success-Example
  *     HTTP/1.1 200 OK
  *     {
  *         status: 200,
  *         msg: "Success",
- *         "iters": [
-                {
-                    "_id": "605a9df9fcedab20d405cc4b",
-                    "fullName": "nam le",
-                    "accountId": "605a9df9fcedab20d405cc44",
-                    "email": "it1@gmail.com",
-                    "createdAt": "2021-03-24T02:03:37.303Z"
-                },
-                {
-                    "_id": "605a9f2baff8e42294ee9b36",
-                    "fullName": "nam le",
-                    "accountId": "605a9f2baff8e42294ee9b2e",
-                    "email": "it2@gmail.com",
-                    "createdAt": "2021-03-24T02:08:43.797Z"
-                }
-            ]
+ *         "data": {
+                "page": 1,
+                "numPages": 1,
+                "result": [
+                    {
+                        "receiveMailJob": false,
+                        "_id": "605af5b86bad1f00159d773f",
+                        "fullName": "thang",
+                        "accountId": "605af5b76bad1f00159d7738",
+                        "email": "thang@gmail.com",
+                        "createdAt": "2021-03-24T08:18:00.272Z",
+                        "image": "https://res.cloudinary.com/do-an-cnpm/image/upload/v1617869793/ajdi4nvzeiasleeplveo.jpg"
+                    },
+                    {
+                        "receiveMailJob": false,
+                        "_id": "6062ad983bbee800153a7b80",
+                        "fullName": "nam le",
+                        "accountId": "6062ad973bbee800153a7b78",
+                        "email": "it@gmail.com",
+                        "createdAt": "2021-03-30T04:48:24.125Z",
+                        "image": "https://res.cloudinary.com/do-an-cnpm/image/upload/v1617869793/ajdi4nvzeiasleeplveo.jpg"
+                    },
+                ]
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 401
@@ -124,14 +136,16 @@ const updateProfile = async (req, res, next) => {
  *     }
  */
 const getIters = async (req, res, next) => {
+    const { page, take } = req.query;
     try {
-        const iters = await iterService.getIters();
+        const data = await iterService.getIters(page, take);
         res.status(200).json({
             status: 200,
             msg: "Success",
-            iters,
+            data,
         });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
