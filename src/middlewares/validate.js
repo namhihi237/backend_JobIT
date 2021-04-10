@@ -121,6 +121,7 @@ const createCvSchema = (req, res, next) => {
         experience: Joi.string().required(),
         description: Joi.string().required(),
         birthday: Joi.string(),
+        image: Joi.string(),
     });
     validateRequest(req, next, schema);
 };
