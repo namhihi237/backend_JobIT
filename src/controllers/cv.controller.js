@@ -33,13 +33,13 @@ const iterService = new IterService();
  */
 const createCv = async (req, res, next) => {
     const { _id } = req.user;
-    let { skill, personalSkill, experience, description, birthday } = req.body;
+    let { skill, personalSkill, experience, description, birthday, image } = req.body;
     try {
         const cvExist = await Cv.findOne({ iterId: _id });
         if (cvExist) throw new HttpError("You had a cv", 400);
         const user = await iterService.getIter(_id);
         if (!user) throw new HttpError("Iter not found", 400);
-        const { email, fullName, image } = user;
+        const { email, fullName } = user;
         const data = {
             iterId: _id,
             skill,
