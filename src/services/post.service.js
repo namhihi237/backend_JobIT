@@ -101,7 +101,11 @@ export default class PostService {
         const cv = await Cv.findOne({ iterId });
         if (!cv) return false;
         const cvId = cv._id;
-        const post = await Post.findByIdAndUpdate({ _id }, { $push: { apply: { iterId, cvId } } });
+        const iter = await ITer.findOne({ accountId: iterId });
+        await Post.findByIdAndUpdate(
+            { _id },
+            { $push: { apply: { fullName: iter.fullName, email: iter.email, iterId, cvId } } }
+        );
         return true;
     }
 
