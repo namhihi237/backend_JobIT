@@ -1,4 +1,3 @@
-import bodyParser from "body-parser";
 import helmet from "helmet";
 import cors from "cors";
 import path from "path";

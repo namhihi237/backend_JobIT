@@ -14,7 +14,7 @@ const CompanySchema = new Schema(
         email: {
             type: String,
         },
-        logo: {
+        image: {
             type: String,
         },
         rate: {
