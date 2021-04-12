@@ -39,6 +39,8 @@ const PostSchema = new Schema(
                     type: Schema.Types.ObjectId,
                     ref: "cv",
                 },
+                fullName: { type: String },
+                email: { type: String },
             },
         ],
         endTime: {
