@@ -370,7 +370,7 @@ const applyJob = async (req, res, next) => {
     const { _id } = req.params;
     const iterId = req.user._id;
     try {
-        if (!(await postService.acceptPost(_id, iterId)))
+        if (!(await postService.applyPost(_id, iterId)))
             throw new HttpError("you have already applied it before", 400);
         res.status(200).json({
             status: 200,

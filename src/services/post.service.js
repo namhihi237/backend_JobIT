@@ -96,15 +96,12 @@ export default class PostService {
     }
 
     async applyPost(_id, iterId) {
-        console.log(_id, iterId);
         const existIter = await Post.findOne({ _id, apply: { $elemMatch: { iterId } } });
-        console.log(existIter);
         if (existIter) return false;
         const cv = await Cv.findOne({ iterId });
         if (!cv) return false;
         const cvId = cv._id;
         const post = await Post.findByIdAndUpdate({ _id }, { $push: { apply: { iterId, cvId } } });
-        console.log(post);
         return true;
     }
 
