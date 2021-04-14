@@ -24,7 +24,7 @@ adminRouter
     ); //  CREATE_MOD
 
 adminRouter
-    .route("/api/v1/moderators")
+    .route("/api/v1/moderators/:id")
     .delete(jwtMidleware, checkPer(ACTION_CODE.DELETE_USER), adminController.deleteMod); //  DELETE_USER
 
 adminRouter
