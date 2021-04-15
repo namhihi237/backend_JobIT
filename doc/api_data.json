@@ -114,7 +114,7 @@
     "examples": [
       {
         "title": "Curl example",
-        "content": "curl -X GET -H \"Authorization: token 5f048fe\" -i https://api.example.com/api/v1/admin/permissions?role=iter",
+        "content": "curl -X GET -H \"Authorization: token 5f048fe\" -i https://api.example.com/api/v1/permissions?role=iter",
         "type": "bash"
       }
     ],
@@ -483,6 +483,13 @@
             "optional": false,
             "field": "role",
             "description": "<p>name's role</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Boolean",
+            "optional": false,
+            "field": "apply",
+            "description": ""
           }
         ]
       }

@@ -141,6 +141,7 @@ const getUserPermission = async (req, res, next) => {
  *     "Authorization: Bearer AAA.BBB.CCC"
  * @apiParam {array} permissions permissions's role
  * @apiParam {string} role name's role
+ * @apiParam {Boolean} apply 
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code>
  * @apiSuccessExample {json} Success-Example
