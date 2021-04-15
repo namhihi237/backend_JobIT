@@ -3,6 +3,8 @@ import { Account, Admin, Permission, UserPer } from "../models";
 export default class PermissionService {
     async getPermissions(role) {
         let permissions = [];
+        console.log(role);
+
         if (!role) permissions = await Permission.find();
         else permissions = await Permission.find({ role });
         return permissions;

@@ -9,7 +9,7 @@ const permissionService = new PermissionService();
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
  * @apiExample {bash} Curl example
- * curl -X GET -H "Authorization: token 5f048fe" -i https://api.example.com/api/v1/admin/permissions?role=iter
+ * curl -X GET -H "Authorization: token 5f048fe" -i https://api.example.com/api/v1/permissions?role=iter
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Create mod success</code>
  * @apiSuccess {Array} permissions
@@ -54,7 +54,7 @@ const permissionService = new PermissionService();
 const getPermissions = async (req, res, next) => {
     const role = req.query.role || "";
     try {
-        let permissions = permissionService.getPermissions(role);
+        let permissions = await permissionService.getPermissions(role);
         res.status(200).json({
             status: 200,
             msg: "Success",
