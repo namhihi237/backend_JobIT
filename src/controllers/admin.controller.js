@@ -233,6 +233,7 @@ const getMods = async (req, res, next) => {
  *       "msg": "Denny permission update profile"
  *     }
  */
+
 const deleteMod = async (req, res, next) => {
     const { id } = req.params;
     try {
@@ -240,7 +241,10 @@ const deleteMod = async (req, res, next) => {
         const mod = await Admin.findById({ _id: id });
         if (!mod) throw new HttpError("mod not found", 404);
         if (mod.role == "admin") throw new HttpError("Cant delete admin account", 401);
-        await Admin.findByIdAndDelete({ _id: id });
+        const userPers = await UserPer.find({ userId: company.accountId });
+        const deleteUserPers = userPers.map((e) => UserPer.findByIdAndDelete({ _id: e._id }));
+        await Promise.all([Admin.findByIdAndDelete({ _id: id }), ...deleteUserPers]);
+
         res.status(200).json({
             status: 200,
             msg: "Success",

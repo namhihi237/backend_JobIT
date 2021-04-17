@@ -1,4 +1,4 @@
-import { ITer, Account } from "../models";
+import { ITer, Account, UserPer } from "../models";
 import { pagination } from "../utils";
 export default class IterService {
     async getIter(id) {
@@ -29,10 +29,12 @@ export default class IterService {
     async deleteIter(_id) {
         const iter = await this.getIter(_id);
         if (!iter) return false;
-
+        const userPers = await UserPer.find({ userId: company.accountId });
+        const deleteUserPers = userPers.map((e) => UserPer.findByIdAndDelete({ _id: e._id }));
         await Promise.all([
             ITer.findByIdAndDelete({ _id }),
             Account.findByIdAndDelete({ _id: iter.accountId }),
+            ...deleteUserPers,
         ]);
         return true;
     }

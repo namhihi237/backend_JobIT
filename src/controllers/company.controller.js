@@ -145,9 +145,9 @@ const getCompanys = async (req, res, next) => {
 };
 
 /**
- * @api {delete} /api/v1/companys/:id delete company
+ * @api {delete} /api/v1/companies/:id delete company
  * @apiName delete company
- * @apiGroup Iter
+ * @apiGroup Company
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"

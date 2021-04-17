@@ -172,7 +172,7 @@ const updatePermission = async (req, res, next) => {
 };
 
 /**
- * @api {put} /api/v1/user/:id/permissions update user permissions 
+ * @api {put} /api/v1/users/:id/permissions update user permissions 
  * @apiName update user permissions 
  * @apiGroup Admin
  * @apiHeader {String} token The token can be generated from your user profile.
@@ -205,6 +205,7 @@ const updateUserPermission = async (req, res, next) => {
             msg: "Success",
         });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
