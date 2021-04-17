@@ -14,6 +14,19 @@ export default class IterService {
         );
         return iter;
     }
+    async getIterByIt(_id) {
+        const iter = await ITer.findOne(
+            { _id },
+            {
+                __v: 0,
+                createdAt: 0,
+                updatedAt: 0,
+                role: 0,
+                roleId: 0,
+            }
+        );
+        return iter;
+    }
 
     async update(_id, data) {
         if (!(await this.getIter(_id))) return false;
@@ -27,7 +40,7 @@ export default class IterService {
     }
 
     async deleteIter(_id) {
-        const iter = await this.getIter(_id);
+        const iter = await this.getIterByIt(_id);
         if (!iter) return false;
         const userPers = await UserPer.find({ userId: company.accountId });
         const deleteUserPers = userPers.map((e) => UserPer.findByIdAndDelete({ _id: e._id }));
