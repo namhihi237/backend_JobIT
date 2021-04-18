@@ -42,7 +42,7 @@ export default class IterService {
     async deleteIter(_id) {
         const iter = await this.getIterByIt(_id);
         if (!iter) return false;
-        const userPers = await UserPer.find({ userId: company.accountId });
+        const userPers = await UserPer.find({ userId: iter.accountId });
         const deleteUserPers = userPers.map((e) => UserPer.findByIdAndDelete({ _id: e._id }));
         await Promise.all([
             ITer.findByIdAndDelete({ _id }),
