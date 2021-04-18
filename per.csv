@@ -1,36 +1,27 @@
 role,perName,actionCode,check
-admin,create account mod,CREATE_MOD,1
-admin,get all post need accept,VIEW_POSTS_NEED_ACCEPT,1
-admin,accept post,ACCEPT_POST,1
-admin,delete post,DELETE_POST,1
-admin,get all feedbacks,VIEW_FEEDBACKS,1
-admin,get feedback,DELETE_FEEDBACK,1
-admin,get permission,GET_PERMISSIONS,1
-admin,get get user permission,GET_USER_PERMISSIONS,1
-admin,update permission,UPDATE_PERMISSION,1
-admin,update user permission,UPDATE_USER_PERMISSION,1
-admin,get a cv,GET_CV,1
-admin,get users,GET_USERS,1
-admin, delete user,DELETE_USER,1
-company,view post,VIEW_POST,1   
-company,view all posts,VIEW_POSTS,1
-company,create post,CREATE_POST,1
-company,get company post,GET_COMPANY_POST,1
-company,delete post,DELETE_POST,1
-company,update post,UPDATE_POST,1
-company,create feedback,CREATE_FEEDBACK,1
-company,get profile,VIEW_PROFILE,1
-company,update profile,UPDATE_PROFILE,1
-company,get a cv,GET_CV,1
-iter,get profile,VIEW_PROFILE,1
-iter,update profile,UPDATE_PROFILE,1
-iter,create new cv,CREATE_CV,1
-iter,register receive email job,RECEIVE_MAIL,1
-iter,cancel receive email job,CANCEL_RECEIVE_MAIL,1
-iter, apply job,APPLY_JOB,1
-iter,get a cv,GET_CV,1
-moderator,accept post,ACCEPT_POST,1
-moderator,delete post,DELETE_POST,1
-moderator,get all feedbacks,VIEW_FEEDBACKS,1
-moderator,get feedback,DELETE_FEEDBACK,1
-moderator,get a cv,GET_CV,1
+admin,Create account moderator,CREATE_MOD,1
+admin,Get all Posts need accept,VIEW_POSTS_NEED_ACCEPT,1
+admin,Accept a post,ACCEPT_POST,1
+admin,Delete a  post,DELETE_POST,1
+admin,Get all feedbacks,VIEW_FEEDBACKS,1
+admin,Delete a feedback,DELETE_FEEDBACK,1
+admin,Get all permission,GET_PERMISSIONS,1
+admin,Get user permission,GET_USER_PERMISSIONS,1
+admin,Update permission,UPDATE_PERMISSION,1
+admin,Update user permission,UPDATE_USER_PERMISSION,1
+admin,Get all users,GET_USERS,1
+admin,Delete user,DELETE_USER,1
+company,View post,VIEW_POST,1   
+company,View all posts,VIEW_POSTS,1
+company,Create a post,CREATE_POST,1
+company,Get company post,GET_COMPANY_POST,1
+company,Felete post,DELETE_POST,1
+company,Update post,UPDATE_POST,1
+company,Create a feedback,CREATE_FEEDBACK
+iter,Create new cv,CREATE_CV,1
+iter,Register receive email job,RECEIVE_MAIL,1
+iter, Apply job,APPLY_JOB,1
+moderator,Accept post,ACCEPT_POST,1
+moderator,Delete post,DELETE_POST,1
+moderator,Delete a feedback,DELETE_FEEDBACK,1
+moderator,feedbacks,VIEW_FEEDBACKS,1

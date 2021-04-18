@@ -8,9 +8,7 @@ const { checkPer } = roleMiddleware;
 
 export const iterRouter = Router();
 
-iterRouter
-    .route("/api/v1/iters/profile")
-    .get(jwtMidleware, checkPer(ACTION_CODE.VIEW_PROFILE), iterController.getUserProfile);
+iterRouter.route("/api/v1/iters/profile").get(jwtMidleware, iterController.getUserProfile);
 
 iterRouter
     .route("/api/v1/iters")
@@ -22,9 +20,4 @@ iterRouter
 
 iterRouter
     .route("/api/v1/iters/profile")
-    .post(
-        jwtMidleware,
-        checkPer(ACTION_CODE.UPDATE_PROFILE),
-        validateRequestBody.updateIterSchema,
-        iterController.updateProfile
-    );
+    .post(jwtMidleware, validateRequestBody.updateIterSchema, iterController.updateProfile);
