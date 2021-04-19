@@ -9,9 +9,7 @@ const { updateCompanySchema } = validateRequestBody;
 
 export const companyRouter = Router();
 
-companyRouter
-    .route("/api/v1/companies/profile")
-    .get(jwtMidleware, checkPer(ACTION_CODE.VIEW_PROFILE), companyController.getProfile); // VIEW_PROFILE
+companyRouter.route("/api/v1/companies/profile").get(jwtMidleware, companyController.getProfile); // VIEW_PROFILE
 
 companyRouter
     .route("/api/v1/companies/:id")
@@ -19,12 +17,7 @@ companyRouter
 
 companyRouter
     .route("/api/v1/companies/profile")
-    .post(
-        jwtMidleware,
-        checkPer(ACTION_CODE.UPDATE_PROFILE),
-        updateCompanySchema,
-        companyController.updateProfile
-    ); //UPDATE_PROFILE
+    .post(jwtMidleware, updateCompanySchema, companyController.updateProfile); //UPDATE_PROFILE
 
 companyRouter
     .route("/api/v1/companies")

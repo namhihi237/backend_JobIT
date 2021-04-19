@@ -3,7 +3,7 @@ import { HttpError } from "../utils";
 import { CompanyService } from "../services";
 const companyService = new CompanyService();
 /**
- * @api {get} /api/v1/companys/profile get profile
+ * @api {get} /api/v1/companies/profile get profile
  * @apiName get company
  * @apiGroup Company
  * @apiHeader {String} token The token can be generated from your user profile.
@@ -50,7 +50,7 @@ const getProfile = async (req, res, next) => {
 };
 
 /**
- * @api {post} /api/v1/companys/profile update company
+ * @api {post} /api/v1/companies/profile update company
  * @apiName update company
  * @apiGroup Company
  * @apiHeader {String} token The token can be generated from your user profile.
@@ -90,7 +90,7 @@ const updateProfile = async (req, res, next) => {
 };
 
 /**
- * @api {get} /api/v1/companys get all company
+ * @api {get} /api/v1/companies get all company
  * @apiName get all company
  * @apiGroup Company
  * @apiHeader {String} token The token can be generated from your user profile.

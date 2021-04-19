@@ -2,6 +2,9 @@ import { Post, ITer, Company, Cv } from "../models";
 import { sendMailJob } from "../utils";
 import { envVariables } from "../configs";
 const { url_fe } = envVariables;
+import queue from "queue";
+
+let q = queue({ results: [] });
 
 export default class PostService {
     async create(data) {
@@ -83,7 +86,17 @@ export default class PostService {
         const sendMailList = listCv.map((cv) => {
             sendMailJob(cv.email, skills, `${url_fe}/job/${accepted._id}`);
         });
-        await Promise.all(sendMailList);
+        // await Promise.all(sendMailList);
+        q.push(function () {
+            Promise.all(sendMailList);
+        });
+        q.on("success", function (result, job) {
+            console.log("job finished processing:", job.toString().replace(/\n/g, ""));
+        });
+        q.start(function (err) {
+            if (err) throw err;
+            console.log("all done:", q.results);
+        });
         return true;
     }
 
