@@ -23,7 +23,8 @@
         "joi": "^17.3.0",
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^5.11.15",
-        "nodemailer": "^6.4.17"
+        "nodemailer": "^6.4.17",
+        "queue": "^6.0.2"
     },
     "devDependencies": {
         "@babel/node": "^7.13.10",

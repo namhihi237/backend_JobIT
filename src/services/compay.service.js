@@ -10,7 +10,7 @@ export default class CompayService {
                 updateAt: 0,
                 role: 0,
                 rate: 0,
-            }
+            },
         );
         return company;
     }
@@ -24,7 +24,7 @@ export default class CompayService {
                 updateAt: 0,
                 role: 0,
                 rate: 0,
-            }
+            },
         );
         return company;
     }
@@ -37,7 +37,7 @@ export default class CompayService {
     }
 
     async getCompanys(page, take) {
-        let data = await pagination(Company, page, take);
+        let data = await pagination(Company, {}, page, take);
         return data;
     }
 

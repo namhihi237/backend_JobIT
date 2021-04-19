@@ -200,7 +200,7 @@ orExample Response (example):
 const getMods = async (req, res, next) => {
     const { page, take } = req.query;
     try {
-        let data = await pagination(Admin, page, take, { password: 0, role: 0 });
+        let data = await pagination(Admin, { role: "moderator" }, page, take, { password: 0, role: 0 });
         res.status(200).json({
             status: 200,
             msg: "Success",

@@ -1,7 +1,8 @@
 import nodemailer from "nodemailer";
 import { envVariables } from "../configs";
-const { gmail, pass, text, subject } = envVariables;
+const { gmail, pass, subject } = envVariables;
 const ALPHABET = "0123456789ABCDEFGHIKLMNOPQRSTUVWXYZ";
+import { passwordResetTemplate } from "../resources";
 
 export const sendMailJob = async (email, skill, linkJob) => {
     let transporter = nodemailer.createTransport({
@@ -35,7 +36,7 @@ export const sendEmail = async (code, email) => {
         from: gmail,
         to: email,
         subject: subject,
-        text: text + code,
+        html: passwordResetTemplate(code),
     });
 };
 

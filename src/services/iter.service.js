@@ -10,7 +10,7 @@ export default class IterService {
                 updatedAt: 0,
                 role: 0,
                 roleId: 0,
-            }
+            },
         );
         return iter;
     }
@@ -23,7 +23,7 @@ export default class IterService {
                 updatedAt: 0,
                 role: 0,
                 roleId: 0,
-            }
+            },
         );
         return iter;
     }
@@ -35,7 +35,7 @@ export default class IterService {
     }
 
     async getIters(page, take) {
-        let data = await pagination(ITer, page, take);
+        let data = await pagination(ITer, {}, page, take);
         return data;
     }
 
