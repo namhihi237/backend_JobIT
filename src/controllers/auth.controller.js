@@ -164,13 +164,14 @@ const updatePassword = async (req, res, next) => {
     try {
         let user = await authService.getAccount({ _id });
         if (!user) throw new HttpError("User not found", 400);
-        if (!(await authService.updatePassword(password, newPassword)))
+        if (!(await authService.updatePassword(_id, password, newPassword)))
             throw new HttpError("password is incorrect", 400);
         res.status(200).json({
             status: 200,
             msg: "Success",
         });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
@@ -203,10 +204,7 @@ const requestResetPassword = async (req, res, next) => {
         if (!user) throw new HttpError("Email does not exist in the system", 400);
         const code = generate();
         await sendEmail(code, email);
-        await Promise.all([
-            Code.findOneAndRemove({ email }),
-            Code.create({ email, code, accountId: user._id }),
-        ]);
+        await Promise.all([Code.findOneAndRemove({ email }), Code.create({ email, code, accountId: user._id })]);
         res.status(200).json({
             status: 200,
             msg: "We sent code to your email, the code only lasts for 5 minutes",

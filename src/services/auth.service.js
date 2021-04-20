@@ -23,8 +23,7 @@ export default class AuthThenticationService {
                 check: true,
             });
         });
-        if (role == "iter")
-            await ITer.create({ fullName: data.fullName, accountId: acc._id, email: data.email });
+        if (role == "iter") await ITer.create({ fullName: data.fullName, accountId: acc._id, email: data.email });
         if (role == "company")
             await Company.create({
                 companyName: data.companyName,
