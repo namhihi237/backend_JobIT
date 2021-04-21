@@ -87,6 +87,7 @@ const receiveMail = async (req, res, next) => {
     const { receive } = req.query;
     const { _id } = req.user;
     try {
+        console.log(receive);
         if (!(await cvService.reciveMail(_id, receive))) throw new HttpError("Iter not found", 400);
         res.status(200).json({
             status: 200,
@@ -189,6 +190,7 @@ const getCv = async (req, res, next) => {
 const getCvByIter = async (req, res, next) => {
     const { _id } = req.user;
     try {
+        console.log(_id);
         const cv = await cvService.getCvByUser(_id);
         res.status(200).json({
             status: 200,

@@ -10,17 +10,10 @@ export const cvRouter = Router();
 ///api/v1/cv/user
 cvRouter
     .route("/api/v1/cv")
-    .post(
-        jwtMidleware,
-        checkPer(ACTION_CODE.CREATE_CV),
-        validateRequestBody.createCvSchema,
-        cvController.createCv
-    );
+    .post(jwtMidleware, checkPer(ACTION_CODE.CREATE_CV), validateRequestBody.createCvSchema, cvController.createCv);
 
 cvRouter.route("/api/v1/cv/user").get(jwtMidleware, cvController.getCvByIter);
 
 cvRouter.route("/api/v1/cv/:id").get(jwtMidleware, cvController.getCv);
 
-cvRouter
-    .route("/api/v1/cv/receive-mail")
-    .get(jwtMidleware, checkPer(ACTION_CODE.RECEIVE_MAIL), cvController.receiveMail);
+cvRouter.route("/api/v1/cv/receive-mail").get(jwtMidleware, cvController.receiveMail);
