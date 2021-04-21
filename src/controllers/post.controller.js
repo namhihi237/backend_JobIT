@@ -398,7 +398,7 @@ const applyJob = async (req, res, next) => {
  *         msg: "Success"
  *     }
  */
-
+//a //tét ne
 const listApply = async (req, res, next) => {
     const { _id } = req.params;
     try {
@@ -412,7 +412,8 @@ const listApply = async (req, res, next) => {
         next(error);
     }
 };
-
+// export module
+// git
 export const postController = {
     createPost,
     getAcceptedPosts,

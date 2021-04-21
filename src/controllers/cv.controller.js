@@ -62,12 +62,13 @@ const createCv = async (req, res, next) => {
 };
 
 /**
- * @api {get} /api/v1/cv/receive-mail?receive register/cancel receive email
+ * @api {post} /api/v1/cv/receive-mail register/cancel receive email
  * @apiName Register/cancel receive email
  * @apiGroup Cv
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiParam {Boolean} receive
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code> if everything went fine.
  * @apiSuccessExample {json} Success-Example
@@ -84,10 +85,9 @@ const createCv = async (req, res, next) => {
  *     }
  */
 const receiveMail = async (req, res, next) => {
-    const { receive } = req.query;
+    const { receive } = req.body;
     const { _id } = req.user;
     try {
-        console.log(receive);
         if (!(await cvService.reciveMail(_id, receive))) throw new HttpError("Iter not found", 400);
         res.status(200).json({
             status: 200,

@@ -16,4 +16,4 @@ cvRouter.route("/api/v1/cv/user").get(jwtMidleware, cvController.getCvByIter);
 
 cvRouter.route("/api/v1/cv/:id").get(jwtMidleware, cvController.getCv);
 
-cvRouter.route("/api/v1/cv/receive-mail").get(jwtMidleware, cvController.receiveMail);
+cvRouter.route("/api/v1/cv/receive-mail").post(jwtMidleware, cvController.receiveMail);

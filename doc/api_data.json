@@ -1120,7 +1120,7 @@
   },
   {
     "type": "get",
-    "url": "/api/v1/companys",
+    "url": "/api/v1/companies",
     "title": "get all company",
     "name": "get_all_company",
     "group": "Company",
@@ -1200,7 +1200,7 @@
   },
   {
     "type": "get",
-    "url": "/api/v1/companys/profile",
+    "url": "/api/v1/companies/profile",
     "title": "get profile",
     "name": "get_company",
     "group": "Company",
@@ -1273,7 +1273,7 @@
   },
   {
     "type": "post",
-    "url": "/api/v1/companys/profile",
+    "url": "/api/v1/companies/profile",
     "title": "update company",
     "name": "update_company",
     "group": "Company",
@@ -1597,8 +1597,8 @@
     "groupTitle": "Cv"
   },
   {
-    "type": "get",
-    "url": "/api/v1/cv/receive-mail?receive",
+    "type": "post",
+    "url": "/api/v1/cv/receive-mail",
     "title": "register/cancel receive email",
     "name": "Register/cancel_receive_email",
     "group": "Cv",
@@ -1621,6 +1621,19 @@
           "type": "Header"
         }
       ]
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Boolean",
+            "optional": false,
+            "field": "receive",
+            "description": ""
+          }
+        ]
+      }
     },
     "success": {
       "fields": {

@@ -1,0 +1,1 @@
+const statisticsSkill = (req,res,next) =>{}

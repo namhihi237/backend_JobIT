@@ -121,7 +121,7 @@ export default class PostService {
         );
         return true;
     }
-
+    
     async listApply(_id) {
         if (!(await this.getPost({ _id }))) return [];
         const post = await Post.findById({ _id }, { comment: 0 });
