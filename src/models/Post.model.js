@@ -11,6 +11,9 @@ const PostSchema = new Schema(
             type: String,
             required: true,
         },
+        title: {
+            type: String,
+        },
         skill: [
             {
                 type: String,
@@ -59,7 +62,7 @@ const PostSchema = new Schema(
             default: true,
         },
     },
-    { timestamps: true }
+    { timestamps: true },
 );
 
 export const Post = model("post", PostSchema, "post");

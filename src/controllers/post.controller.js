@@ -34,12 +34,13 @@ const postService = new PostService();
  */
 const createPost = async (req, res, next) => {
     const { _id } = req.user;
-    const { skill, position, address, salary, endTime, description } = req.body;
+    const { title, skill, position, address, salary, endTime, description } = req.body;
     try {
         const company = await Company.findOne({ accountId: _id });
         if (!company) throw new HttpError("Failed", 401);
         const data = {
             companyId: _id,
+            title,
             companyName: company.companyName,
             skill,
             position,
@@ -47,6 +48,7 @@ const createPost = async (req, res, next) => {
             salary,
             endTime,
             description,
+            logo: company.image,
         };
         await postService.create(data);
 
@@ -370,8 +372,7 @@ const applyJob = async (req, res, next) => {
     const { _id } = req.params;
     const iterId = req.user._id;
     try {
-        if (!(await postService.applyPost(_id, iterId)))
-            throw new HttpError("you have already applied it before", 400);
+        if (!(await postService.applyPost(_id, iterId))) throw new HttpError("you have already applied it before", 400);
         res.status(200).json({
             status: 200,
             msg: "Success",
@@ -398,7 +399,7 @@ const applyJob = async (req, res, next) => {
  *         msg: "Success"
  *     }
  */
-//a //tét ne
+
 const listApply = async (req, res, next) => {
     const { _id } = req.params;
     try {
@@ -412,8 +413,7 @@ const listApply = async (req, res, next) => {
         next(error);
     }
 };
-// export module
-// git
+
 export const postController = {
     createPost,
     getAcceptedPosts,
