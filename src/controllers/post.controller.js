@@ -1,8 +1,8 @@
-import mongo from "mongoose";
-import { Post, ITer, Company, Cv } from "../models";
-import { HttpError } from "../utils";
-import { PostService } from "../services";
-const postService = new PostService();
+import mongo from 'mongoose'
+import { Post, ITer, Company, Cv } from '../models'
+import { HttpError } from '../utils'
+import { PostService } from '../services'
+const postService = new PostService()
 
 /**
  * @api {post} /api/v1/posts company create post
@@ -11,6 +11,7 @@ const postService = new PostService();
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiParam {String} title title's job
  * @apiParam {Array} skill vd : ["java","nodejs"]
  * @apiParam {Array} position vd : ["inter,"fresher"]
  * @apiParam {String} address address's job
@@ -33,34 +34,34 @@ const postService = new PostService();
  *     }
  */
 const createPost = async (req, res, next) => {
-    const { _id } = req.user;
-    const { title, skill, position, address, salary, endTime, description } = req.body;
-    try {
-        const company = await Company.findOne({ accountId: _id });
-        if (!company) throw new HttpError("Failed", 401);
-        const data = {
-            companyId: _id,
-            title,
-            companyName: company.companyName,
-            skill,
-            position,
-            address,
-            salary,
-            endTime,
-            description,
-            logo: company.image,
-        };
-        await postService.create(data);
+	const { _id } = req.user
+	const { title, skill, position, address, salary, endTime, description } = req.body
+	try {
+		const company = await Company.findOne({ accountId: _id })
+		if (!company) throw new HttpError('Failed', 401)
+		const data = {
+			companyId: _id,
+			title,
+			companyName: company.companyName,
+			skill,
+			position,
+			address,
+			salary,
+			endTime,
+			description,
+			logo: company.image,
+		}
+		await postService.create(data)
 
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-        });
-    } catch (error) {
-        console.log(error);
-        next(error);
-    }
-};
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		})
+	} catch (error) {
+		console.log(error)
+		next(error)
+	}
+}
 
 /**
  * @api {get} /api/v1/posts get all accepted post
@@ -100,19 +101,19 @@ const createPost = async (req, res, next) => {
  *     }
  */
 const getAcceptedPosts = async (req, res, next) => {
-    const { query, page, take } = req.query;
-    try {
-        const posts = await postService.getPosts(query, true, page, take);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-            data: posts,
-        });
-    } catch (error) {
-        console.log(error);
-        next(error);
-    }
-};
+	const { query, page, take } = req.query
+	try {
+		const posts = await postService.getPosts(query, true, page, take)
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			data: posts,
+		})
+	} catch (error) {
+		console.log(error)
+		next(error)
+	}
+}
 
 /**
  * @api {get} /api/v1/posts/need-accept get all post need  accept
@@ -164,18 +165,18 @@ const getAcceptedPosts = async (req, res, next) => {
  *     }
  */
 const getPostsNeedAccept = async (req, res, next) => {
-    const { query, take, page } = req.query;
-    try {
-        const data = await postService.getPosts(query, false, page, take);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-            ...data,
-        });
-    } catch (error) {
-        next(error);
-    }
-};
+	const { query, take, page } = req.query
+	try {
+		const data = await postService.getPosts(query, false, page, take)
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			...data,
+		})
+	} catch (error) {
+		next(error)
+	}
+}
 
 /**
  * @api {put} /api/v1/posts/[postId] company update post
@@ -206,25 +207,25 @@ const getPostsNeedAccept = async (req, res, next) => {
  *     }
  */
 const updatePost = async (req, res, next) => {
-    const { _id } = req.user;
-    const { postId } = req.params;
-    const { skill, position, address, salary, endTime, description } = req.body;
-    try {
-        if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError("Not found post!", 400);
+	const { _id } = req.user
+	const { postId } = req.params
+	const { skill, position, address, salary, endTime, description } = req.body
+	try {
+		if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError('Not found post!', 400)
 
-        const postWithUser = await Post.findOne({ companyId: _id, _id: postId }, { __v: 1 });
-        if (!postWithUser) throw new HttpError("Deny update!", 401);
+		const postWithUser = await Post.findOne({ companyId: _id, _id: postId }, { __v: 1 })
+		if (!postWithUser) throw new HttpError('Deny update!', 401)
 
-        const data = { skill, position, address, salary, endTime, description };
-        if (!(await postService.update(postId, data))) throw new HttpError("Post not found", 404);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-        });
-    } catch (error) {
-        next(error);
-    }
-};
+		const data = { skill, position, address, salary, endTime, description }
+		if (!(await postService.update(postId, data))) throw new HttpError('Post not found', 404)
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		})
+	} catch (error) {
+		next(error)
+	}
+}
 
 /**
  * @api {delete} /api/v1/posts/{postId}  delete post
@@ -249,18 +250,18 @@ const updatePost = async (req, res, next) => {
  *     }
  */
 const deletePost = async (req, res, next) => {
-    const { postId } = req.params;
-    try {
-        if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError("PostID not found!", 404);
-        if (!(await postService.deletePost(postId))) throw new HttpError("Post not found!", 400);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-        });
-    } catch (error) {
-        next(error);
-    }
-};
+	const { postId } = req.params
+	try {
+		if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError('PostID not found!', 404)
+		if (!(await postService.deletePost(postId))) throw new HttpError('Post not found!', 400)
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		})
+	} catch (error) {
+		next(error)
+	}
+}
 
 /**
  * @api {patch} /api/v1/posts/[postId]/accept-post  accept post
@@ -286,19 +287,19 @@ const deletePost = async (req, res, next) => {
  */
 
 const acceptPost = async (req, res, next) => {
-    const { postId } = req.params;
-    try {
-        if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError("Post not found!", 400);
+	const { postId } = req.params
+	try {
+		if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError('Post not found!', 400)
 
-        if (!(await postService.acceptPost(postId))) throw new HttpError("Post not found!", 400);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-        });
-    } catch (error) {
-        next(error);
-    }
-};
+		if (!(await postService.acceptPost(postId))) throw new HttpError('Post not found!', 400)
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		})
+	} catch (error) {
+		next(error)
+	}
+}
 
 /**
  * @api {get} /api/v1/posts/company get company post
@@ -339,18 +340,18 @@ const acceptPost = async (req, res, next) => {
  *     }
  */
 const getCompanyPost = async (req, res, next) => {
-    const { _id } = req.user;
-    try {
-        const posts = await postService.getCompanyPost(_id);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-            posts,
-        });
-    } catch (error) {
-        next(error);
-    }
-};
+	const { _id } = req.user
+	try {
+		const posts = await postService.getCompanyPost(_id)
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			posts,
+		})
+	} catch (error) {
+		next(error)
+	}
+}
 
 /**
  * @api {get} /api/v1/posts/{_id}/apply apply post
@@ -369,18 +370,18 @@ const getCompanyPost = async (req, res, next) => {
  *     }
  */
 const applyJob = async (req, res, next) => {
-    const { _id } = req.params;
-    const iterId = req.user._id;
-    try {
-        if (!(await postService.applyPost(_id, iterId))) throw new HttpError("you have already applied it before", 400);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-        });
-    } catch (error) {
-        next(error);
-    }
-};
+	const { _id } = req.params
+	const iterId = req.user._id
+	try {
+		if (!(await postService.applyPost(_id, iterId))) throw new HttpError('you have already applied it before', 400)
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		})
+	} catch (error) {
+		next(error)
+	}
+}
 
 /**
  * @api {get} /api/v1/posts/{_id}/apply-list list apply
@@ -401,27 +402,27 @@ const applyJob = async (req, res, next) => {
  */
 
 const listApply = async (req, res, next) => {
-    const { _id } = req.params;
-    try {
-        const applies = await postService.listApply(_id);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-            applies,
-        });
-    } catch (error) {
-        next(error);
-    }
-};
+	const { _id } = req.params
+	try {
+		const applies = await postService.listApply(_id)
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			applies,
+		})
+	} catch (error) {
+		next(error)
+	}
+}
 
 export const postController = {
-    createPost,
-    getAcceptedPosts,
-    getPostsNeedAccept,
-    updatePost,
-    deletePost,
-    acceptPost,
-    getCompanyPost,
-    applyJob,
-    listApply,
-};
+	createPost,
+	getAcceptedPosts,
+	getPostsNeedAccept,
+	updatePost,
+	deletePost,
+	acceptPost,
+	getCompanyPost,
+	applyJob,
+	listApply,
+}

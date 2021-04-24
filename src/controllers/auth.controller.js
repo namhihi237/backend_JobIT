@@ -1,7 +1,8 @@
-import { ITer, Company, Code, Account, UserPer, Permission } from "../models";
-import bcrypt from "bcryptjs";
-import { HttpError, tokenEncode, sendEmail, generate } from "../utils";
-import { AuthThenticationService } from "../services";
+import { Code, Account } from '../models';
+import bcrypt from 'bcryptjs';
+import { HttpError, tokenEncode, sendEmail, generate } from '../utils';
+import { AuthThenticationService } from '../services';
+import _ from 'lodash';
 const authService = new AuthThenticationService();
 /**
  * @api {post} /api/v1/auth/register-iter register iter
@@ -26,23 +27,23 @@ const authService = new AuthThenticationService();
  */
 
 const registerIter = async (req, res, next) => {
-    let { password, email, fullName } = req.body;
-    email = email.toLowerCase();
-    try {
-        const user = await authService.getAccount({ email });
-        if (user) {
-            throw new HttpError("The email has already been used by another account", 400);
-        }
-        const data = { email, password, fullName };
-        await authService.register(data, "iter");
-        res.status(200).json({
-            status: 200,
-            msg: "Sign up success",
-        });
-    } catch (error) {
-        console.log(error);
-        next(error);
-    }
+	let { password, email, fullName } = req.body;
+	email = email.toLowerCase();
+	try {
+		const user = await authService.getAccount({ email });
+		if (user) {
+			throw new HttpError('The email has already been used by another account', 400);
+		}
+		const data = { email, password, fullName };
+		await authService.register(data, 'iter');
+		res.status(200).json({
+			status: 200,
+			msg: 'Sign up success',
+		});
+	} catch (error) {
+		console.log(error);
+		next(error);
+	}
 };
 
 /**
@@ -67,23 +68,23 @@ const registerIter = async (req, res, next) => {
  *     }
  */
 const registerCompany = async (req, res, next) => {
-    let { password, email, companyName } = req.body;
-    email = email.toLowerCase();
-    try {
-        const user = await authService.getAccount({ email });
-        if (user) {
-            throw new HttpError("The email has already been used by another account", 400);
-        }
-        const data = { email, password, companyName };
-        await authService.register(data, "company");
+	let { password, email, companyName } = req.body;
+	email = email.toLowerCase();
+	try {
+		const user = await authService.getAccount({ email });
+		if (user) {
+			throw new HttpError('The email has already been used by another account', 400);
+		}
+		const data = { email, password, companyName };
+		await authService.register(data, 'company');
 
-        res.status(200).json({
-            status: 200,
-            msg: "Sign up success",
-        });
-    } catch (error) {
-        next(error);
-    }
+		res.status(200).json({
+			status: 200,
+			msg: 'Sign up success',
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 /**
@@ -109,31 +110,34 @@ const registerCompany = async (req, res, next) => {
  *     }
  */
 const login = async (req, res, next) => {
-    let { email, password } = req.body;
-    email = email.toLowerCase();
-    try {
-        const user = await authService.getAccount({ email });
-        if (!user) throw new HttpError("Email or password is incorrect", 400);
+	let { email, password } = req.body;
+	email = email.toLowerCase();
+	try {
+		const user = await authService.getAccount({ email });
+		if (!user) throw new HttpError('Email or password is incorrect', 400);
 
-        const match = await bcrypt.compare(password, user.password);
-        if (!match) throw new HttpError("Email or password is incorrect", 400);
+		const match = await bcrypt.compare(password, user.password);
+		if (!match) throw new HttpError('Email or password is incorrect', 400);
 
-        let data = {
-            email: user.email,
-            _id: user._id,
-            role: user.role,
-        };
-        const token = tokenEncode(data);
+		const role = user.role;
+		let name = role === 'iter' ? _.get(user, 'fullName') : _.get(user, 'companyName');
+		let data = {
+			email: user.email,
+			_id: user._id,
+			role: user.role,
+		};
+		const token = tokenEncode(data);
 
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-            role: data.role,
-            token,
-        });
-    } catch (error) {
-        next(error);
-    }
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			role: data.role,
+			token,
+			name,
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 /**
@@ -159,21 +163,20 @@ const login = async (req, res, next) => {
  *     }
  */
 const updatePassword = async (req, res, next) => {
-    const { password, newPassword } = req.body;
-    const { _id } = req.user;
-    try {
-        let user = await authService.getAccount({ _id });
-        if (!user) throw new HttpError("User not found", 400);
-        if (!(await authService.updatePassword(_id, password, newPassword)))
-            throw new HttpError("password is incorrect", 400);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-        });
-    } catch (error) {
-        console.log(error);
-        next(error);
-    }
+	const { password, newPassword } = req.body;
+	const { _id } = req.user;
+	try {
+		let user = await authService.getAccount({ _id });
+		if (!user) throw new HttpError('User not found', 400);
+		if (!(await authService.updatePassword(_id, password, newPassword))) throw new HttpError('password is incorrect', 400);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		});
+	} catch (error) {
+		console.log(error);
+		next(error);
+	}
 };
 
 /**
@@ -197,21 +200,21 @@ const updatePassword = async (req, res, next) => {
  *     }
  */
 const requestResetPassword = async (req, res, next) => {
-    let { email } = req.body;
-    try {
-        email = email.toLowerCase();
-        const user = await Account.findOne({ email });
-        if (!user) throw new HttpError("Email does not exist in the system", 400);
-        const code = generate();
-        await sendEmail(code, email);
-        await Promise.all([Code.findOneAndRemove({ email }), Code.create({ email, code, accountId: user._id })]);
-        res.status(200).json({
-            status: 200,
-            msg: "We sent code to your email, the code only lasts for 5 minutes",
-        });
-    } catch (error) {
-        next(error);
-    }
+	let { email } = req.body;
+	try {
+		email = email.toLowerCase();
+		const user = await Account.findOne({ email });
+		if (!user) throw new HttpError('Email does not exist in the system', 400);
+		const code = generate();
+		await sendEmail(code, email);
+		await Promise.all([Code.findOneAndRemove({ email }), Code.create({ email, code, accountId: user._id })]);
+		res.status(200).json({
+			status: 200,
+			msg: 'We sent code to your email, the code only lasts for 5 minutes',
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 /**
@@ -236,19 +239,19 @@ const requestResetPassword = async (req, res, next) => {
  *     }
  */
 const confirmCode = async (req, res, next) => {
-    let { email, code } = req.body;
-    try {
-        email = email.toLowerCase();
-        const existCode = await Code.findOne({ email, code });
-        if (!existCode) throw new HttpError("Your code is incorrect", 400);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-        });
-    } catch (error) {
-        console.log(error);
-        next(error);
-    }
+	let { email, code } = req.body;
+	try {
+		email = email.toLowerCase();
+		const existCode = await Code.findOne({ email, code });
+		if (!existCode) throw new HttpError('Your code is incorrect', 400);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		});
+	} catch (error) {
+		console.log(error);
+		next(error);
+	}
 };
 
 /**
@@ -274,31 +277,31 @@ const confirmCode = async (req, res, next) => {
  *     }
  */
 const changePasswordReset = async (req, res, next) => {
-    let { email, code, password } = req.body;
-    try {
-        email = email.toLowerCase();
-        const existCode = await Code.findOne({ email, code });
-        if (!existCode) throw new HttpError("Fail", 400);
-        const hash = await bcrypt.hash(password, 12);
-        await Promise.all([
-            Account.findByIdAndUpdate({ _id: existCode.accountId }, { password: hash }),
-            Code.findByIdAndDelete({ _id: existCode._id }),
-        ]);
-        res.status(200).json({
-            status: 200,
-            msg: "Password has updated",
-        });
-    } catch (error) {
-        next(error);
-    }
+	let { email, code, password } = req.body;
+	try {
+		email = email.toLowerCase();
+		const existCode = await Code.findOne({ email, code });
+		if (!existCode) throw new HttpError('Fail', 400);
+		const hash = await bcrypt.hash(password, 12);
+		await Promise.all([
+			Account.findByIdAndUpdate({ _id: existCode.accountId }, { password: hash }),
+			Code.findByIdAndDelete({ _id: existCode._id }),
+		]);
+		res.status(200).json({
+			status: 200,
+			msg: 'Password has updated',
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 export const authController = {
-    registerIter,
-    registerCompany,
-    login,
-    updatePassword,
-    requestResetPassword,
-    confirmCode,
-    changePasswordReset,
+	registerIter,
+	registerCompany,
+	login,
+	updatePassword,
+	requestResetPassword,
+	confirmCode,
+	changePasswordReset,
 };

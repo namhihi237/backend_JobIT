@@ -21,6 +21,7 @@
         "helmet": "^4.4.1",
         "joi": "^17.3.0",
         "jsonwebtoken": "^8.5.1",
+        "lodash": "^4.17.21",
         "mongoose": "^5.11.15",
         "nodemailer": "^6.4.17",
         "queue": "^6.0.2"
