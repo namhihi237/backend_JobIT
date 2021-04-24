@@ -293,7 +293,7 @@
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n    role : \"moderator\"\n    token : \"xxx.xxx.xxx\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n    role : \"moderator\"\n    token : \"xxx.xxx.xxx\"\n    userName : \"mod22\"\n}",
           "type": "json"
         }
       ]
@@ -636,7 +636,7 @@
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n    role : \"iter\"\n    token : \"xxx.xxx.xxx\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n    role : \"iter\"\n    token : \"xxx.xxx.xxx\",\n     name : \"Le trung nam\"\n}",
           "type": "json"
         }
       ]
@@ -2511,6 +2511,13 @@
     "parameter": {
       "fields": {
         "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "title",
+            "description": "<p>title's job</p>"
+          },
           {
             "group": "Parameter",
             "type": "Array",

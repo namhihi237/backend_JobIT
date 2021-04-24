@@ -100,7 +100,8 @@ const registerCompany = async (req, res, next) => {
  *         status: 200,
  *         msg: "Success"
  *         role : "iter"
- *         token : "xxx.xxx.xxx"
+ *         token : "xxx.xxx.xxx",
+ *          name : "Le trung nam"
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 400

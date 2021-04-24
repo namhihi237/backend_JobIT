@@ -59,6 +59,7 @@ const registerAdmin = async (req, res, next) => {
  *         msg: "Success"
  *         role : "moderator"
  *         token : "xxx.xxx.xxx"
+ *         userName : "mod22"
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 400
