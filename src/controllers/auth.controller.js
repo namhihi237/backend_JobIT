@@ -1,4 +1,4 @@
-import { Code, Account } from '../models';
+import { Code, Account, ITer, Company } from '../models';
 import bcrypt from 'bcryptjs';
 import { HttpError, tokenEncode, sendEmail, generate } from '../utils';
 import { AuthThenticationService } from '../services';
@@ -121,7 +121,16 @@ const login = async (req, res, next) => {
 		if (!match) throw new HttpError('Email or password is incorrect', 400);
 
 		const role = user.role;
-		let name = role === 'iter' ? _.get(user, 'fullName') : _.get(user, 'companyName');
+		let accountId = user._id;
+		let name;
+		if (role == 'iter') {
+			const info = await ITer.findOne({ accountId });
+			name = info.fullName;
+		} else if (role == 'company') {
+			const info = await Company.findOne({ accountId });
+			name = info.companyName;
+		}
+
 		let data = {
 			email: user.email,
 			_id: user._id,
@@ -169,7 +178,8 @@ const updatePassword = async (req, res, next) => {
 	try {
 		let user = await authService.getAccount({ _id });
 		if (!user) throw new HttpError('User not found', 400);
-		if (!(await authService.updatePassword(_id, password, newPassword))) throw new HttpError('password is incorrect', 400);
+		if (!(await authService.updatePassword(_id, password, newPassword)))
+			throw new HttpError('password is incorrect', 400);
 		res.status(200).json({
 			status: 200,
 			msg: 'Success',
@@ -208,7 +218,10 @@ const requestResetPassword = async (req, res, next) => {
 		if (!user) throw new HttpError('Email does not exist in the system', 400);
 		const code = generate();
 		await sendEmail(code, email);
-		await Promise.all([Code.findOneAndRemove({ email }), Code.create({ email, code, accountId: user._id })]);
+		await Promise.all([
+			Code.findOneAndRemove({ email }),
+			Code.create({ email, code, accountId: user._id }),
+		]);
 		res.status(200).json({
 			status: 200,
 			msg: 'We sent code to your email, the code only lasts for 5 minutes',
