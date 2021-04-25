@@ -1,130 +1,122 @@
-import { Post, ITer, Company, Cv } from "../models";
-import { sendMailJob } from "../utils";
-import { envVariables } from "../configs";
+import { Post, ITer, Company, Cv } from '../models';
+import { sendMailJob } from '../utils';
+import { envVariables } from '../configs';
 const { url_fe } = envVariables;
-import queue from "queue";
+import queue from 'queue';
 
 let q = queue({ results: [] });
 
 export default class PostService {
-    async create(data) {
-        await Post.create(data);
-    }
+	async create(data) {
+		await Post.create(data);
+	}
 
-    async getPosts(query, type, page = 0, take = 10) {
-        let posts = [];
-        page = isNaN(page) ? 1 : page - 0;
-        take = isNaN(take) ? 10 : take - 0;
-        let count = await Post.countDocuments({ accept: type });
-        let numPages = Math.ceil(count / take);
+	async getPosts(query, type, page = 0, take = 10) {
+		let posts = [];
+		page = isNaN(page) ? 1 : page - 0;
+		take = isNaN(take) ? 10 : take - 0;
+		let count = await Post.countDocuments({ accept: type });
+		let numPages = Math.ceil(count / take);
 
-        if (page > numPages) page = numPages;
-        page = page <= 0 ? 1 : page;
+		if (page > numPages) page = numPages;
+		page = page <= 0 ? 1 : page;
 
-        const skip = (page - 1) * take;
-        if (!query) {
-            posts = await Post.find(
-                { accept: type },
-                { __v: 0, active: 0, accept: 0, createdAt: 0, updatedAt: 0, apply: 0 }
-            )
-                .skip(skip)
-                .limit(take);
-        } else {
-            posts = await Post.find(
-                { $text: { $search: `${query}` }, accept: type },
-                { __v: 0, active: 0, accept: 0, createdAt: 0, updatedAt: 0, apply: 0 }
-            )
-                .skip(skip)
-                .limit(take);
-        }
+		const skip = (page - 1) * take;
+		if (!query) {
+			posts = await Post.find({ accept: type }, { __v: 0, active: 0, accept: 0, createdAt: 0, updatedAt: 0, apply: 0 })
+				.skip(skip)
+				.limit(take);
+		} else {
+			posts = await Post.find(
+				{ $text: { $search: `${query}` }, accept: type },
+				{ __v: 0, active: 0, accept: 0, createdAt: 0, updatedAt: 0, apply: 0, score: { $meta: 'textScore' } },
+			)
+				.skip(skip)
+				.limit(take)
+				.sort({ score: { $meta: 'textScore' } });
+		}
 
-        return {
-            currentPage: page,
-            numPages,
-            posts,
-        };
-    }
+		return {
+			currentPage: page,
+			numPages,
+			posts,
+		};
+	}
 
-    async getPost(arg) {
-        const post = await Post.findOne(arg);
-        return post;
-    }
+	async getPost(arg) {
+		const post = await Post.findOne(arg);
+		return post;
+	}
 
-    async update(id, data) {
-        if (!(await this.getPost({ _id: id }))) return false;
-        await Post.findByIdAndUpdate({ _id: id }, data);
-        return true;
-    }
+	async update(id, data) {
+		if (!(await this.getPost({ _id: id }))) return false;
+		await Post.findByIdAndUpdate({ _id: id }, data);
+		return true;
+	}
 
-    async deletePost(id) {
-        if (!(await this.getPost({ _id: id }))) return false;
-        await Post.findByIdAndDelete({ _id: id });
-        return true;
-    }
+	async deletePost(id) {
+		if (!(await this.getPost({ _id: id }))) return false;
+		await Post.findByIdAndDelete({ _id: id });
+		return true;
+	}
 
-    async acceptPost(id) {
-        const accepted = await Post.findByIdAndUpdate({ _id: id }, { accept: true });
-        if (!accepted) return false;
+	async acceptPost(id) {
+		const accepted = await Post.findByIdAndUpdate({ _id: id }, { accept: true });
+		if (!accepted) return false;
 
-        const skills = accepted.skill;
-        const listCv = await Cv.find(
-            { skill: { $in: [...skills] }, receiveMail: true },
-            {
-                __v: 0,
-                createdAt: 0,
-                updatedAt: 0,
-                education: 0,
-                description: 0,
-                personalSkill: 0,
-                linkGit: 0,
-                experience: 0,
-                _id: 0,
-                receiveMail: 0,
-                iterId: 0,
-            }
-        );
-        const sendMailList = listCv.map((cv) => {
-            sendMailJob(cv.email, skills, `${url_fe}/job/${accepted._id}`);
-        });
-        // await Promise.all(sendMailList);
-        q.push(function () {
-            Promise.all(sendMailList);
-        });
-        q.on("success", function (result, job) {
-            console.log("job finished processing:", job.toString().replace(/\n/g, ""));
-        });
-        q.start(function (err) {
-            if (err) throw err;
-            console.log("all done:", q.results);
-        });
-        return true;
-    }
+		const skills = accepted.skill;
+		const listCv = await Cv.find(
+			{ skill: { $in: [...skills] }, receiveMail: true },
+			{
+				__v: 0,
+				createdAt: 0,
+				updatedAt: 0,
+				education: 0,
+				description: 0,
+				personalSkill: 0,
+				linkGit: 0,
+				experience: 0,
+				_id: 0,
+				receiveMail: 0,
+				iterId: 0,
+			},
+		);
+		const sendMailList = listCv.map((cv) => {
+			sendMailJob(cv.email, skills, `${url_fe}/job/${accepted._id}`);
+		});
+		// await Promise.all(sendMailList);
+		q.push(function () {
+			Promise.all(sendMailList);
+		});
+		q.on('success', function (result, job) {
+			console.log('job finished processing:', job.toString().replace(/\n/g, ''));
+		});
+		q.start(function (err) {
+			if (err) throw err;
+			console.log('all done:', q.results);
+		});
+		return true;
+	}
 
-    async getCompanyPost(companyId) {
-        const posts = await Post.find(
-            { companyId },
-            { __v: 0, active: 0, createdAt: 0, updatedAt: 0, apply: 0 }
-        );
-        return posts;
-    }
+	async getCompanyPost(companyId) {
+		const posts = await Post.find({ companyId }, { __v: 0, active: 0, createdAt: 0, updatedAt: 0, apply: 0 });
+		return posts;
+	}
 
-    async applyPost(_id, iterId) {
-        const existIter = await Post.findOne({ _id, apply: { $elemMatch: { iterId } } });
-        if (existIter) return false;
-        const cv = await Cv.findOne({ iterId });
-        if (!cv) return false;
-        const cvId = cv._id;
-        const iter = await ITer.findOne({ accountId: iterId });
-        await Post.findByIdAndUpdate(
-            { _id },
-            { $push: { apply: { fullName: iter.fullName, email: iter.email, iterId, cvId } } }
-        );
-        return true;
-    }
-    
-    async listApply(_id) {
-        if (!(await this.getPost({ _id }))) return [];
-        const post = await Post.findById({ _id }, { comment: 0 });
-        return post.apply;
-    }
+	async applyPost(_id, iterId) {
+		const existIter = await Post.findOne({ _id, apply: { $elemMatch: { iterId } } });
+		if (existIter) return false;
+		const cv = await Cv.findOne({ iterId });
+		if (!cv) return false;
+		const cvId = cv._id;
+		const iter = await ITer.findOne({ accountId: iterId });
+		await Post.findByIdAndUpdate({ _id }, { $push: { apply: { fullName: iter.fullName, email: iter.email, iterId, cvId } } });
+		return true;
+	}
+
+	async listApply(_id) {
+		if (!(await this.getPost({ _id }))) return [];
+		const post = await Post.findById({ _id }, { comment: 0 });
+		return post.apply;
+	}
 }
