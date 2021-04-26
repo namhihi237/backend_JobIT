@@ -19,12 +19,6 @@ const PostSchema = new Schema(
 				type: String,
 			},
 		],
-		position: [
-			{
-				type: String,
-			},
-		],
-
 		address: {
 			type: String,
 		},
@@ -64,5 +58,5 @@ const PostSchema = new Schema(
 	},
 	{ timestamps: true },
 );
-PostSchema.index({ companyName: 'text', description: 'text', position: 'text', skill: 'text', address: 'text' });
+PostSchema.index({ companyName: 'text', description: 'text', title: 'text', skill: 'text', address: 'text' });
 export const Post = model('post', PostSchema, 'post');

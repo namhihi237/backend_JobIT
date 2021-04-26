@@ -90,11 +90,6 @@ const createPostSchema = (req, res, next) => {
 			.items(Joi.string())
 			.required()
 			.messages({ 'array.min': `skill cannot be an empty field` }),
-		position: Joi.array()
-			.min(1)
-			.items(Joi.string())
-			.required()
-			.messages({ 'array.min': `position cannot be an empty field` }),
 		title: Joi.string().required(),
 		address: Joi.string().required(),
 		endTime: Joi.string().required(),

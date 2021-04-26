@@ -1,5 +1,5 @@
 import mongo from 'mongoose';
-import { Post, ITer, Company, Cv } from '../models';
+import { Post, Company } from '../models';
 import { HttpError } from '../utils';
 import { PostService } from '../services';
 const postService = new PostService();
@@ -13,7 +13,6 @@ const postService = new PostService();
  *     "Authorization: Bearer AAA.BBB.CCC"
  * @apiParam {String} title title's job
  * @apiParam {Array} skill vd : ["java","nodejs"]
- * @apiParam {Array} position vd : ["inter,"fresher"]
  * @apiParam {String} address address's job
  * @apiParam {String} salary salary's job
  * @apiParam {String} endTime endTime's job
@@ -35,7 +34,7 @@ const postService = new PostService();
  */
 const createPost = async (req, res, next) => {
 	const { _id } = req.user;
-	const { title, skill, position, address, salary, endTime, description } = req.body;
+	const { title, skill, address, salary, endTime, description } = req.body;
 	try {
 		const company = await Company.findOne({ accountId: _id });
 		if (!company) throw new HttpError('Failed', 401);
@@ -44,7 +43,6 @@ const createPost = async (req, res, next) => {
 			title,
 			companyName: company.companyName,
 			skill,
-			position,
 			address,
 			salary,
 			endTime,
@@ -82,10 +80,6 @@ const createPost = async (req, res, next) => {
  *           "skill": [
  *               "java",
  *               "nodejs"
- *           ],
- *           "position": [
- *               "inter",
- *               "fresher"
  *           ],
  *           "comment": [],
  *           "_id": "601d12b5f391e21c38ea6bfe",
@@ -139,10 +133,6 @@ const getAcceptedPosts = async (req, res, next) => {
  *               "java",
  *               "nodejs"
  *           ],
- *           "position": [
- *               "inter",
- *               "fresher"
- *           ],
  *           "comment": [],
  *           "_id": "601d12b5f391e21c38ea6bfe",
  *           "companyId": "601d07f259e12e126c0a2af4",
@@ -186,7 +176,6 @@ const getPostsNeedAccept = async (req, res, next) => {
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
  * @apiParam {Array} skill vd : ["java","nodejs"]
- * @apiParam {Array} position vd : ["inter,"fresher"]
  * @apiParam {String} address address's job
  * @apiParam {String} salary salary's job
  * @apiParam {String} endTime endTime's job
@@ -209,14 +198,14 @@ const getPostsNeedAccept = async (req, res, next) => {
 const updatePost = async (req, res, next) => {
 	const { _id } = req.user;
 	const { postId } = req.params;
-	const { skill, position, address, salary, endTime, description } = req.body;
+	const { skill, address, salary, endTime, description } = req.body;
 	try {
 		if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError('Not found post!', 400);
 
 		const postWithUser = await Post.findOne({ companyId: _id, _id: postId }, { __v: 1 });
 		if (!postWithUser) throw new HttpError('Deny update!', 401);
 
-		const data = { skill, position, address, salary, endTime, description };
+		const data = { skill, address, salary, endTime, description };
 		if (!(await postService.update(postId, data))) throw new HttpError('Post not found', 404);
 		res.status(200).json({
 			status: 200,
@@ -321,10 +310,6 @@ const acceptPost = async (req, res, next) => {
  *           "skill": [
  *               "java",
  *               "nodejs"
- *           ],
- *           "position": [
- *               "inter",
- *               "fresher"
  *           ],
  *           "comment": [],
  *           "_id": "601d12b5f391e21c38ea6bfe",
