@@ -29,6 +29,4 @@ authRouter
 	.route('/api/v1/auth/change-password')
 	.post(validateRequestBody.changeResetPass, authController.changePasswordReset);
 
-authRouter
-	.route('/api/v1/auth/profile')
-	.post(validateRequestBody.changeResetPass, jwtMidleware, authController.profile);
+authRouter.route('/api/v1/auth/profile').get(jwtMidleware, authController.profile);
