@@ -1,9 +1,11 @@
 import { Code, Account, ITer, Company } from '../models';
 import bcrypt from 'bcryptjs';
 import { HttpError, tokenEncode, sendEmail, generate } from '../utils';
-import { AuthThenticationService } from '../services';
+import { AuthThenticationService, CompanyService, IterService } from '../services';
 import _ from 'lodash';
 const authService = new AuthThenticationService();
+const companyService = new CompanyService();
+const iterService = new IterService();
 /**
  * @api {post} /api/v1/auth/register-iter register iter
  * @apiName Register Iter
@@ -310,6 +312,57 @@ const changePasswordReset = async (req, res, next) => {
 	}
 };
 
+/**
+ * @api {get} /api/v1/auth/profile get profile
+ * @apiName get profile
+ * @apiGroup auth
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * @apiSuccess {Object} user <code> Objects user</code>
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+ *         "user": {
+                "_id": "601d07f259e12e126c0a2af4",
+                "email": "yentth239@gmail.com",
+                "companyName": "FPT",
+                "roleId": "601b9d7cdae0a522ac960fe9"
+            } 
+            
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 400
+ *     {
+ *       "status" : 401,
+ *       "msg": "user not found""
+ *     }
+ */
+const profile = async (req, res, next) => {
+	const { role, _id } = req.user;
+	try {
+		let user = null;
+		if (role == 'company') {
+			user = await companyService.getCompany(_id);
+		} else if (role == 'iter') {
+			user = await iterService.getIter(_id);
+		}
+		if (!user) throw new HttpError('user not found', 400);
+
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			user,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
 export const authController = {
 	registerIter,
 	registerCompany,
@@ -318,4 +371,5 @@ export const authController = {
 	requestResetPassword,
 	confirmCode,
 	changePasswordReset,
+	profile,
 };
