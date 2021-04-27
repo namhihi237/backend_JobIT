@@ -1,26 +1,23 @@
-import { Cv } from "../models";
+import { Cv } from '../models';
 
 export default class CvService {
-    async create(data) {
-        await Cv.create(data);
-    }
+	async create(data) {
+		await Cv.create(data);
+	}
 
-    async reciveMail(iterId, receive) {
-        const cv = await Cv.findOneAndUpdate({ iterId }, { receiveMail: receive });
-        return cv;
-    }
+	async reciveMail(iterId, receive) {
+		return await Cv.findOneAndUpdate({ iterId }, { receiveMail: receive });
+	}
 
-    async getCv(_id) {
-        const cv = await Cv.findById({ _id }, { createdAt: 0, updatedAt: 0, __v: 0 });
-        return cv;
-    }
+	async getCv(_id) {
+		return await Cv.findById({ _id }, { createdAt: 0, updatedAt: 0, __v: 0 });
+	}
 
-    async getCvByUser(iterId) {
-        const cv = await Cv.findOne({ iterId }, { createdAt: 0, updatedAt: 0, __v: 0 });
-        return cv;
-    }
+	async getCvByUser(iterId) {
+		return await Cv.findOne({ iterId }, { createdAt: 0, updatedAt: 0, __v: 0 });
+	}
 
-    async deleteCv(userId) {
-        await Cv.findOneAndDelete({ iterId });
-    }
+	async deleteCv(iterId) {
+		return await Cv.findOneAndDelete({ iterId });
+	}
 }

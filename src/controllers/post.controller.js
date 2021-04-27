@@ -390,10 +390,12 @@ const listApply = async (req, res, next) => {
 	const { _id } = req.params;
 	try {
 		const applies = await postService.listApply(_id);
+		const post = await postService.getPost({_id });
 		res.status(200).json({
 			status: 200,
 			msg: 'Success',
 			applies,
+			title : post.title
 		});
 	} catch (error) {
 		next(error);
