@@ -104,7 +104,7 @@ const registerCompany = async (req, res, next) => {
  *         role : "iter"
  *         token : "xxx.xxx.xxx",
  *          name : "Le trung nam",
- * 			image:"https://anh.pnng"
+ * 			image:"https://anh.png"
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 400
@@ -126,12 +126,15 @@ const login = async (req, res, next) => {
 		const role = user.role;
 		let accountId = user._id;
 		let name;
+		let image;
 		if (role == 'iter') {
 			const info = await ITer.findOne({ accountId });
 			name = info.fullName;
+			image = info.image;
 		} else if (role == 'company') {
 			const info = await Company.findOne({ accountId });
 			name = info.companyName;
+			image = info.image;
 		}
 
 		let data = {
@@ -147,7 +150,7 @@ const login = async (req, res, next) => {
 			role: data.role,
 			token,
 			name,
-			image: user.image,
+			image,
 		});
 	} catch (error) {
 		next(error);
