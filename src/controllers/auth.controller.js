@@ -103,7 +103,8 @@ const registerCompany = async (req, res, next) => {
  *         msg: "Success"
  *         role : "iter"
  *         token : "xxx.xxx.xxx",
- *          name : "Le trung nam"
+ *          name : "Le trung nam",
+ * 			image:"https://anh.pnng"
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 400
@@ -146,6 +147,7 @@ const login = async (req, res, next) => {
 			role: data.role,
 			token,
 			name,
+			image: user.image,
 		});
 	} catch (error) {
 		next(error);
