@@ -15,7 +15,7 @@ const CvSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		skill: [{ type: String }],
+		skill: { type: String },
 		softSkill: {
 			type: String,
 		},
@@ -37,4 +37,7 @@ const CvSchema = new Schema(
 	{ timestamps: true },
 );
 
+CvSchema.index({
+	skill: 'text',
+});
 export const Cv = model('cv', CvSchema, 'cv');

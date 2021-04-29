@@ -75,9 +75,9 @@ export default class PostService {
 		const accepted = await Post.findByIdAndUpdate({ _id: id }, { accept: true });
 		if (!accepted) return false;
 
-		const skills = accepted.skill;
+		const skills = accepted.skill.join(' ');
 		const listCv = await Cv.find(
-			{ skill: { $in: [...skills] }, receiveMail: true },
+			{ $text: { $search: `${skills}` }, receiveMail: true },
 			{
 				__v: 0,
 				createdAt: 0,
@@ -92,10 +92,10 @@ export default class PostService {
 				iterId: 0,
 			},
 		);
+
 		const sendMailList = listCv.map((cv) => {
 			sendMailJob(cv.email, skills, `${url_fe}/job/${accepted._id}`);
 		});
-		// await Promise.all(sendMailList);
 		q.push(function () {
 			Promise.all(sendMailList);
 		});
