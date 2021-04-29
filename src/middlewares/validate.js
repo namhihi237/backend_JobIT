@@ -108,7 +108,7 @@ const createFeedbackSchema = (req, res, next) => {
 
 const createCvSchema = (req, res, next) => {
 	const schema = Joi.object({
-		skill: joi.string().required(),
+		skill: Joi.string().required(),
 		softSkill: Joi.string().required(),
 		experience: Joi.string().required(),
 		description: Joi.string().required(),

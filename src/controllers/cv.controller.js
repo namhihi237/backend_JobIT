@@ -13,7 +13,7 @@ const iterService = new IterService();
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
  * @apiParam {Array} skill vd : ["java","nodejs"]
- * @apiParam {String} personalSkill personalSkill's jcv
+ * @apiParam {String} softSkill soft Skill's jcv
  * @apiParam {String} experience experience's cv
  * @apiParam {String} description description's cv
  * @apiSuccess {Number} status <code>200</code>
@@ -121,7 +121,7 @@ const receiveMail = async (req, res, next) => {
                 "_id": "605a9e1afcedab20d405cc4c",
                 "iterId": "605a9df9fcedab20d405cc44",
                 "iterName": "nam le",
-                "personalSkill": "Good community",
+                "softSkill": "Good community",
                 "experience": "1 nam kn c++",
                 "description": "la mot nguoi tot",
                 "email": "it1@gmail.com"
@@ -167,14 +167,12 @@ const getCv = async (req, res, next) => {
  *         status: 200,
  *         msg: "Success",
  *         "cv": {
-                "skill": [
-                    "C++"
-                ],
+                "skill": C++",
                 "receiveMail": false,
                 "_id": "605a9e1afcedab20d405cc4c",
                 "iterId": "605a9df9fcedab20d405cc44",
                 "iterName": "nam le",
-                "personalSkill": "Good community",
+                "softSkill": "Good community",
                 "experience": "1 nam kn c++",
                 "description": "la mot nguoi tot",
                 "email": "it1@gmail.com"
@@ -190,7 +188,6 @@ const getCv = async (req, res, next) => {
 const getCvByIter = async (req, res, next) => {
 	const { _id } = req.user;
 	try {
-		console.log(_id);
 		const cv = await cvService.getCvByUser(_id);
 		res.status(200).json({
 			status: 200,
