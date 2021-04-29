@@ -23,13 +23,24 @@ export default class PostService {
 
 		const skip = (page - 1) * take;
 		if (!query) {
-			posts = await Post.find({ accept: type }, { __v: 0, active: 0, accept: 0, createdAt: 0, updatedAt: 0, apply: 0 })
+			posts = await Post.find(
+				{ accept: type },
+				{ __v: 0, active: 0, accept: 0, createdAt: 0, updatedAt: 0, apply: 0 },
+			)
 				.skip(skip)
 				.limit(take);
 		} else {
 			posts = await Post.find(
 				{ $text: { $search: `${query}` }, accept: type },
-				{ __v: 0, active: 0, accept: 0, createdAt: 0, updatedAt: 0, apply: 0, score: { $meta: 'textScore' } },
+				{
+					__v: 0,
+					active: 0,
+					accept: 0,
+					createdAt: 0,
+					updatedAt: 0,
+					apply: 0,
+					score: { $meta: 'textScore' },
+				},
 			)
 				.skip(skip)
 				.limit(take)
@@ -73,7 +84,7 @@ export default class PostService {
 				updatedAt: 0,
 				education: 0,
 				description: 0,
-				personalSkill: 0,
+				softSkill: 0,
 				linkGit: 0,
 				experience: 0,
 				_id: 0,
@@ -99,7 +110,10 @@ export default class PostService {
 	}
 
 	async getCompanyPost(companyId) {
-		const posts = await Post.find({ companyId }, { __v: 0, active: 0, createdAt: 0, updatedAt: 0, apply: 0 });
+		const posts = await Post.find(
+			{ companyId },
+			{ __v: 0, active: 0, createdAt: 0, updatedAt: 0, apply: 0 },
+		);
 		return posts;
 	}
 
@@ -110,7 +124,10 @@ export default class PostService {
 		if (!cv) return false;
 		const cvId = cv._id;
 		const iter = await ITer.findOne({ accountId: iterId });
-		await Post.findByIdAndUpdate({ _id }, { $push: { apply: { fullName: iter.fullName, email: iter.email, iterId, cvId } } });
+		await Post.findByIdAndUpdate(
+			{ _id },
+			{ $push: { apply: { fullName: iter.fullName, email: iter.email, iterId, cvId } } },
+		);
 		return true;
 	}
 

@@ -113,7 +113,7 @@ const createCvSchema = (req, res, next) => {
 			.items(Joi.string())
 			.required()
 			.messages({ 'array.min': `skill cannot be an empty field` }),
-		personalSkill: Joi.string().required(),
+		softSkill: Joi.string().required(),
 		experience: Joi.string().required(),
 		description: Joi.string().required(),
 		birthday: Joi.string(),

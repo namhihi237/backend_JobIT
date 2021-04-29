@@ -1,7 +1,7 @@
-import mongo from "mongoose";
-import { HttpError } from "../utils";
-import { CvService, IterService } from "../services";
-import { Cv } from "../models";
+import mongo from 'mongoose';
+import { HttpError } from '../utils';
+import { CvService, IterService } from '../services';
+import { Cv } from '../models';
 const cvService = new CvService();
 const iterService = new IterService();
 
@@ -32,33 +32,33 @@ const iterService = new IterService();
  *     }
  */
 const createCv = async (req, res, next) => {
-    const { _id } = req.user;
-    let { skill, personalSkill, experience, description, birthday, image } = req.body;
-    try {
-        const cvExist = await Cv.findOne({ iterId: _id });
-        if (cvExist) throw new HttpError("You had a cv", 400);
-        const user = await iterService.getIter(_id);
-        if (!user) throw new HttpError("Iter not found", 400);
-        const { email, fullName } = user;
-        const data = {
-            iterId: _id,
-            skill,
-            iterName: fullName,
-            personalSkill,
-            experience,
-            description,
-            email,
-            birthday,
-            image,
-        };
-        await cvService.create(data);
-        res.status(200).json({
-            status: 200,
-            msg: "Create new Cv success",
-        });
-    } catch (error) {
-        next(error);
-    }
+	const { _id } = req.user;
+	let { skill, softSkill, experience, description, birthday, image } = req.body;
+	try {
+		const cvExist = await Cv.findOne({ iterId: _id });
+		if (cvExist) throw new HttpError('You had a cv', 400);
+		const user = await iterService.getIter(_id);
+		if (!user) throw new HttpError('Iter not found', 400);
+		const { email, fullName } = user;
+		const data = {
+			iterId: _id,
+			skill,
+			iterName: fullName,
+			softSkill,
+			experience,
+			description,
+			email,
+			birthday,
+			image,
+		};
+		await cvService.create(data);
+		res.status(200).json({
+			status: 200,
+			msg: 'Create new Cv success',
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 /**
@@ -85,17 +85,17 @@ const createCv = async (req, res, next) => {
  *     }
  */
 const receiveMail = async (req, res, next) => {
-    const { receive } = req.body;
-    const { _id } = req.user;
-    try {
-        if (!(await cvService.reciveMail(_id, receive))) throw new HttpError("Iter not found", 400);
-        res.status(200).json({
-            status: 200,
-            msg: "Register receive email ",
-        });
-    } catch (error) {
-        next(error);
-    }
+	const { receive } = req.body;
+	const { _id } = req.user;
+	try {
+		if (!(await cvService.reciveMail(_id, receive))) throw new HttpError('Iter not found', 400);
+		res.status(200).json({
+			status: 200,
+			msg: 'Register receive email ',
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 /**
@@ -135,20 +135,20 @@ const receiveMail = async (req, res, next) => {
  *     }
  */
 const getCv = async (req, res, next) => {
-    const { id } = req.params;
-    try {
-        if (!mongo.Types.ObjectId.isValid(id)) {
-            throw new HttpError("id is invalid", 400);
-        }
-        const cv = await cvService.getCv(id);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-            cv,
-        });
-    } catch (error) {
-        next(error);
-    }
+	const { id } = req.params;
+	try {
+		if (!mongo.Types.ObjectId.isValid(id)) {
+			throw new HttpError('id is invalid', 400);
+		}
+		const cv = await cvService.getCv(id);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			cv,
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 /**
@@ -188,18 +188,18 @@ const getCv = async (req, res, next) => {
  *     }
  */
 const getCvByIter = async (req, res, next) => {
-    const { _id } = req.user;
-    try {
-        console.log(_id);
-        const cv = await cvService.getCvByUser(_id);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-            cv,
-        });
-    } catch (error) {
-        next(error);
-    }
+	const { _id } = req.user;
+	try {
+		console.log(_id);
+		const cv = await cvService.getCvByUser(_id);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			cv,
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 /**
@@ -225,17 +225,17 @@ const getCvByIter = async (req, res, next) => {
  *     }
  */
 const deleteCv = async (req, res, next) => {
-    const { _id } = req.user;
-    try {
-        if (!(await cvService.getCvByUser(_id))) throw new HttpError("Cv not found ", 400);
-        await cvService.deleteCv(_id);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-        });
-    } catch (error) {
-        next(error);
-    }
+	const { _id } = req.user;
+	try {
+		if (!(await cvService.getCvByUser(_id))) throw new HttpError('Cv not found ', 400);
+		await cvService.deleteCv(_id);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 export const cvController = { createCv, receiveMail, getCv, getCvByIter, deleteCv };
