@@ -108,11 +108,7 @@ const createFeedbackSchema = (req, res, next) => {
 
 const createCvSchema = (req, res, next) => {
 	const schema = Joi.object({
-		skill: Joi.array()
-			.min(1)
-			.items(Joi.string())
-			.required()
-			.messages({ 'array.min': `skill cannot be an empty field` }),
+		skill: joi.string().required(),
 		softSkill: Joi.string().required(),
 		experience: Joi.string().required(),
 		description: Joi.string().required(),
