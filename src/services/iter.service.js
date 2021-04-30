@@ -2,7 +2,7 @@ import { ITer, Account, UserPer } from '../models';
 import { pagination } from '../utils';
 export default class IterService {
 	async getIter(id) {
-		const iter = await ITer.findOne(
+		return await ITer.findOne(
 			{ accountId: id },
 			{
 				__v: 0,
@@ -12,10 +12,9 @@ export default class IterService {
 				roleId: 0,
 			},
 		);
-		return iter;
 	}
 	async getIterByIt(_id) {
-		const iter = await ITer.findOne(
+		return await ITer.findOne(
 			{ _id },
 			{
 				__v: 0,
@@ -25,7 +24,6 @@ export default class IterService {
 				roleId: 0,
 			},
 		);
-		return iter;
 	}
 
 	async update(_id, data) {
@@ -35,8 +33,7 @@ export default class IterService {
 	}
 
 	async getIters(page, take) {
-		let data = await pagination(ITer, {}, page, take);
-		return data;
+		return await pagination(ITer, {}, page, take);
 	}
 
 	async deleteIter(_id) {

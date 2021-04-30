@@ -55,8 +55,7 @@ export default class PostService {
 	}
 
 	async getPost(arg) {
-		const post = await Post.findOne(arg);
-		return post;
+		return await Post.findOne(arg);
 	}
 
 	async update(id, data) {
@@ -110,11 +109,10 @@ export default class PostService {
 	}
 
 	async getCompanyPost(companyId) {
-		const posts = await Post.find(
+		return await Post.find(
 			{ companyId },
 			{ __v: 0, active: 0, createdAt: 0, updatedAt: 0, apply: 0 },
 		);
-		return posts;
 	}
 
 	async applyPost(_id, iterId) {

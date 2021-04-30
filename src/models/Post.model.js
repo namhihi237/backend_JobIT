@@ -38,6 +38,10 @@ const PostSchema = new Schema(
 				},
 				fullName: { type: String },
 				email: { type: String },
+				timeApply: {
+					type: Date,
+					default: new Date(),
+				},
 			},
 		],
 		endTime: {
@@ -58,5 +62,11 @@ const PostSchema = new Schema(
 	},
 	{ timestamps: true },
 );
-PostSchema.index({ companyName: 'text', description: 'text', title: 'text', skill: 'text', address: 'text' });
+PostSchema.index({
+	companyName: 'text',
+	description: 'text',
+	title: 'text',
+	skill: 'text',
+	address: 'text',
+});
 export const Post = model('post', PostSchema, 'post');
