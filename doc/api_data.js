@@ -636,7 +636,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n    role : \"iter\"\n    token : \"xxx.xxx.xxx\",\n     name : \"Le trung nam\"\n}",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\"\n        role : \"iter\"\n        token : \"xxx.xxx.xxx\",\n         name : \"Le trung nam\",\n\t\t\timage:\"https://anh.png\"\n    }",
           "type": "json"
         }
       ]
@@ -1199,79 +1199,6 @@ define({ "api": [
     "groupTitle": "Company"
   },
   {
-    "type": "get",
-    "url": "/api/v1/companies/profile",
-    "title": "get profile",
-    "name": "get_company",
-    "group": "Company",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "token",
-            "description": "<p>The token can be generated from your user profile.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example",
-          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
-          "type": "Header"
-        }
-      ]
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "status",
-            "description": "<p><code>200</code></p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p><code>Success</code></p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "user",
-            "description": "<p><code> Objects user</code></p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"user\": {\n            \"_id\": \"601d07f259e12e126c0a2af4\",\n            \"email\": \"yentth239@gmail.com\",\n            \"companyName\": \"FPT\",\n            \"roleId\": \"601b9d7cdae0a522ac960fe9\"\n        } \n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "Response (example):",
-          "content": "HTTP/1.1 400\n{\n  \"status\" : 401,\n  \"msg\": \"Company not found\"\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/company.controller.js",
-    "groupTitle": "Company"
-  },
-  {
     "type": "post",
     "url": "/api/v1/companies/profile",
     "title": "update company",
@@ -1390,8 +1317,8 @@ define({ "api": [
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "personalSkill",
-            "description": "<p>personalSkill's jcv</p>"
+            "field": "softSkill",
+            "description": "<p>soft Skill's jcv</p>"
           },
           {
             "group": "Parameter",
@@ -1505,7 +1432,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"cv\": {\n            \"skill\": [\n                \"C++\"\n            ],\n            \"receiveMail\": false,\n            \"_id\": \"605a9e1afcedab20d405cc4c\",\n            \"iterId\": \"605a9df9fcedab20d405cc44\",\n            \"iterName\": \"nam le\",\n            \"personalSkill\": \"Good community\",\n            \"experience\": \"1 nam kn c++\",\n            \"description\": \"la mot nguoi tot\",\n            \"email\": \"it1@gmail.com\"\n        }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"cv\": {\n            \"skill\": [\n                \"C++\"\n            ],\n            \"receiveMail\": false,\n            \"_id\": \"605a9e1afcedab20d405cc4c\",\n            \"iterId\": \"605a9df9fcedab20d405cc44\",\n            \"iterName\": \"nam le\",\n            \"softSkill\": \"Good community\",\n            \"experience\": \"1 nam kn c++\",\n            \"description\": \"la mot nguoi tot\",\n            \"email\": \"it1@gmail.com\"\n        }\n}",
           "type": "json"
         }
       ]
@@ -1578,7 +1505,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"cv\": {\n            \"skill\": [\n                \"C++\"\n            ],\n            \"receiveMail\": false,\n            \"_id\": \"605a9e1afcedab20d405cc4c\",\n            \"iterId\": \"605a9df9fcedab20d405cc44\",\n            \"iterName\": \"nam le\",\n            \"personalSkill\": \"Good community\",\n            \"experience\": \"1 nam kn c++\",\n            \"description\": \"la mot nguoi tot\",\n            \"email\": \"it1@gmail.com\"\n        }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"cv\": {\n            \"skill\": C++\",\n            \"receiveMail\": false,\n            \"_id\": \"605a9e1afcedab20d405cc4c\",\n            \"iterId\": \"605a9df9fcedab20d405cc44\",\n            \"iterName\": \"nam le\",\n            \"softSkill\": \"Good community\",\n            \"experience\": \"1 nam kn c++\",\n            \"description\": \"la mot nguoi tot\",\n            \"email\": \"it1@gmail.com\"\n        }\n}",
           "type": "json"
         }
       ]
@@ -2256,79 +2183,6 @@ define({ "api": [
         {
           "title": "Response (example):",
           "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission update profile\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/iter.controller.js",
-    "groupTitle": "Iter"
-  },
-  {
-    "type": "get",
-    "url": "/api/v1/iters/profile",
-    "title": "get profile",
-    "name": "get_profile",
-    "group": "Iter",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "token",
-            "description": "<p>The token can be generated from your user profile.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example",
-          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
-          "type": "Header"
-        }
-      ]
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "status",
-            "description": "<p><code>200</code></p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p><code>Success</code></p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "user",
-            "description": "<p><code> Objects user</code></p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n      \"user\": {\n            \"_id\": \"6020bd895d7a6b07b0b0eef9\",\n            \"email\": \"yentth@gmail.com\",\n            \"fullName\": \"Le Trung Nam\",\n        }\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "Response (example):",
-          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission get profile\"\n}",
           "type": "json"
         }
       ]

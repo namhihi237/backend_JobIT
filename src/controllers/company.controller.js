@@ -1,53 +1,7 @@
-import mongo from "mongoose";
-import { HttpError } from "../utils";
-import { CompanyService } from "../services";
+import mongo from 'mongoose';
+import { HttpError } from '../utils';
+import { CompanyService } from '../services';
 const companyService = new CompanyService();
-/**
- * @api {get} /api/v1/companies/profile get profile
- * @apiName get company
- * @apiGroup Company
- * @apiHeader {String} token The token can be generated from your user profile.
- * @apiHeaderExample {Header} Header-Example
- *     "Authorization: Bearer AAA.BBB.CCC"
- * @apiSuccess {Number} status <code>200</code>
- * @apiSuccess {String} msg <code>Success</code>
- * @apiSuccess {Object} user <code> Objects user</code>
- * @apiSuccessExample {json} Success-Example
- *     HTTP/1.1 200 OK
- *     {
- *         status: 200,
- *         msg: "Success",
- *         "user": {
-                "_id": "601d07f259e12e126c0a2af4",
-                "email": "yentth239@gmail.com",
-                "companyName": "FPT",
-                "roleId": "601b9d7cdae0a522ac960fe9"
-            } 
-            
- *     }
- * @apiErrorExample Response (example):
- *     HTTP/1.1 400
- *     {
- *       "status" : 401,
- *       "msg": "Company not found""
- *     }
- */
-
-const getProfile = async (req, res, next) => {
-    const { _id } = req.user;
-    try {
-        const user = await companyService.getCompany(_id);
-        if (!user) throw new HttpError("Company not found", 400);
-
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-            user,
-        });
-    } catch (error) {
-        next(error);
-    }
-};
 
 /**
  * @api {post} /api/v1/companies/profile update company
@@ -74,19 +28,17 @@ const getProfile = async (req, res, next) => {
  */
 
 const updateProfile = async (req, res, next) => {
-    const { companyName } = req.body;
-    const { _id } = req.user;
-    try {
-        const data = { companyName };
-        if (!(await companyService.update(_id, data)))
-            throw new HttpError("Company not found", 400);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-        });
-    } catch (error) {
-        next(error);
-    }
+	const { _id } = req.user;
+	try {
+		if (!(await companyService.update(_id, req.body)))
+			throw new HttpError('Company not found', 400);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 /**
@@ -130,18 +82,18 @@ const updateProfile = async (req, res, next) => {
     }
  */
 const getCompanys = async (req, res, next) => {
-    const { take, page } = req.query;
+	const { take, page } = req.query;
 
-    try {
-        const data = await companyService.getCompanys(page, take);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-            data,
-        });
-    } catch (error) {
-        next(error);
-    }
+	try {
+		const data = await companyService.getCompanys(page, take);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			data,
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 /**
@@ -167,23 +119,22 @@ const getCompanys = async (req, res, next) => {
  *     }
  */
 const deleteCompany = async (req, res, next) => {
-    const { id } = req.params;
-    try {
-        if (!mongo.Types.ObjectId.isValid(id)) throw new HttpError("Id incorrect", 401);
-        if (!(await companyService.deleteCompany(id)))
-            throw new HttpError("Company not found", 400);
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-        });
-    } catch (error) {
-        next(error);
-    }
+	const { id } = req.params;
+	try {
+		if (!mongo.Types.ObjectId.isValid(id)) throw new HttpError('Id incorrect', 401);
+		if (!(await companyService.deleteCompany(id)))
+			throw new HttpError('Company not found', 400);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 export const companyController = {
-    getProfile,
-    updateProfile,
-    getCompanys,
-    deleteCompany,
+	updateProfile,
+	getCompanys,
+	deleteCompany,
 };
