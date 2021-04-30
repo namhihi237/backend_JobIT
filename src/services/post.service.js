@@ -159,7 +159,7 @@ export default class PostService {
 		return true;
 	}
 
-	async getCompanyPost(companyId) {
+	async getCompanyPost(accountId) {
 		return await Post.find(
 			{ accountId },
 			{ __v: 0, active: 0, createdAt: 0, updatedAt: 0, apply: 0 },
