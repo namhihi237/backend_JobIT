@@ -2,15 +2,20 @@ import { Schema, model } from 'mongoose';
 
 const PostSchema = new Schema(
 	{
-		companyId: {
+		accountId: {
 			type: Schema.Types.ObjectId,
 			ref: 'account',
 			require: true,
 		},
-		companyName: {
-			type: String,
-			required: true,
+		companyId: {
+			type: Schema.Types.ObjectId,
+			ref: 'company',
+			require: true,
 		},
+		// companyName: {
+		// 	type: String,
+		// 	required: true,
+		// },
 		title: {
 			type: String,
 		},

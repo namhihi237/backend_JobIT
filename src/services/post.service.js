@@ -1,4 +1,4 @@
-import { Post, ITer, Company, Cv } from '../models';
+import { Post, ITer, Cv } from '../models';
 import { sendMailJob } from '../utils';
 import { envVariables } from '../configs';
 const { url_fe } = envVariables;
@@ -15,33 +15,84 @@ export default class PostService {
 		let posts = [];
 		page = isNaN(page) ? 1 : page - 0;
 		take = isNaN(take) ? 10 : take - 0;
-		let count = await Post.countDocuments({ accept: type });
-		let numPages = Math.ceil(count / take);
+		let count;
+		let numPages;
 
-		if (page > numPages) page = numPages;
-		page = page <= 0 ? 1 : page;
-
-		const skip = (page - 1) * take;
 		if (!query) {
-			posts = await Post.find(
-				{ accept: type },
-				{ __v: 0, active: 0, accept: 0, createdAt: 0, updatedAt: 0, apply: 0 },
-			)
+			count = await Post.countDocuments({ accept: type });
+			numPages = Math.ceil(count / take);
+			if (page > numPages) page = numPages;
+			page = page <= 0 ? 1 : page;
+
+			const skip = (page - 1) * take;
+			posts = await Post.aggregate([
+				{
+					$match: {
+						accept: type,
+					},
+				},
+				{
+					$project: {
+						__v: 0,
+						active: 0,
+						accept: 0,
+						createdAt: 0,
+						updatedAt: 0,
+						apply: 0,
+						comment: 0,
+						company: {
+							createdAt: 0,
+						},
+					},
+				},
+
+				{
+					$lookup: {
+						from: 'company',
+						localField: 'companyId',
+						foreignField: '_id',
+						as: 'company',
+					},
+				},
+			])
 				.skip(skip)
 				.limit(take);
 		} else {
-			posts = await Post.find(
-				{ $text: { $search: `${query}` }, accept: type },
+			console.log(query);
+			count = await Post.countDocuments({ accept: type, $text: { $search: `${query}` } });
+			numPages = Math.ceil(count / take);
+			if (page > numPages) page = numPages;
+			page = page <= 0 ? 1 : page;
+
+			const skip = (page - 1) * take;
+			posts = await Post.aggregate([
 				{
-					__v: 0,
-					active: 0,
-					accept: 0,
-					createdAt: 0,
-					updatedAt: 0,
-					apply: 0,
-					score: { $meta: 'textScore' },
+					$match: {
+						accept: type,
+						$text: { $search: `${query}` },
+					},
 				},
-			)
+				{
+					$lookup: {
+						from: 'company',
+						localField: 'companyId',
+						foreignField: '_id',
+						as: 'company',
+					},
+				},
+				{
+					$project: {
+						__v: 0,
+						active: 0,
+						accept: 0,
+						createdAt: 0,
+						updatedAt: 0,
+						apply: 0,
+						comment: 0,
+						score: { $meta: 'textScore' },
+					},
+				},
+			])
 				.skip(skip)
 				.limit(take)
 				.sort({ score: { $meta: 'textScore' } });

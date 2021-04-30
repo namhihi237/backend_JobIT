@@ -39,15 +39,16 @@ const createPost = async (req, res, next) => {
 		const company = await Company.findOne({ accountId: _id });
 		if (!company) throw new HttpError('Failed', 401);
 		const data = {
-			companyId: _id,
+			accountId: _id,
+			companyId: company._id,
 			title,
-			companyName: company.companyName,
+			// companyName: company.companyName,
 			skill,
 			address,
 			salary,
 			endTime,
 			description,
-			logo: company.image,
+			// logo: company.image,
 		};
 		await postService.create(data);
 
@@ -358,7 +359,8 @@ const applyJob = async (req, res, next) => {
 	const { _id } = req.params;
 	const iterId = req.user._id;
 	try {
-		if (!(await postService.applyPost(_id, iterId))) throw new HttpError('you have already applied it before', 400);
+		if (!(await postService.applyPost(_id, iterId)))
+			throw new HttpError('you have already applied it before', 400);
 		res.status(200).json({
 			status: 200,
 			msg: 'Success',
@@ -390,12 +392,12 @@ const listApply = async (req, res, next) => {
 	const { _id } = req.params;
 	try {
 		const applies = await postService.listApply(_id);
-		const post = await postService.getPost({_id });
+		const post = await postService.getPost({ _id });
 		res.status(200).json({
 			status: 200,
 			msg: 'Success',
 			applies,
-			title : post.title
+			title: post.title,
 		});
 	} catch (error) {
 		next(error);
