@@ -3,6 +3,7 @@ import { sendMailJob } from '../utils';
 import { envVariables } from '../configs';
 const { url_fe } = envVariables;
 import queue from 'queue';
+import mongo from 'mongoose';
 
 let q = queue({ results: [] });
 
@@ -163,7 +164,7 @@ export default class PostService {
 		return await Post.aggregate([
 			{
 				$match: {
-					accountId,
+					accountId: mongo.Types.ObjectId(accountId),
 				},
 			},
 			{
@@ -175,9 +176,11 @@ export default class PostService {
 					updatedAt: 0,
 					apply: 0,
 					comment: 0,
+					company: {
+						createdAt: 0,
+					},
 				},
 			},
-
 			{
 				$lookup: {
 					from: 'company',

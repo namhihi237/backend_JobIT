@@ -327,6 +327,7 @@ const acceptPost = async (req, res, next) => {
  */
 const getCompanyPost = async (req, res, next) => {
 	const { _id } = req.user;
+	console.log(_id);
 	try {
 		const posts = await postService.getCompanyPost(_id);
 		res.status(200).json({
