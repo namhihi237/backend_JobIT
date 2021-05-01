@@ -171,7 +171,6 @@ export default class PostService {
 				$project: {
 					__v: 0,
 					active: 0,
-					accept: 0,
 					createdAt: 0,
 					updatedAt: 0,
 					apply: 0,
