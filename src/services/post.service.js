@@ -160,10 +160,33 @@ export default class PostService {
 	}
 
 	async getCompanyPost(accountId) {
-		return await Post.find(
-			{ accountId },
-			{ __v: 0, active: 0, createdAt: 0, updatedAt: 0, apply: 0 },
-		);
+		return await Post.aggregate([
+			{
+				$match: {
+					accountId,
+				},
+			},
+			{
+				$project: {
+					__v: 0,
+					active: 0,
+					accept: 0,
+					createdAt: 0,
+					updatedAt: 0,
+					apply: 0,
+					comment: 0,
+				},
+			},
+
+			{
+				$lookup: {
+					from: 'company',
+					localField: 'companyId',
+					foreignField: '_id',
+					as: 'company',
+				},
+			},
+		]);
 	}
 
 	async applyPost(_id, iterId) {
