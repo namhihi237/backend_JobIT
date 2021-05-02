@@ -15,7 +15,7 @@ companyRouter
 
 companyRouter
 	.route('/api/v1/companies/profile')
-	.post(jwtMidleware, updateCompanySchema, companyController.updateProfile); //UPDATE_PROFILE
+	.post(jwtMidleware, companyController.updateProfile); //UPDATE_PROFILE
 
 companyRouter
 	.route('/api/v1/companies')

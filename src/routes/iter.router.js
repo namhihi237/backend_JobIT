@@ -16,6 +16,4 @@ iterRouter
 	.route('/api/v1/iters/:id')
 	.delete(jwtMidleware, checkPer(ACTION_CODE.DELETE_USER), iterController.deleteIter);
 
-iterRouter
-	.route('/api/v1/iters/profile')
-	.post(jwtMidleware, validateRequestBody.updateIterSchema, iterController.updateProfile);
+iterRouter.route('/api/v1/iters/profile').post(jwtMidleware, iterController.updateProfile);
