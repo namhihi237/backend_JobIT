@@ -7,7 +7,7 @@ const ITerSchema = new Schema(
 			ref: 'account',
 			required: true,
 		},
-		fullName: {
+		name: {
 			type: String,
 			require: true,
 		},

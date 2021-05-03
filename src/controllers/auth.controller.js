@@ -12,7 +12,7 @@ const iterService = new IterService();
  * @apiGroup Auth
  * @apiParam {String} email email's  iter account
  * @apiParam {String} password password's iter account
- * @apiParam {String} fullName full name's iter
+ * @apiParam {String} name name's iter
  * @apiSuccess {String} msg <code>Sign up success</code> if everything went fine.
  * @apiSuccessExample {json} Success-Example
  *     HTTP/1.1 200 OK
@@ -29,14 +29,14 @@ const iterService = new IterService();
  */
 
 const registerIter = async (req, res, next) => {
-	let { password, email, fullName } = req.body;
+	let { password, email, name } = req.body;
 	email = email.toLowerCase();
 	try {
 		const user = await authService.getAccount({ email });
 		if (user) {
 			throw new HttpError('The email has already been used by another account', 400);
 		}
-		const data = { email, password, fullName };
+		const data = { email, password, name };
 		await authService.register(data, 'iter');
 		res.status(200).json({
 			status: 200,
@@ -54,7 +54,7 @@ const registerIter = async (req, res, next) => {
  * @apiGroup Auth
  * @apiParam {String} email email's  company account
  * @apiParam {String} password password's company account
- * @apiParam {String} companyName name's company
+ * @apiParam {String} name name's company
  * @apiSuccess {String} msg <code>Sign up success</code> if everything went fine.
  * @apiSuccessExample {json} Success-Example
  *     HTTP/1.1 200 OK
@@ -70,14 +70,14 @@ const registerIter = async (req, res, next) => {
  *     }
  */
 const registerCompany = async (req, res, next) => {
-	let { password, email, companyName } = req.body;
+	let { password, email, name } = req.body;
 	email = email.toLowerCase();
 	try {
 		const user = await authService.getAccount({ email });
 		if (user) {
 			throw new HttpError('The email has already been used by another account', 400);
 		}
-		const data = { email, password, companyName };
+		const data = { email, password, name };
 		await authService.register(data, 'company');
 
 		res.status(200).json({
@@ -129,11 +129,11 @@ const login = async (req, res, next) => {
 		let image;
 		if (role == 'iter') {
 			const info = await ITer.findOne({ accountId });
-			name = info.fullName;
+			name = info.name;
 			image = info.image;
 		} else if (role == 'company') {
 			const info = await Company.findOne({ accountId });
-			name = info.companyName;
+			name = info.name;
 			image = info.image;
 		}
 
@@ -335,7 +335,7 @@ const changePasswordReset = async (req, res, next) => {
  *         "user": {
                 "_id": "601d07f259e12e126c0a2af4",
                 "email": "yentth239@gmail.com",
-                "companyName": "FPT",
+                "name": "FPT",
                 "roleId": "601b9d7cdae0a522ac960fe9"
             } 
             
@@ -368,6 +368,52 @@ const profile = async (req, res, next) => {
 	}
 };
 
+/**
+ * @api {post} /api/v1/auth/profile update profile
+ * @apiName update profile
+ * @apiGroup auth
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiParam {String} name name 's user
+ * @apiParam {String} phone phone's user
+ * @apiParam {String} image link image's user
+ * @apiParam {String} address address's user
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 404
+ *     {
+ *       "status" : 404,
+ *       "msg": "User not found"
+ *     }
+ */
+const updateProfile = async (req, res, next) => {
+	const { role, _id } = req.user;
+	let user = null;
+	if (role == 'company') {
+		user = await companyService.getCompany(_id);
+	} else if (role == 'iter') {
+		user = await iterService.getIter(_id);
+	}
+	if (!user) throw new HttpError('user not found', 400);
+	if (role == 'company') {
+		await companyService.update(_id, req.body);
+	} else if (role == 'iter') {
+		await iterService.update(_id, req.body);
+	}
+	res.status(200).json({
+		status: 200,
+		msg: 'Success',
+	});
+};
+
 export const authController = {
 	registerIter,
 	registerCompany,
@@ -377,4 +423,5 @@ export const authController = {
 	confirmCode,
 	changePasswordReset,
 	profile,
+	updateProfile,
 };

@@ -12,7 +12,7 @@ const PostSchema = new Schema(
 			ref: 'company',
 			require: true,
 		},
-		// companyName: {
+		// name: {
 		// 	type: String,
 		// 	required: true,
 		// },
@@ -41,7 +41,7 @@ const PostSchema = new Schema(
 					type: Schema.Types.ObjectId,
 					ref: 'cv',
 				},
-				fullName: { type: String },
+				name: { type: String },
 				email: { type: String },
 				timeApply: {
 					type: Date,
@@ -68,7 +68,7 @@ const PostSchema = new Schema(
 	{ timestamps: true },
 );
 PostSchema.index({
-	companyName: 'text',
+	name: 'text',
 	description: 'text',
 	title: 'text',
 	skill: 'text',

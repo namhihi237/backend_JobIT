@@ -7,7 +7,7 @@ const CompanySchema = new Schema(
 			ref: 'account',
 			required: true,
 		},
-		companyName: {
+		name: {
 			type: String,
 			required: true,
 		},

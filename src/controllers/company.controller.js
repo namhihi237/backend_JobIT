@@ -10,7 +10,9 @@ const companyService = new CompanyService();
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
- * @apiParam {String} companyName name's company
+ * @apiParam {String} name name's company
+ * @apiParam {String} phone phone's company
+ * @apiParam {String} address name's company
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code>
  * @apiSuccessExample {json} Success-Example
@@ -73,7 +75,7 @@ const updateProfile = async (req, res, next) => {
             "result": [
                 {
                     "_id": "606491e8831e840015befef9",
-                    "companyName": "Madison Technology ",
+                    "name": "Madison Technology ",
                     "accountId": "606491e7831e840015befeee",
                     "email": "com1@gmail.com",
                     "createdAt": "2021-03-31T15:14:48.629Z",

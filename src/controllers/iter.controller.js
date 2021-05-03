@@ -10,7 +10,10 @@ const iterService = new IterService();
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
- * @apiParam {String} fullName fullname's company
+ * @apiParam {String} name name's iter
+ * @apiParam {String} phone phone's iter
+ * @apiParam {String} address address's iter
+ * @apiParam {String} birthday birthday's iter
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code>
  * @apiSuccessExample {json} Success-Example
@@ -67,7 +70,7 @@ const updateProfile = async (req, res, next) => {
                     {
                         "receiveMailJob": false,
                         "_id": "605af5b86bad1f00159d773f",
-                        "fullName": "thang",
+                        "name": "thang",
                         "accountId": "605af5b76bad1f00159d7738",
                         "email": "thang@gmail.com",
                         "createdAt": "2021-03-24T08:18:00.272Z",
@@ -76,7 +79,7 @@ const updateProfile = async (req, res, next) => {
                     {
                         "receiveMailJob": false,
                         "_id": "6062ad983bbee800153a7b80",
-                        "fullName": "nam le",
+                        "name": "nam le",
                         "accountId": "6062ad973bbee800153a7b78",
                         "email": "it@gmail.com",
                         "createdAt": "2021-03-30T04:48:24.125Z",

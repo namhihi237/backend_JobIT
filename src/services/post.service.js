@@ -200,7 +200,7 @@ export default class PostService {
 		const iter = await ITer.findOne({ accountId: iterId });
 		await Post.findByIdAndUpdate(
 			{ _id },
-			{ $push: { apply: { fullName: iter.fullName, email: iter.email, iterId, cvId } } },
+			{ $push: { apply: { name: iter.name, email: iter.email, iterId, cvId } } },
 		);
 		return true;
 	}

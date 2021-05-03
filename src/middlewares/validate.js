@@ -3,7 +3,7 @@ import { validateRequest } from '../utils';
 /* -------------------auth ----------------------------*/
 const registerITerSchema = (req, res, next) => {
 	const schema = Joi.object({
-		fullName: Joi.string().required(),
+		name: Joi.string().required(),
 		password: Joi.string().alphanum().required().min(6).max(50),
 		email: Joi.string().email().required(),
 	});
@@ -12,14 +12,14 @@ const registerITerSchema = (req, res, next) => {
 
 const updateIterSchema = (req, res, next) => {
 	const schema = Joi.object({
-		fullName: Joi.string().required(),
+		name: Joi.string().required(),
 	});
 	validateRequest(req, next, schema);
 };
 
 const registerCompanySchema = (req, res, next) => {
 	const schema = Joi.object({
-		companyName: Joi.string().required(),
+		name: Joi.string().required(),
 		password: Joi.string().alphanum().required().min(6).max(50),
 		email: Joi.string().email().required(),
 	});
@@ -28,7 +28,7 @@ const registerCompanySchema = (req, res, next) => {
 
 const updateCompanySchema = (req, res, next) => {
 	const schema = Joi.object({
-		companyName: Joi.string().required(),
+		name: Joi.string().required(),
 	});
 	validateRequest(req, next, schema);
 };

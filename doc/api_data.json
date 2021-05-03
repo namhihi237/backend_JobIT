@@ -681,8 +681,8 @@
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "fullName",
-            "description": "<p>full name's iter</p>"
+            "field": "name",
+            "description": "<p>name's iter</p>"
           }
         ]
       }
@@ -747,7 +747,7 @@
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "companyName",
+            "field": "name",
             "description": "<p>name's company</p>"
           }
         ]
@@ -1189,7 +1189,7 @@
       "examples": [
         {
           "title": "Response (example):",
-          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\",\n     \"data\": {\n        \"page\": 1,\n        \"numPages\": 1,\n        \"result\": [\n            {\n                \"_id\": \"606491e8831e840015befef9\",\n                \"companyName\": \"Madison Technology \",\n                \"accountId\": \"606491e7831e840015befeee\",\n                \"email\": \"com1@gmail.com\",\n                \"createdAt\": \"2021-03-31T15:14:48.629Z\",\n            }\n        ]\n}",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\",\n     \"data\": {\n        \"page\": 1,\n        \"numPages\": 1,\n        \"result\": [\n            {\n                \"_id\": \"606491e8831e840015befef9\",\n                \"name\": \"Madison Technology \",\n                \"accountId\": \"606491e7831e840015befeee\",\n                \"email\": \"com1@gmail.com\",\n                \"createdAt\": \"2021-03-31T15:14:48.629Z\",\n            }\n        ]\n}",
           "type": "json"
         }
       ]
@@ -1231,7 +1231,21 @@
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "companyName",
+            "field": "name",
+            "description": "<p>name's company</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>phone's company</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "address",
             "description": "<p>name's company</p>"
           }
         ]
@@ -2173,7 +2187,7 @@
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"data\": {\n            \"page\": 1,\n            \"numPages\": 1,\n            \"result\": [\n                {\n                    \"receiveMailJob\": false,\n                    \"_id\": \"605af5b86bad1f00159d773f\",\n                    \"fullName\": \"thang\",\n                    \"accountId\": \"605af5b76bad1f00159d7738\",\n                    \"email\": \"thang@gmail.com\",\n                    \"createdAt\": \"2021-03-24T08:18:00.272Z\",\n                    \"image\": \"https://res.cloudinary.com/do-an-cnpm/image/upload/v1617869793/ajdi4nvzeiasleeplveo.jpg\"\n                },\n                {\n                    \"receiveMailJob\": false,\n                    \"_id\": \"6062ad983bbee800153a7b80\",\n                    \"fullName\": \"nam le\",\n                    \"accountId\": \"6062ad973bbee800153a7b78\",\n                    \"email\": \"it@gmail.com\",\n                    \"createdAt\": \"2021-03-30T04:48:24.125Z\",\n                    \"image\": \"https://res.cloudinary.com/do-an-cnpm/image/upload/v1617869793/ajdi4nvzeiasleeplveo.jpg\"\n                },\n            ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"data\": {\n            \"page\": 1,\n            \"numPages\": 1,\n            \"result\": [\n                {\n                    \"receiveMailJob\": false,\n                    \"_id\": \"605af5b86bad1f00159d773f\",\n                    \"name\": \"thang\",\n                    \"accountId\": \"605af5b76bad1f00159d7738\",\n                    \"email\": \"thang@gmail.com\",\n                    \"createdAt\": \"2021-03-24T08:18:00.272Z\",\n                    \"image\": \"https://res.cloudinary.com/do-an-cnpm/image/upload/v1617869793/ajdi4nvzeiasleeplveo.jpg\"\n                },\n                {\n                    \"receiveMailJob\": false,\n                    \"_id\": \"6062ad983bbee800153a7b80\",\n                    \"name\": \"nam le\",\n                    \"accountId\": \"6062ad973bbee800153a7b78\",\n                    \"email\": \"it@gmail.com\",\n                    \"createdAt\": \"2021-03-30T04:48:24.125Z\",\n                    \"image\": \"https://res.cloudinary.com/do-an-cnpm/image/upload/v1617869793/ajdi4nvzeiasleeplveo.jpg\"\n                },\n            ]\n}",
           "type": "json"
         }
       ]
@@ -2224,8 +2238,29 @@
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "fullName",
-            "description": "<p>fullname's company</p>"
+            "field": "name",
+            "description": "<p>name's iter</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>phone's iter</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "address",
+            "description": "<p>address's iter</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "birthday",
+            "description": "<p>birthday's iter</p>"
           }
         ]
       }
@@ -2715,7 +2750,7 @@
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n     \"currentPage\": 2,\n        \"numPages\": 2,\n   posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"companyName\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n       },\n     ......\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n     \"currentPage\": 2,\n        \"numPages\": 2,\n   posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"name\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n       },\n     ......\n    ]\n}",
           "type": "json"
         }
       ]
@@ -2779,7 +2814,7 @@
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n   posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"companyName\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n       },\n     ......\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n   posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"name\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n       },\n     ......\n    ]\n}",
           "type": "json"
         }
       ]
@@ -2843,7 +2878,7 @@
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n   status: 200,\n   msg: \"Success\",\n    data : {\n        \"currentPage\": 2,\n        \"numPages\": 2,\n     posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"companyName\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n        \"createdAt\": \"2021-02-05T09:41:09.446Z\"\n       },\n     ....\n    ]\n    }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n   status: 200,\n   msg: \"Success\",\n    data : {\n        \"currentPage\": 2,\n        \"numPages\": 2,\n     posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"name\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n        \"createdAt\": \"2021-02-05T09:41:09.446Z\"\n       },\n     ....\n    ]\n    }\n}",
           "type": "json"
         }
       ]
@@ -2980,7 +3015,7 @@
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"user\": {\n            \"_id\": \"601d07f259e12e126c0a2af4\",\n            \"email\": \"yentth239@gmail.com\",\n            \"companyName\": \"FPT\",\n            \"roleId\": \"601b9d7cdae0a522ac960fe9\"\n        } \n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"user\": {\n            \"_id\": \"601d07f259e12e126c0a2af4\",\n            \"email\": \"yentth239@gmail.com\",\n            \"name\": \"FPT\",\n            \"roleId\": \"601b9d7cdae0a522ac960fe9\"\n        } \n}",
           "type": "json"
         }
       ]
@@ -2990,6 +3025,106 @@
         {
           "title": "Response (example):",
           "content": "HTTP/1.1 400\n{\n  \"status\" : 401,\n  \"msg\": \"user not found\"\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/auth.controller.js",
+    "groupTitle": "auth"
+  },
+  {
+    "type": "post",
+    "url": "/api/v1/auth/profile",
+    "title": "update profile",
+    "name": "update_profile",
+    "group": "auth",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>name 's user</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>phone's user</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "image",
+            "description": "<p>link image's user</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "address",
+            "description": "<p>address's user</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 404\n{\n  \"status\" : 404,\n  \"msg\": \"User not found\"\n}",
           "type": "json"
         }
       ]
