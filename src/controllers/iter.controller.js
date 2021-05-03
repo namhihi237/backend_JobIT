@@ -4,46 +4,6 @@ import { IterService } from '../services';
 const iterService = new IterService();
 
 /**
- * @api {post} /api/v1/iters/profile update profile
- * @apiName update profile
- * @apiGroup Iter
- * @apiHeader {String} token The token can be generated from your user profile.
- * @apiHeaderExample {Header} Header-Example
- *     "Authorization: Bearer AAA.BBB.CCC"
- * @apiParam {String} name name's iter
- * @apiParam {String} phone phone's iter
- * @apiParam {String} address address's iter
- * @apiParam {String} birthday birthday's iter
- * @apiSuccess {Number} status <code>200</code>
- * @apiSuccess {String} msg <code>Success</code>
- * @apiSuccessExample {json} Success-Example
- *     HTTP/1.1 200 OK
- *     {
- *         status: 200,
- *         msg: "Success",
- *     }
- * @apiErrorExample Response (example):
- *     HTTP/1.1 401
- *     {
- *       "status" : 401,
- *       "msg": "Denny permission update profile"
- *     }
- */
-const updateProfile = async (req, res, next) => {
-	const { _id } = req.user;
-	try {
-		if (!(await iterService.update(_id, req.body))) throw new HttpError('Iter not found', 400);
-		res.status(200).json({
-			status: 200,
-			msg: 'Success',
-		});
-	} catch (error) {
-		console.log(error);
-		next(error);
-	}
-};
-
-/**
  * @api {get} /api/v1/iters get all iters
  * @apiName get all iters
  * @apiGroup Iter
@@ -146,7 +106,6 @@ const deleteIter = async (req, res, next) => {
 };
 
 export const iterController = {
-	updateProfile,
 	getIters,
 	deleteIter,
 };

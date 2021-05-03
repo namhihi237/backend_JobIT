@@ -369,13 +369,13 @@ const profile = async (req, res, next) => {
 };
 
 /**
- * @api {post} /api/v1/auth/profile update profile
- * @apiName update profile
+ * @api {patch} /api/v1/auth/profile update profile
+ * @apiName update user profile
  * @apiGroup auth
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
- * @apiParam {String} name name 's user
+ * @apiParam {String} name name's user
  * @apiParam {String} phone phone's user
  * @apiParam {String} image link image's user
  * @apiParam {String} address address's user

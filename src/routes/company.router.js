@@ -14,9 +14,5 @@ companyRouter
 	.delete(jwtMidleware, checkPer(ACTION_CODE.DELETE_USER), companyController.deleteCompany); // DELETE_USER
 
 companyRouter
-	.route('/api/v1/companies/profile')
-	.post(jwtMidleware, companyController.updateProfile); //UPDATE_PROFILE
-
-companyRouter
 	.route('/api/v1/companies')
 	.get(jwtMidleware, checkPer(ACTION_CODE.GET_USERS), companyController.getCompanys); //GET_USERS

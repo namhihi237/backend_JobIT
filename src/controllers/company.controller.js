@@ -4,46 +4,6 @@ import { CompanyService } from '../services';
 const companyService = new CompanyService();
 
 /**
- * @api {post} /api/v1/companies/profile update company
- * @apiName update company
- * @apiGroup Company
- * @apiHeader {String} token The token can be generated from your user profile.
- * @apiHeaderExample {Header} Header-Example
- *     "Authorization: Bearer AAA.BBB.CCC"
- * @apiParam {String} name name's company
- * @apiParam {String} phone phone's company
- * @apiParam {String} address name's company
- * @apiSuccess {Number} status <code>200</code>
- * @apiSuccess {String} msg <code>Success</code>
- * @apiSuccessExample {json} Success-Example
- *     HTTP/1.1 200 OK
- *     {
- *         status: 200,
- *         msg: "Success",
- *     }
- * @apiErrorExample Response (example):
- *     HTTP/1.1 401
- *     {
- *       "status" : 401,
- *       "msg": "Denny permission"
- *     }
- */
-
-const updateProfile = async (req, res, next) => {
-	const { _id } = req.user;
-	try {
-		if (!(await companyService.update(_id, req.body)))
-			throw new HttpError('Company not found', 400);
-		res.status(200).json({
-			status: 200,
-			msg: 'Success',
-		});
-	} catch (error) {
-		next(error);
-	}
-};
-
-/**
  * @api {get} /api/v1/companies get all company
  * @apiName get all company
  * @apiGroup Company
@@ -136,7 +96,6 @@ const deleteCompany = async (req, res, next) => {
 };
 
 export const companyController = {
-	updateProfile,
 	getCompanys,
 	deleteCompany,
 };
