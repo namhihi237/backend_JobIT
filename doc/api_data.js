@@ -1229,10 +1229,10 @@ define({ "api": [
         "Parameter": [
           {
             "group": "Parameter",
-            "type": "Array",
+            "type": "String",
             "optional": false,
             "field": "skill",
-            "description": "<p>vd : [&quot;java&quot;,&quot;nodejs&quot;]</p>"
+            "description": "<p>tech skill</p>"
           },
           {
             "group": "Parameter",
@@ -1254,6 +1254,20 @@ define({ "api": [
             "optional": false,
             "field": "description",
             "description": "<p>description's cv</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "birthday",
+            "description": "<p>birthday's iter</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "image",
+            "description": "<p>link image's cv</p>"
           }
         ]
       }
@@ -1426,7 +1440,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"cv\": {\n            \"skill\": C++\",\n            \"receiveMail\": false,\n            \"_id\": \"605a9e1afcedab20d405cc4c\",\n            \"iterId\": \"605a9df9fcedab20d405cc44\",\n            \"iterName\": \"nam le\",\n            \"softSkill\": \"Good community\",\n            \"experience\": \"1 nam kn c++\",\n            \"description\": \"la mot nguoi tot\",\n            \"email\": \"it1@gmail.com\"\n        }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"cv\": {\n          \"skill\": C++\",\n         \"receiveMail\": false,\n          \"_id\": \"605a9e1afcedab20d405cc4c\",\n          \"iterId\": \"605a9df9fcedab20d405cc44\",\n          \"iterName\": \"nam le\",\n          \"softSkill\": \"Good community\",\n          \"experience\": \"1 nam kn c++\",\n          \"description\": \"la mot nguoi tot\",\n          \"email\": \"it1@gmail.com\"\n      }\n}",
           "type": "json"
         }
       ]
@@ -1506,6 +1520,120 @@ define({ "api": [
         {
           "title": "Success-Example",
           "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Register receive email\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/cv.controller.js",
+    "groupTitle": "Cv"
+  },
+  {
+    "type": "post",
+    "url": "/api/v1/cv",
+    "title": "update cv",
+    "name": "Update_cv",
+    "group": "Cv",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "skill",
+            "description": "<p>tech skill</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "softSkill",
+            "description": "<p>soft Skill's jcv</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "experience",
+            "description": "<p>experience's cv</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "description",
+            "description": "<p>description's cv</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "birthday",
+            "description": "<p>birthday's iter</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "image",
+            "description": "<p>link image's cv</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code> if everything went fine.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n}",
           "type": "json"
         }
       ]
