@@ -203,7 +203,7 @@ const updatePost = async (req, res, next) => {
 	try {
 		if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError('Not found post!', 400);
 
-		const postWithUser = await Post.findOne({ companyId: _id, _id: postId }, { __v: 1 });
+		const postWithUser = await Post.findOne({ accountId: _id, _id: postId }, { __v: 1 });
 		if (!postWithUser) throw new HttpError('Deny update!', 401);
 
 		const data = { skill, address, salary, endTime, description };
@@ -360,8 +360,7 @@ const applyJob = async (req, res, next) => {
 	const { _id } = req.params;
 	const iterId = req.user._id;
 	try {
-		if (!(await postService.applyPost(_id, iterId)))
-			throw new HttpError('you have already applied it before', 400);
+		if (!(await postService.applyPost(_id, iterId))) throw new HttpError('you have already applied it before', 400);
 		res.status(200).json({
 			status: 200,
 			msg: 'Success',

@@ -20,4 +20,8 @@ export default class CvService {
 	async deleteCv(iterId) {
 		return await Cv.findOneAndDelete({ iterId });
 	}
+
+	async update(iterId, data) {
+		return await Cv.findByIdAndUpdate({ iterId }, { data });
+	}
 }

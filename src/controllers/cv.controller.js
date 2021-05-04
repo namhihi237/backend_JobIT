@@ -12,10 +12,12 @@ const iterService = new IterService();
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
- * @apiParam {Array} skill vd : ["java","nodejs"]
+ * @apiParam {String} skill tech skill
  * @apiParam {String} softSkill soft Skill's jcv
  * @apiParam {String} experience experience's cv
  * @apiParam {String} description description's cv
+ * @apiParam {String} birthday birthday's iter
+ * @apiParam {String} image link image's cv
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code> if everything went fine.
  * @apiSuccessExample {json} Success-Example
@@ -167,16 +169,16 @@ const getCv = async (req, res, next) => {
  *         status: 200,
  *         msg: "Success",
  *         "cv": {
-                "skill": C++",
-                "receiveMail": false,
-                "_id": "605a9e1afcedab20d405cc4c",
-                "iterId": "605a9df9fcedab20d405cc44",
-                "iterName": "nam le",
-                "softSkill": "Good community",
-                "experience": "1 nam kn c++",
-                "description": "la mot nguoi tot",
-                "email": "it1@gmail.com"
-            }
+ *               "skill": C++",
+ *              "receiveMail": false,
+ *               "_id": "605a9e1afcedab20d405cc4c",
+ *               "iterId": "605a9df9fcedab20d405cc44",
+ *               "iterName": "nam le",
+ *               "softSkill": "Good community",
+ *               "experience": "1 nam kn c++",
+ *               "description": "la mot nguoi tot",
+ *               "email": "it1@gmail.com"
+ *           }
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 401
@@ -235,4 +237,51 @@ const deleteCv = async (req, res, next) => {
 	}
 };
 
-export const cvController = { createCv, receiveMail, getCv, getCvByIter, deleteCv };
+/**
+ * @api {post} /api/v1/cv update cv
+ * @apiName Update cv
+ * @apiGroup Cv
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiParam {String} skill tech skill
+ * @apiParam {String} softSkill soft Skill's jcv
+ * @apiParam {String} experience experience's cv
+ * @apiParam {String} description description's cv
+ * @apiParam {String} birthday birthday's iter
+ * @apiParam {String} image link image's cv
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success"
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission"
+ *     }
+ */
+const updateCv = async (req, res, next) => {
+	const { _id } = req.user;
+
+	try {
+		const cvExist = await Cv.findOne({ iterId: _id });
+		if (cvExist) throw new HttpError('You had a cv', 400);
+		const user = await iterService.getIter(_id);
+		if (!user) throw new HttpError('Iter not found', 400);
+
+		await cvService.update(user._id, req.body);
+		res.status(200).json({
+			status: 200,
+			msg: 'Update success',
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
+export const cvController = { createCv, receiveMail, getCv, getCvByIter, deleteCv, updateCv };
