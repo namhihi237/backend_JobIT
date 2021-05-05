@@ -269,8 +269,6 @@ const updateCv = async (req, res, next) => {
 	const { _id } = req.user;
 
 	try {
-		const cvExist = await Cv.findOne({ iterId: _id });
-		if (cvExist) throw new HttpError('You had a cv', 400);
 		const user = await iterService.getIter(_id);
 		if (!user) throw new HttpError('Iter not found', 400);
 
