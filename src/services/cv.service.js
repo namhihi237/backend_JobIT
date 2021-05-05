@@ -22,6 +22,6 @@ export default class CvService {
 	}
 
 	async update(iterId, data) {
-		return await Cv.findOneAndUpdate({ iterId }, { data });
+		return await Cv.findOneAndUpdate({ iterId }, data);
 	}
 }

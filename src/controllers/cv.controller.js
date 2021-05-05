@@ -245,7 +245,9 @@ const deleteCv = async (req, res, next) => {
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
  * @apiParam {String} skill tech skill
- * @apiParam {String} softSkill soft Skill's jcv
+ * @apiParam {String} iterName name iter
+ * @apiParam {String} email email iter
+ * @apiParam {String} softSkill soft Skill's cv
  * @apiParam {String} experience experience's cv
  * @apiParam {String} description description's cv
  * @apiParam {String} birthday birthday's iter
@@ -269,10 +271,7 @@ const updateCv = async (req, res, next) => {
 	const { _id } = req.user;
 
 	try {
-		const user = await iterService.getIter(_id);
-		if (!user) throw new HttpError('Iter not found', 400);
-
-		await cvService.update(user._id, req.body);
+		await cvService.update(_id, req.body);
 		res.status(200).json({
 			status: 200,
 			msg: 'Update success',
