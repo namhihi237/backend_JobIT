@@ -1538,7 +1538,7 @@ define({ "api": [
     "groupTitle": "Cv"
   },
   {
-    "type": "post",
+    "type": "patch",
     "url": "/api/v1/cv",
     "title": "update cv",
     "name": "Update_cv",
@@ -1577,8 +1577,22 @@ define({ "api": [
             "group": "Parameter",
             "type": "String",
             "optional": false,
+            "field": "iterName",
+            "description": "<p>name iter</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": "<p>email iter</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
             "field": "softSkill",
-            "description": "<p>soft Skill's jcv</p>"
+            "description": "<p>soft Skill's cv</p>"
           },
           {
             "group": "Parameter",

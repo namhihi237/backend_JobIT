@@ -238,7 +238,7 @@ const deleteCv = async (req, res, next) => {
 };
 
 /**
- * @api {post} /api/v1/cv update cv
+ * @api {patch} /api/v1/cv update cv
  * @apiName Update cv
  * @apiGroup Cv
  * @apiHeader {String} token The token can be generated from your user profile.
