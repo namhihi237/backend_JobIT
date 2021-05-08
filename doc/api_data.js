@@ -1367,7 +1367,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"cv\": {\n            \"skill\": [\n                \"C++\"\n            ],\n            \"receiveMail\": false,\n            \"_id\": \"605a9e1afcedab20d405cc4c\",\n            \"iterId\": \"605a9df9fcedab20d405cc44\",\n            \"iterName\": \"nam le\",\n            \"softSkill\": \"Good community\",\n            \"experience\": \"1 nam kn c++\",\n            \"description\": \"la mot nguoi tot\",\n            \"email\": \"it1@gmail.com\"\n        }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"cv\": {\n            \"skill\": [\n                \"C++\"\n            ],\n            \"receiveMail\": false,\n            \"_id\": \"605a9e1afcedab20d405cc4c\",\n            \"iterId\": \"605a9df9fcedab20d405cc44\",\n            \"name\": \"nam le\",\n            \"softSkill\": \"Good community\",\n            \"experience\": \"1 nam kn c++\",\n            \"description\": \"la mot nguoi tot\",\n            \"email\": \"it1@gmail.com\"\n        }\n}",
           "type": "json"
         }
       ]
@@ -1440,7 +1440,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"cv\": {\n          \"skill\": C++\",\n         \"receiveMail\": false,\n          \"_id\": \"605a9e1afcedab20d405cc4c\",\n          \"iterId\": \"605a9df9fcedab20d405cc44\",\n          \"iterName\": \"nam le\",\n          \"softSkill\": \"Good community\",\n          \"experience\": \"1 nam kn c++\",\n          \"description\": \"la mot nguoi tot\",\n          \"email\": \"it1@gmail.com\"\n      }\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"cv\": {\n          \"skill\": C++\",\n         \"receiveMail\": false,\n          \"_id\": \"605a9e1afcedab20d405cc4c\",\n          \"iterId\": \"605a9df9fcedab20d405cc44\",\n          \"name\": \"nam le\",\n          \"softSkill\": \"Good community\",\n          \"experience\": \"1 nam kn c++\",\n          \"description\": \"la mot nguoi tot\",\n          \"email\": \"it1@gmail.com\"\n      }\n}",
           "type": "json"
         }
       ]
@@ -1519,7 +1519,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Register receive email\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"You have subscribed to receive email for job search\"\n}",
           "type": "json"
         }
       ]
@@ -1577,7 +1577,7 @@ define({ "api": [
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "iterName",
+            "field": "name",
             "description": "<p>name iter</p>"
           },
           {

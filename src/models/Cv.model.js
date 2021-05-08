@@ -7,7 +7,7 @@ const CvSchema = new Schema(
 			ref: 'account',
 			required: true,
 		},
-		iterName: {
+		name: {
 			type: String,
 			required: true,
 		},

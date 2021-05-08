@@ -45,7 +45,7 @@ const createCv = async (req, res, next) => {
 		const data = {
 			iterId: _id,
 			skill,
-			iterName: name,
+			name: name,
 			softSkill,
 			experience,
 			description,
@@ -77,7 +77,7 @@ const createCv = async (req, res, next) => {
  *     HTTP/1.1 200 OK
  *     {
  *         status: 200,
- *         msg: "Register receive email"
+ *         msg: "You have subscribed to receive email for job search"
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 401
@@ -125,7 +125,7 @@ const receiveMail = async (req, res, next) => {
                 "receiveMail": false,
                 "_id": "605a9e1afcedab20d405cc4c",
                 "iterId": "605a9df9fcedab20d405cc44",
-                "iterName": "nam le",
+                "name": "nam le",
                 "softSkill": "Good community",
                 "experience": "1 nam kn c++",
                 "description": "la mot nguoi tot",
@@ -176,7 +176,7 @@ const getCv = async (req, res, next) => {
  *              "receiveMail": false,
  *               "_id": "605a9e1afcedab20d405cc4c",
  *               "iterId": "605a9df9fcedab20d405cc44",
- *               "iterName": "nam le",
+ *               "name": "nam le",
  *               "softSkill": "Good community",
  *               "experience": "1 nam kn c++",
  *               "description": "la mot nguoi tot",
@@ -248,7 +248,7 @@ const deleteCv = async (req, res, next) => {
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
  * @apiParam {String} skill tech skill
- * @apiParam {String} iterName name iter
+ * @apiParam {String} name name iter
  * @apiParam {String} email email iter
  * @apiParam {String} softSkill soft Skill's cv
  * @apiParam {String} experience experience's cv
