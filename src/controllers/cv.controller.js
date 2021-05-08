@@ -91,9 +91,12 @@ const receiveMail = async (req, res, next) => {
 	const { _id } = req.user;
 	try {
 		if (!(await cvService.reciveMail(_id, receive))) throw new HttpError('Iter not found', 400);
+		let msg = receive
+			? 'You have subscribed to receive email for job search'
+			: 'You have unsubscribed from the job search email';
 		res.status(200).json({
 			status: 200,
-			msg: 'Register receive email ',
+			msg,
 		});
 	} catch (error) {
 		next(error);
