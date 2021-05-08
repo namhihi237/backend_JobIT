@@ -105,7 +105,48 @@ const deleteIter = async (req, res, next) => {
 	}
 };
 
+/**
+ * @api {patch} /api/v1/iters/receive-mail register/cancel receive email
+ * @apiName Register/cancel receive email
+ * @apiGroup Iter
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiParam {Boolean} receive
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "You have subscribed to receive email for job search"
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission"
+ *     }
+ */
+const receiveMail = async (req, res, next) => {
+	const { receive } = req.body;
+	const { _id } = req.user;
+	try {
+		if (!(await iterService.registerSendEmail(_id, receive))) throw new HttpError('Iter not found', 400);
+		let msg = receive
+			? 'You have subscribed to receive email for job search'
+			: 'You have unsubscribed from the job search email';
+		res.status(200).json({
+			status: 200,
+			msg,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
 export const iterController = {
 	getIters,
 	deleteIter,
+	receiveMail,
 };

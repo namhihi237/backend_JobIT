@@ -1459,85 +1459,6 @@ define({ "api": [
     "groupTitle": "Cv"
   },
   {
-    "type": "post",
-    "url": "/api/v1/cv/receive-mail",
-    "title": "register/cancel receive email",
-    "name": "Register/cancel_receive_email",
-    "group": "Cv",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "token",
-            "description": "<p>The token can be generated from your user profile.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example",
-          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
-          "type": "Header"
-        }
-      ]
-    },
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Boolean",
-            "optional": false,
-            "field": "receive",
-            "description": ""
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "status",
-            "description": "<p><code>200</code></p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p><code>Success</code> if everything went fine.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"You have subscribed to receive email for job search\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "Response (example):",
-          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/cv.controller.js",
-    "groupTitle": "Cv"
-  },
-  {
     "type": "patch",
     "url": "/api/v1/cv",
     "title": "update cv",
@@ -2107,6 +2028,85 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/image.controller.js",
     "groupTitle": "Image"
+  },
+  {
+    "type": "patch",
+    "url": "/api/v1/iters/receive-mail",
+    "title": "register/cancel receive email",
+    "name": "Register/cancel_receive_email",
+    "group": "Iter",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Boolean",
+            "optional": false,
+            "field": "receive",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code> if everything went fine.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"You have subscribed to receive email for job search\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/iter.controller.js",
+    "groupTitle": "Iter"
   },
   {
     "type": "delete",

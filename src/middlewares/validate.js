@@ -118,6 +118,13 @@ const createCvSchema = (req, res, next) => {
 	validateRequest(req, next, schema);
 };
 
+const registerEmailSchema = (req, res, next) => {
+	const schema = Joi.object({
+		receive: Joi.boolean().required(),
+	});
+	validateRequest(req, next, schema);
+};
+
 export const validateRequestBody = {
 	registerITerSchema,
 	registerCompanySchema,
@@ -132,4 +139,5 @@ export const validateRequestBody = {
 	requestResetPass,
 	changeResetPass,
 	createCvSchema,
+	registerEmailSchema,
 };

@@ -29,6 +29,10 @@ const ITerSchema = new Schema(
 		birthday: {
 			type: String,
 		},
+		receiveMail: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	{ timestamps: true },
 );

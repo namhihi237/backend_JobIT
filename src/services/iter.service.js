@@ -48,4 +48,8 @@ export default class IterService {
 		]);
 		return true;
 	}
+
+	async registerSendEmail(accountId, receiveMail) {
+		return await ITer.findOneAndUpdate({ accountId }, { receiveMail });
+	}
 }

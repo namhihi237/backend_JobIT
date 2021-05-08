@@ -26,10 +26,7 @@ const CvSchema = new Schema(
 		description: {
 			type: String,
 		},
-		receiveMail: {
-			type: Boolean,
-			default: false,
-		},
+
 		image: {
 			type: String,
 		},

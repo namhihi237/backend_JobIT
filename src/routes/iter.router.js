@@ -8,10 +8,17 @@ const { checkPer } = roleMiddleware;
 
 export const iterRouter = Router();
 
-iterRouter
-	.route('/api/v1/iters')
-	.get(jwtMidleware, checkPer(ACTION_CODE.GET_USERS), iterController.getIters);
+iterRouter.route('/api/v1/iters').get(jwtMidleware, checkPer(ACTION_CODE.GET_USERS), iterController.getIters);
 
 iterRouter
 	.route('/api/v1/iters/:id')
 	.delete(jwtMidleware, checkPer(ACTION_CODE.DELETE_USER), iterController.deleteIter);
+
+iterRouter
+	.route('/api/v1/iters/receive-mail')
+	.patch(
+		jwtMidleware,
+		checkPer(ACTION_CODE.RECEIVE_MAIL),
+		validateRequestBody.registerEmailSchema,
+		iterController.receiveMail,
+	);
