@@ -12,6 +12,7 @@
         "test:watch": "npm run test -- --watch"
     },
     "dependencies": {
+        "@sendgrid/mail": "^7.4.4",
         "bcryptjs": "^2.4.3",
         "cloudinary": "^1.25.1",
         "cors": "^2.8.5",
@@ -24,7 +25,6 @@
         "jsonwebtoken": "^8.5.1",
         "lodash": "^4.17.21",
         "mongoose": "^5.11.15",
-        "nodemailer": "^6.4.17",
         "queue": "^6.0.2"
     },
     "devDependencies": {
