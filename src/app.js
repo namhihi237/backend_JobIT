@@ -15,12 +15,15 @@ import {
 	permissionRouter,
 } from './routes';
 
-import { initAccountAmin, job } from './utils';
+import { SendEmailJob } from './services';
+
+import { initAccountAmin, sendMailJob } from './utils';
 export let server;
 const main = async () => {
 	server = new HttpServer(port);
 	server.registerMiddleware(defaultMiddleware);
 	server.listen();
+	const cron = new SendEmailJob();
 
 	dbConnection(mongoURI);
 	// api
@@ -36,7 +39,7 @@ const main = async () => {
 	// initial default role
 	// initialRole();
 	initAccountAmin();
-	job.start();
 	server.registerMiddleware(errorHandle);
+	cron.job.start();
 };
 main();

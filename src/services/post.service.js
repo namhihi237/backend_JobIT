@@ -59,7 +59,6 @@ export default class PostService {
 				.skip(skip)
 				.limit(take);
 		} else {
-			console.log(query);
 			count = await Post.countDocuments({ accept: type, $text: { $search: `${query}` } });
 			numPages = Math.ceil(count / take);
 			if (page > numPages) page = numPages;
@@ -130,17 +129,7 @@ export default class PostService {
 		const listCv = await Cv.find(
 			{ $text: { $search: `${skills}` }, receiveMail: true },
 			{
-				__v: 0,
-				createdAt: 0,
-				updatedAt: 0,
-				education: 0,
-				description: 0,
-				softSkill: 0,
-				linkGit: 0,
-				experience: 0,
-				_id: 0,
-				receiveMail: 0,
-				iterId: 0,
+				email: 1,
 			},
 		);
 
@@ -158,6 +147,13 @@ export default class PostService {
 			console.log('all done:', q.results);
 		});
 		return true;
+	}
+	async listsatifieldPosts(skill, email) {
+		// check time nua
+		let posts = await Post.find({ $text: { $search: skill }, accept: true }, { title: 1, address: 1 })
+			.limit(10)
+			.sort({ createdAt: -1 });
+		return { posts, email };
 	}
 
 	async getCompanyPost(accountId) {

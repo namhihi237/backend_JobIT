@@ -1,5 +1,6 @@
-import { ITer, Account, UserPer } from '../models';
+import { ITer, Account, UserPer, Cv } from '../models';
 import { pagination } from '../utils';
+
 export default class IterService {
 	async getIter(id) {
 		return await ITer.findOne(
@@ -36,6 +37,25 @@ export default class IterService {
 		return await pagination(ITer, {}, page, take);
 	}
 
+	async getIterReceiveEmail() {
+		return await ITer.find(
+			{ receiveMail: true },
+			{
+				__v: 0,
+				createdAt: 0,
+				updatedAt: 0,
+				role: 0,
+				roleId: 0,
+				gender: 0,
+				phone: 0,
+				address: 0,
+				birthday: 0,
+				image: 0,
+				receiveMail: 0,
+			},
+		);
+	}
+
 	async deleteIter(_id) {
 		const iter = await this.getIterByIt(_id);
 		if (!iter) return false;
@@ -45,6 +65,7 @@ export default class IterService {
 			ITer.findByIdAndDelete({ _id }),
 			Account.findByIdAndDelete({ _id: iter.accountId }),
 			...deleteUserPers,
+			Cv.findOneAndDelete({ iterId: iter.accountId }),
 		]);
 		return true;
 	}

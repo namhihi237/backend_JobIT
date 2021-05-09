@@ -4,4 +4,14 @@ import IterService from './iter.service';
 import CvService from './cv.service';
 import AuthThenticationService from './auth.service';
 import PermissionService from './permission.service';
-export { PostService, AuthThenticationService, PermissionService, CompanyService, IterService, CvService };
+import SendEmailJob from './sendMailJob.service';
+
+export {
+	PostService,
+	AuthThenticationService,
+	PermissionService,
+	CompanyService,
+	IterService,
+	CvService,
+	SendEmailJob,
+};
