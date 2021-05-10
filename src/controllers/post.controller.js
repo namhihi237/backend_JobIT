@@ -442,10 +442,7 @@ const listApply = async (req, res, next) => {
 	const { _id } = req.params;
 	try {
 		const applies = await postService.listApply(_id);
-		console.log(applies);
-
 		const post = await postService.getPost(_id);
-		console.log(post);
 		if (!post) throw new HttpError('Post not found!', 400);
 		res.status(200).json({
 			status: 200,
@@ -454,7 +451,6 @@ const listApply = async (req, res, next) => {
 			title: post.title,
 		});
 	} catch (error) {
-		console.log(error);
 		next(error);
 	}
 };
