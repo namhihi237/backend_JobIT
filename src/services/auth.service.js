@@ -23,13 +23,12 @@ export default class AuthThenticationService {
 				check: true,
 			});
 		});
-		if (role == 'iter')
-			await ITer.create({ name: data.name, accountId: acc._id, email: data.email });
+		if (role == 'iter') await ITer.create({ name: data.name, accountId: acc._id, email: data.email });
 		if (role == 'company')
 			await Company.create({
 				name: data.name,
 				accountId: acc._id,
-				mail: data.email,
+				email: data.email,
 			});
 		await Promise.all([...permissions]);
 	}
