@@ -73,12 +73,15 @@ export default class PostService {
 				};
 
 			const skip = (page - 1) * take;
-			let search = '"';
+			let search = '';
 			let searchArray = query.split(',');
 			searchArray.forEach((e) => {
-				search += `${e}" `;
+				if (e.search('-') != -1) {
+					search += ` -"${e.slice(1, e.length)}" `;
+				} else {
+					search += `"${e}"`;
+				}
 			});
-
 			posts = await Post.aggregate([
 				{
 					$match: {
