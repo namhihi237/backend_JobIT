@@ -37,11 +37,7 @@ postRouter
 	.route('/api/v1/posts/:postId')
 	.delete(jwtMidleware, checkPer(ACTION_CODE.DELETE_POST), postController.deletePost);
 
-postRouter
-	.route('/api/v1/posts/:postId')
-	.delete(jwtMidleware, checkPer(ACTION_CODE.DELETE_POST), postController.deletePost);
-
-postRouter.route('/api/v1/posts/:postId').get(postController.getPost);
+postRouter.route('/api/v1/posts/:postId/detail').get(postController.getPost);
 
 postRouter
 	.route('/api/v1/posts/company')

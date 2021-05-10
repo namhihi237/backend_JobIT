@@ -378,6 +378,7 @@ const getCompanyPost = async (req, res, next) => {
 			posts,
 		});
 	} catch (error) {
+		console.log(error);
 		next(error);
 	}
 };
@@ -455,7 +456,7 @@ const listApply = async (req, res, next) => {
 };
 
 /**
- * @api {get} /api/v1/posts/{postId} get post by Id
+ * @api {get} /api/v1/posts/{postId}/detail get post by Id
  * @apiName get post by Id
  * @apiGroup Post
  * @apiHeader {String} token The token can be generated from your user profile.
