@@ -24,7 +24,7 @@ const iterService = new IterService();
  *     HTTP/1.1 200 OK
  *     {
  *         status: 200,
- *         msg: "Success"
+ *         msg: "Create cv successfully"
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 401
@@ -38,7 +38,7 @@ const createCv = async (req, res, next) => {
 	let { skill, softSkill, experience, description, birthday, image } = req.body;
 	try {
 		const cvExist = await Cv.findOne({ iterId: _id });
-		if (cvExist) throw new HttpError('You had a cv', 400);
+		if (cvExist) throw new HttpError('You already have cv', 400);
 		const user = await iterService.getIter(_id);
 		if (!user) throw new HttpError('Iter not found', 400);
 		const { email, name } = user;
@@ -56,7 +56,7 @@ const createCv = async (req, res, next) => {
 		await cvService.create(data);
 		res.status(200).json({
 			status: 200,
-			msg: 'Create new Cv success',
+			msg: 'Create cv successfully',
 		});
 	} catch (error) {
 		next(error);

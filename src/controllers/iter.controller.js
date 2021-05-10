@@ -1,7 +1,8 @@
 import mongo from 'mongoose';
 import { HttpError } from '../utils';
-import { IterService } from '../services';
+import { IterService, CvService } from '../services';
 const iterService = new IterService();
+const cvService = new CvService();
 
 /**
  * @api {get} /api/v1/iters get all iters
@@ -132,6 +133,7 @@ const receiveMail = async (req, res, next) => {
 	const { receive } = req.body;
 	const { _id } = req.user;
 	try {
+		if (!(await cvService.getCvByUser(_id))) throw new HttpError('Please create cv before using this feature', 400);
 		if (!(await iterService.registerSendEmail(_id, receive))) throw new HttpError('Iter not found', 400);
 		let msg = receive
 			? 'You have subscribed to receive email for job search'
