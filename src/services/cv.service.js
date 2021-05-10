@@ -21,6 +21,7 @@ export default class CvService {
 			iterService.getIter(iterId),
 			Cv.findOne({ iterId }, { createdAt: 0, updatedAt: 0, __v: 0 }),
 		]);
+		if (!cv) return null;
 		return { ...JSON.parse(JSON.stringify(cv)), receiveMail: _.get(iter, 'receiveMail') };
 	}
 

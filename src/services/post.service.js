@@ -145,13 +145,13 @@ export default class PostService {
 	}
 
 	async update(id, data) {
-		if (!(await this.getPost({ _id: id }))) return false;
+		if (!(await this.getPost(id))) return false;
 		await Post.findByIdAndUpdate({ _id: id }, data);
 		return true;
 	}
 
 	async deletePost(id) {
-		if (!(await this.getPost({ _id: id }))) return false;
+		if (!(await this.getPost(id))) return false;
 		await Post.findByIdAndDelete({ _id: id });
 		return true;
 	}
@@ -234,7 +234,7 @@ export default class PostService {
 	}
 
 	async listApply(_id) {
-		if (!(await this.getPost({ _id }))) return [];
+		if (!(await this.getPost(_id))) return [];
 		const post = await Post.findById({ _id }, { comment: 0 });
 		return post.apply;
 	}

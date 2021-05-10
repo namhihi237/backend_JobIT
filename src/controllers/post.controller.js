@@ -407,7 +407,7 @@ const applyJob = async (req, res, next) => {
 		if (!cv) {
 			throw new HttpError('Please create cv before using this feature', 400);
 		}
-		if (!(await postService.getPost({ _id }))) throw new HttpError('Post not found!', 400);
+		if (!(await postService.getPost(_id))) throw new HttpError('Post not found!', 400);
 		if (!(await postService.applyPost(_id, iterId, cv._id)))
 			throw new HttpError('You have already applied it before', 400);
 		res.status(200).json({
@@ -415,6 +415,7 @@ const applyJob = async (req, res, next) => {
 			msg: 'Success',
 		});
 	} catch (error) {
+		console.log(error);
 		next(error);
 	}
 };
@@ -441,7 +442,10 @@ const listApply = async (req, res, next) => {
 	const { _id } = req.params;
 	try {
 		const applies = await postService.listApply(_id);
-		const post = await postService.getPost({ _id });
+		console.log(applies);
+
+		const post = await postService.getPost(_id);
+		console.log(post);
 		if (!post) throw new HttpError('Post not found!', 400);
 		res.status(200).json({
 			status: 200,
