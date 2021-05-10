@@ -1,6 +1,5 @@
-import { ITer, Company, Code, Account, UserPer, Permission } from '../models';
+import { ITer, Company, Account, UserPer, Permission } from '../models';
 import bcrypt from 'bcryptjs';
-import { tokenEncode, sendEmail, generate } from '../utils';
 
 export default class AuthThenticationService {
 	async getAccount(arg) {

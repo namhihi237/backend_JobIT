@@ -454,6 +454,67 @@ const listApply = async (req, res, next) => {
 	}
 };
 
+/**
+ * @api {get} /api/v1/posts/{postId} get post by Id
+ * @apiName get post by Id
+ * @apiGroup Post
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * @apiSuccess {Object} post <code> post</code> show post
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+		* "post": {
+				"_id": "608bc604e78f864568466972",
+				"skill": [
+					"C#",
+					"Python"
+				],
+				"accept": true,
+				"accountId": "606491e7831e840015befeee",
+				"companyId": "606491e8831e840015befef9",
+				"title": "Recruiting Dev ops ",
+				"address": "Ha Noi",
+				"salary": "1000 - 2000 $",
+				"endTime": "2021-05-29",
+				"description": "1 years experience python",
+				"company": [
+					{
+						"_id": "606491e8831e840015befef9",
+						"accountId": "606491e7831e840015befeee",
+						"email": "com1@gmail.com",
+						"createdAt": "2021-03-31T15:14:48.629Z",
+						"updatedAt": "2021-05-03T09:25:42.134Z",
+						"__v": 0,
+						"image": "http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg",
+						"phone": "0989402047",
+						"address": "Hà Nội",
+						"name": "Madison"
+					}
+				]
+			}
+ *     }
+ */
+const getPost = async (req, res, next) => {
+	const { postId } = req.params;
+	try {
+		const posts = await postService.getPost(postId);
+		if (!posts || posts.length == 0) throw new HttpError('Post not found!', 400);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			post: posts[0],
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
 export const postController = {
 	createPost,
 	getAcceptedPosts,
@@ -464,4 +525,5 @@ export const postController = {
 	getCompanyPost,
 	applyJob,
 	listApply,
+	getPost,
 };

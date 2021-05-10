@@ -113,8 +113,35 @@ export default class PostService {
 		};
 	}
 
-	async getPost(arg) {
-		return await Post.findOne(arg);
+	async getPost(_id) {
+		return await Post.aggregate([
+			{
+				$match: {
+					_id: mongo.Types.ObjectId(_id),
+				},
+			},
+			{
+				$project: {
+					__v: 0,
+					active: 0,
+					createdAt: 0,
+					updatedAt: 0,
+					apply: 0,
+					comment: 0,
+					company: {
+						createdAt: 0,
+					},
+				},
+			},
+			{
+				$lookup: {
+					from: 'company',
+					localField: 'companyId',
+					foreignField: '_id',
+					as: 'company',
+				},
+			},
+		]);
 	}
 
 	async update(id, data) {
