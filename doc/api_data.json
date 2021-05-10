@@ -1294,7 +1294,7 @@
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Create cv successfully\"\n}",
           "type": "json"
         }
       ]
@@ -2763,7 +2763,7 @@
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n   posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"name\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n       },\n     ......\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n   \"posts\": [\n    {\n        \"_id\": \"608bc604e78f864568466972\",\n        \"skill\": [\n            \"C#\",\n            \"Python\"\n        ],\n        \"accept\": true,\n        \"accountId\": \"606491e7831e840015befeee\",\n        \"companyId\": \"606491e8831e840015befef9\",\n        \"title\": \"Recruiting Dev ops \",\n        \"address\": \"Ha Noi\",\n        \"salary\": \"1000 - 2000 $\",\n        \"endTime\": \"2021-05-29\",\n        \"description\": \"1 years experience python\",\n        \"company\": [\n            {\n                \"_id\": \"606491e8831e840015befef9\",\n                \"accountId\": \"606491e7831e840015befeee\",\n                \"email\": \"com1@gmail.com\",\n                \"createdAt\": \"2021-03-31T15:14:48.629Z\",\n                \"updatedAt\": \"2021-05-03T09:25:42.134Z\",\n                \"__v\": 0,\n                \"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg\",\n                \"phone\": \"0989402047\",\n                \"address\": \"Hà Nội\",\n                \"name\": \"Madison\"\n            }\n        ]\n    },\n    {\n        \"_id\": \"608bc61fe78f864568466973\",\n        \"skill\": [\n            \"C#\",\n            \"Python\"\n        ],\n        \"accept\": true,\n        \"accountId\": \"606491e7831e840015befeee\",\n        \"companyId\": \"606491e8831e840015befef9\",\n        \"title\": \"Recruiting Dev ops \",\n        \"address\": \"Da Nang\",\n        \"salary\": \"2000 - 3000 $\",\n        \"endTime\": \"29/5/2021\",\n        \"description\": \"10 years experience python\",\n        \"company\": [\n            {\n                \"_id\": \"606491e8831e840015befef9\",\n                \"accountId\": \"606491e7831e840015befeee\",\n                \"email\": \"com1@gmail.com\",\n                \"createdAt\": \"2021-03-31T15:14:48.629Z\",\n                \"updatedAt\": \"2021-05-03T09:25:42.134Z\",\n                \"__v\": 0,\n                \"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg\",\n                \"phone\": \"0989402047\",\n                \"address\": \"Hà Nội\",\n                \"name\": \"Madison\"\n            }\n        \t]\t\n    \t},\n    ]\n}",
           "type": "json"
         }
       ]
