@@ -73,11 +73,17 @@ export default class PostService {
 				};
 
 			const skip = (page - 1) * take;
+			let search = '"';
+			let searchArray = query.split(',');
+			searchArray.forEach((e) => {
+				search += `${e}" `;
+			});
+
 			posts = await Post.aggregate([
 				{
 					$match: {
 						accept: type,
-						$text: { $search: `${query}` },
+						$text: { $search: `${search}` },
 					},
 				},
 				{
