@@ -2774,6 +2774,70 @@
   },
   {
     "type": "get",
+    "url": "/api/v1/posts/{postId}",
+    "title": "get post by Id",
+    "name": "get_post_by_Id",
+    "group": "Post",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "post",
+            "description": "<p><code> post</code> show post</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n\"post\": {\n\t\t\t\t\"_id\": \"608bc604e78f864568466972\",\n\t\t\t\t\"skill\": [\n\t\t\t\t\t\"C#\",\n\t\t\t\t\t\"Python\"\n\t\t\t\t],\n\t\t\t\t\"accept\": true,\n\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\"companyId\": \"606491e8831e840015befef9\",\n\t\t\t\t\"title\": \"Recruiting Dev ops \",\n\t\t\t\t\"address\": \"Ha Noi\",\n\t\t\t\t\"salary\": \"1000 - 2000 $\",\n\t\t\t\t\"endTime\": \"2021-05-29\",\n\t\t\t\t\"description\": \"1 years experience python\",\n\t\t\t\t\"company\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"_id\": \"606491e8831e840015befef9\",\n\t\t\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\t\t\"email\": \"com1@gmail.com\",\n\t\t\t\t\t\t\"createdAt\": \"2021-03-31T15:14:48.629Z\",\n\t\t\t\t\t\t\"updatedAt\": \"2021-05-03T09:25:42.134Z\",\n\t\t\t\t\t\t\"__v\": 0,\n\t\t\t\t\t\t\"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg\",\n\t\t\t\t\t\t\"phone\": \"0989402047\",\n\t\t\t\t\t\t\"address\": \"Hà Nội\",\n\t\t\t\t\t\t\"name\": \"Madison\"\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n    }",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/post.controller.js",
+    "groupTitle": "Post"
+  },
+  {
+    "type": "get",
     "url": "/api/v1/posts/need-accept",
     "title": "get all post need  accept",
     "name": "get_post_need_accept",
