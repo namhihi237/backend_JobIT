@@ -22,8 +22,12 @@ export default class PostService {
 		if (!query) {
 			count = await Post.countDocuments({ accept: type });
 			numPages = Math.ceil(count / take);
-			if (page > numPages) page = numPages;
-			page = page <= 0 ? 1 : page;
+			if (page > numPages || page <= 0)
+				return {
+					currentPage: page,
+					numPages,
+					posts,
+				};
 
 			const skip = (page - 1) * take;
 			posts = await Post.aggregate([
@@ -61,8 +65,12 @@ export default class PostService {
 		} else {
 			count = await Post.countDocuments({ accept: type, $text: { $search: `${query}` } });
 			numPages = Math.ceil(count / take);
-			if (page > numPages) page = numPages;
-			page = page <= 0 ? 1 : page;
+			if (page > numPages || page <= 0)
+				return {
+					currentPage: page,
+					numPages,
+					posts,
+				};
 
 			const skip = (page - 1) * take;
 			posts = await Post.aggregate([
