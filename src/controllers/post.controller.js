@@ -199,14 +199,14 @@ const getPostsNeedAccept = async (req, res, next) => {
 const updatePost = async (req, res, next) => {
 	const { _id } = req.user;
 	const { postId } = req.params;
-	const { skill, address, salary, endTime, description } = req.body;
+	const { skill, address, salary, endTime, description, title } = req.body;
 	try {
 		if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError('Not found post!', 400);
 
 		const postWithUser = await Post.findOne({ accountId: _id, _id: postId }, { __v: 1 });
 		if (!postWithUser) throw new HttpError('Deny update!', 401);
 
-		const data = { skill, address, salary, endTime, description };
+		const data = { skill, address, salary, endTime, description, title };
 		if (!(await postService.update(postId, data))) throw new HttpError('Post not found', 404);
 		res.status(200).json({
 			status: 200,
