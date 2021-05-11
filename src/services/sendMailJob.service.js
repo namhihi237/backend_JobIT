@@ -18,7 +18,7 @@ export default class SendEmailJob {
 	q = queue({ results: [] });
 
 	job = new CronJob(
-		'* 0 * * * *',
+		'* * 0 * * *',
 		async () => {
 			console.log('You will see this message every minute');
 			// step 1: get all cv (receiveMail = true) => iters =  { email , skill}\
@@ -30,13 +30,17 @@ export default class SendEmailJob {
 				);
 				let listSkills = await Promise.all(listSkillsPromise);
 
+				listSkills = listSkills.filter((e) => e != null);
 				// list info email need send { email , name, skill }
-				let listNeedEmails = listItersReceiveEmails.map((el) => {
+				let listNeedEmails = listSkills.map((el) => {
 					return {
-						...JSON.parse(JSON.stringify(el)),
-						skill: _.get(
-							listSkills.find((e) => JSON.stringify(e.iterId) == JSON.stringify(el.accountId)),
-							'skill',
+						skill: JSON.parse(JSON.stringify(el)).skill,
+						...JSON.parse(
+							JSON.stringify(
+								listItersReceiveEmails.find(
+									(e) => JSON.stringify(e.accountId) == JSON.stringify(el.iterId),
+								),
+							),
 						),
 					};
 				});
