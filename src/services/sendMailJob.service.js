@@ -18,7 +18,7 @@ export default class SendEmailJob {
 	q = queue({ results: [] });
 
 	job = new CronJob(
-		'* * 0 * * *',
+		'0 * 0 * * *',
 		async () => {
 			console.log('You will see this message every minute');
 			// step 1: get all cv (receiveMail = true) => iters =  { email , skill}\
