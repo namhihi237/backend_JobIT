@@ -1055,8 +1055,8 @@
   {
     "type": "delete",
     "url": "/api/v1/companies/:id",
-    "title": "delete company",
-    "name": "delete_company",
+    "title": "delete a company",
+    "name": "delete_a_company",
     "group": "Company",
     "header": {
       "fields": {
@@ -1121,8 +1121,8 @@
   {
     "type": "get",
     "url": "/api/v1/companies",
-    "title": "get all company",
-    "name": "get_all_company",
+    "title": "get all companies",
+    "name": "get_all_companies",
     "group": "Company",
     "header": {
       "fields": {
@@ -1147,7 +1147,7 @@
     "examples": [
       {
         "title": "Curl example",
-        "content": "curl -H \"Authorization: token 5f048fe\" -i https://api.example.com/api/v1/companys?page=2&take=3",
+        "content": "curl -H \"Authorization: token 5f048fe\" -i https://api.example.com/api/v1/companies?page=2&take=3",
         "type": "bash"
       }
     ],
@@ -1180,7 +1180,7 @@
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n}",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n\t\t\t\"data\": {\n            \"page\": 1,\n            \"numPages\": 1,\n            \"result\": [\n                {\n                    \"_id\": \"606491e8831e840015befef9\",\n                    \"name\": \"Madison Technology \",\n                    \"accountId\": \"606491e7831e840015befeee\",\n                    \"email\": \"com1@gmail.com\",\n                    \"createdAt\": \"2021-03-31T15:14:48.629Z\",\n                }\n            ]\n    }",
           "type": "json"
         }
       ]
@@ -1189,7 +1189,78 @@
       "examples": [
         {
           "title": "Response (example):",
-          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\",\n     \"data\": {\n        \"page\": 1,\n        \"numPages\": 1,\n        \"result\": [\n            {\n                \"_id\": \"606491e8831e840015befef9\",\n                \"name\": \"Madison Technology \",\n                \"accountId\": \"606491e7831e840015befeee\",\n                \"email\": \"com1@gmail.com\",\n                \"createdAt\": \"2021-03-31T15:14:48.629Z\",\n            }\n        ]\n}",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/company.controller.js",
+    "groupTitle": "Company"
+  },
+  {
+    "type": "get",
+    "url": "/api/v1/companies/info",
+    "title": "get info all companies",
+    "name": "get_info_all_companies",
+    "group": "Company",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "examples": [
+      {
+        "title": "Curl example",
+        "content": "curl -H \"Authorization: token 5f048fe\" -i https://api.example.com/api/v1/companies/info?page=2&take=3",
+        "type": "bash"
+      }
+    ],
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": ""
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n\t\t\t\"data\": {\n\t\t\t\t\"page\": 1,\n\t\t\t\t\"numPages\": 1,\n\t\t\t\t\"result\": [\n\t\t\t\t{\n\t\t\t\t\t\"recruitingPost\": 6,\n\t\t\t\t\t\"_id\": \"606491e8831e840015befef9\",\n\t\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\t\"email\": \"com1@gmail.com\",\n\t\t\t\t\t\"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1620669960/dxkffb9kic51ylcmxm3b.jpg\",\n\t\t\t\t\t\"phone\": \"0989402047\",\n\t\t\t\t\t\"address\": \"Hà Nội\",\n\t\t\t\t\t\"name\": \"Nam's Company\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"recruitingPost\": 4,\n\t\t\t\t\t\"_id\": \"6080de64035f0700159c8582\",\n\t\t\t\t\t\"accountId\": \"6080de64035f0700159c8577\",\n\t\t\t\t\t\"name\": \"Company\",\n\t\t\t\t\t\"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1620377506/shmw9hqt6rneawugps28.jpg\"\n\t\t\t\t},\n\t\t\t]\n    }",
           "type": "json"
         }
       ]
@@ -2774,7 +2845,7 @@
   },
   {
     "type": "get",
-    "url": "/api/v1/posts/{postId}",
+    "url": "/api/v1/posts/{postId}/detail",
     "title": "get post by Id",
     "name": "get_post_by_Id",
     "group": "Post",
@@ -2828,6 +2899,70 @@
         {
           "title": "Success-Example",
           "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n\"post\": {\n\t\t\t\t\"_id\": \"608bc604e78f864568466972\",\n\t\t\t\t\"skill\": [\n\t\t\t\t\t\"C#\",\n\t\t\t\t\t\"Python\"\n\t\t\t\t],\n\t\t\t\t\"accept\": true,\n\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\"companyId\": \"606491e8831e840015befef9\",\n\t\t\t\t\"title\": \"Recruiting Dev ops \",\n\t\t\t\t\"address\": \"Ha Noi\",\n\t\t\t\t\"salary\": \"1000 - 2000 $\",\n\t\t\t\t\"endTime\": \"2021-05-29\",\n\t\t\t\t\"description\": \"1 years experience python\",\n\t\t\t\t\"company\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"_id\": \"606491e8831e840015befef9\",\n\t\t\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\t\t\"email\": \"com1@gmail.com\",\n\t\t\t\t\t\t\"createdAt\": \"2021-03-31T15:14:48.629Z\",\n\t\t\t\t\t\t\"updatedAt\": \"2021-05-03T09:25:42.134Z\",\n\t\t\t\t\t\t\"__v\": 0,\n\t\t\t\t\t\t\"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg\",\n\t\t\t\t\t\t\"phone\": \"0989402047\",\n\t\t\t\t\t\t\"address\": \"Hà Nội\",\n\t\t\t\t\t\t\"name\": \"Madison\"\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n    }",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/post.controller.js",
+    "groupTitle": "Post"
+  },
+  {
+    "type": "get",
+    "url": "/api/v1/posts/company/:companyId",
+    "title": "get post list of the company",
+    "name": "get_post_list_of_the_company",
+    "group": "Post",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "posts",
+            "description": "<p><code> posts</code> show list posts</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n\t\t  \"posts\": [\n\t\t\t{\n\t\t\t\t\"skill\": [\n\t\t\t\t\t\"C#\",\n\t\t\t\t\t\"Python\"\n\t\t\t\t],\n\t\t\t\t\"_id\": \"608bc604e78f864568466972\",\n\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\"title\": \"Recruiting Dev ops \",\n\t\t\t\t\"address\": \"Ha Noi\",\n\t\t\t\t\"salary\": \"1000 - 2000 $\",\n\t\t\t\t\"endTime\": \"2021-05-29\",\n\t\t\t\t\"description\": \"1 years experience python\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"skill\": [\n\t\t\t\t\t\"C#\",\n\t\t\t\t\t\"Python\"\n\t\t\t\t],\n\t\t\t\t\"_id\": \"608bc61fe78f864568466973\",\n\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\"title\": \"Recruiting Dev ops \",\n\t\t\t\t\"address\": \"Da Nang\",\n\t\t\t\t\"salary\": \"2000 - 3000 $\",\n\t\t\t\t\"endTime\": \"29/5/2021\",\n\t\t\t\t\"description\": \"10 years experience python\"\n\t\t\t},\n    }",
           "type": "json"
         }
       ]
