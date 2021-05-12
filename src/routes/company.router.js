@@ -17,4 +17,4 @@ companyRouter
 	.route('/api/v1/companies')
 	.get(jwtMidleware, checkPer(ACTION_CODE.GET_USERS), companyController.getCompanies); //GET_USERS
 
-companyRouter.route('/api/v1/companies/info').get(jwtMidleware, companyController.getCompaniesInfo);
+companyRouter.route('/api/v1/companies/info').get( companyController.getCompaniesInfo);
