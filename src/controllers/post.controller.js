@@ -1,7 +1,7 @@
 import mongo from 'mongoose';
 import { Post, Company } from '../models';
 import { HttpError } from '../utils';
-import { PostService, CvService , CompanyService} from '../services';
+import { PostService, CvService, CompanyService } from '../services';
 const postService = new PostService();
 const cvService = new CvService();
 const companyService = new CompanyService();
@@ -76,9 +76,9 @@ const createPost = async (req, res, next) => {
  *     {
  *         status: 200,
  *         msg: "Success",
-         "currentPage": 2,
-            "numPages": 2,
- *        posts : [
+          "currentPage": 2,
+          "numPages": 2,
+ *         posts : [
  *          {
  *           "skill": [
  *               "java",
@@ -100,7 +100,7 @@ const createPost = async (req, res, next) => {
 const getAcceptedPosts = async (req, res, next) => {
 	const { query, page, take } = req.query;
 	try {
-		const posts = await postService.getPosts(query, true, page, take);
+		const posts = await postService.getPosts(query, 'ACCEPTED', page, take);
 		res.status(200).json({
 			status: 200,
 			msg: 'Success',
@@ -160,7 +160,7 @@ const getAcceptedPosts = async (req, res, next) => {
 const getPostsNeedAccept = async (req, res, next) => {
 	const { query, take, page } = req.query;
 	try {
-		const data = await postService.getPosts(query, false, page, take);
+		const data = await postService.getPosts(query, 'WAITING', page, take);
 		res.status(200).json({
 			status: 200,
 			msg: 'Success',
@@ -256,7 +256,7 @@ const deletePost = async (req, res, next) => {
 };
 
 /**
- * @api {patch} /api/v1/posts/[postId]/accept-post  accept post
+ * @api {patch} /api/v1/posts/{postId}/accept-post  accept post
  * @apiName Accept post
  * @apiGroup Post
  * @apiHeader {String} token The token can be generated from your user profile.
@@ -274,7 +274,7 @@ const deletePost = async (req, res, next) => {
  *     HTTP/1.1 401
  *     {
  *       "status" : 401,
- *       "msg": "Denny permission accept post"
+ *       "msg": "Denny permission"
  *     }
  */
 
@@ -317,7 +317,7 @@ const acceptPost = async (req, res, next) => {
                 "C#",
                 "Python"
             ],
-            "accept": true,
+            "status": "WAITING",
             "accountId": "606491e7831e840015befeee",
             "companyId": "606491e8831e840015befef9",
             "title": "Recruiting Dev ops ",
@@ -340,35 +340,6 @@ const acceptPost = async (req, res, next) => {
                 }
             ]
         },
-        {
-            "_id": "608bc61fe78f864568466973",
-            "skill": [
-                "C#",
-                "Python"
-            ],
-            "accept": true,
-            "accountId": "606491e7831e840015befeee",
-            "companyId": "606491e8831e840015befef9",
-            "title": "Recruiting Dev ops ",
-            "address": "Da Nang",
-            "salary": "2000 - 3000 $",
-            "endTime": "29/5/2021",
-            "description": "10 years experience python",
-            "company": [
-                {
-                    "_id": "606491e8831e840015befef9",
-                    "accountId": "606491e7831e840015befeee",
-                    "email": "com1@gmail.com",
-                    "createdAt": "2021-03-31T15:14:48.629Z",
-                    "updatedAt": "2021-05-03T09:25:42.134Z",
-                    "__v": 0,
-                    "image": "http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg",
-                    "phone": "0989402047",
-                    "address": "Hà Nội",
-                    "name": "Madison"
-                }
-            	]	
-        	},
  *         ]
  *     }
  */
@@ -480,7 +451,7 @@ const listApply = async (req, res, next) => {
 					"C#",
 					"Python"
 				],
-				"accept": true,
+				"status": "WAITING",
 				"accountId": "606491e7831e840015befeee",
 				"companyId": "606491e8831e840015befef9",
 				"title": "Recruiting Dev ops ",
@@ -568,12 +539,47 @@ const getPostsByCompanyId = async (req, res, next) => {
 	const { companyId } = req.params;
 	try {
 		const posts = await postService.listPostsByCompanyId(companyId);
-		const company = await companyService.getCompany(companyId)
+		const company = await companyService.getCompany(companyId);
 		res.status(200).json({
 			status: 200,
 			msg: 'Success',
 			company,
 			posts,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
+/**
+ * @api {patch} /api/v1/posts/{postId}/complete  accept post
+ * @apiName complete post
+ * @apiGroup Post
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success"
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission"
+ *     }
+ */
+const donePost = async (req, res, next) => {
+	const { _id } = req.params;
+	try {
+		if (!(await postService.donePost(_id))) throw new HttpError('Post not found!', 400);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
 		});
 	} catch (error) {
 		next(error);
@@ -592,4 +598,5 @@ export const postController = {
 	listApply,
 	getPost,
 	getPostsByCompanyId,
+	donePost,
 };

@@ -15,11 +15,7 @@ const PostSchema = new Schema(
 		title: {
 			type: String,
 		},
-		skill: [
-			{
-				type: String,
-			},
-		],
+		skill: [{ type: String, default: [] }],
 		address: {
 			type: String,
 		},
@@ -51,14 +47,10 @@ const PostSchema = new Schema(
 		description: {
 			type: String,
 		},
-		comment: [{ type: String, default: [] }],
-		accept: {
-			type: Boolean,
-			default: false,
-		},
-		active: {
-			type: Boolean,
-			default: true,
+		status: {
+			type: String,
+			default: "WAITING",
+			enum :	 ['WAITING','ACCEPTED','DONE']
 		},
 	},
 	{ timestamps: true },

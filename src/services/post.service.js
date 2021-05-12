@@ -1,18 +1,11 @@
-import { Post, ITer, Cv, Company } from '../models';
-// import { sendMailJob } from '../utils';
-import { envVariables } from '../configs';
-const { url_fe } = envVariables;
-// import queue from 'queue';
+import { Post, ITer, Company } from '../models';
 import mongo from 'mongoose';
-
-// let q = queue({ results: [] });
-
 export default class PostService {
 	async create(data) {
 		await Post.create(data);
 	}
 
-	async getPosts(query, type, page = 0, take = 10) {
+	async getPosts(query, status, page = 0, take = 10) {
 		let posts = [];
 		page = isNaN(page) ? 1 : page - 0;
 		take = isNaN(take) ? 10 : take - 0;
@@ -20,7 +13,7 @@ export default class PostService {
 		let numPages;
 
 		if (!query) {
-			count = await Post.countDocuments({ accept: type });
+			count = await Post.countDocuments({ status });
 			numPages = Math.ceil(count / take);
 			if (page > numPages || page <= 0)
 				return {
@@ -33,14 +26,13 @@ export default class PostService {
 			posts = await Post.aggregate([
 				{
 					$match: {
-						accept: type,
+						status,
 					},
 				},
 				{
 					$project: {
 						__v: 0,
-						active: 0,
-						accept: 0,
+						status: 0,
 						createdAt: 0,
 						updatedAt: 0,
 						apply: 0,
@@ -63,7 +55,7 @@ export default class PostService {
 				.skip(skip)
 				.limit(take);
 		} else {
-			count = await Post.countDocuments({ accept: type, $text: { $search: `${query}` } });
+			count = await Post.countDocuments({ status, $text: { $search: `${query}` } });
 			numPages = Math.ceil(count / take);
 			if (page > numPages || page <= 0)
 				return {
@@ -85,7 +77,7 @@ export default class PostService {
 			posts = await Post.aggregate([
 				{
 					$match: {
-						accept: type,
+						status,
 						$text: { $search: `${search}` },
 					},
 				},
@@ -100,8 +92,7 @@ export default class PostService {
 				{
 					$project: {
 						__v: 0,
-						active: 0,
-						accept: 0,
+						status: 0,
 						createdAt: 0,
 						updatedAt: 0,
 						apply: 0,
@@ -132,7 +123,6 @@ export default class PostService {
 			{
 				$project: {
 					__v: 0,
-					active: 0,
 					createdAt: 0,
 					updatedAt: 0,
 					apply: 0,
@@ -161,50 +151,37 @@ export default class PostService {
 
 	async deletePost(id) {
 		let post = await Post.findById(id);
-		if (!post) return false;
+		if (post) return false;
 		await Post.findByIdAndDelete(id);
-		if (post.accept == true && post.active == true) {
-			const numPost = await Post.countDocuments({ companyId: post.companyId, accept: true, active: true });
+		if (post.status == 'ACCEPTED') {
+			const numPost = await Post.countDocuments({ companyId: post.companyId, status: 'ACCEPTED' });
 			await Company.findByIdAndUpdate(post.companyId, { recruitingPost: numPost });
 		}
+		return true;
+	}
+
+	async donePost(_id) {
+		const post = await Post.findById(_id);
+		if (!post) return false;
+		await Post.findByIdAndUpdate(_id, { status: '' });
+		const numPost = await Post.countDocuments({ companyId: post.companyId, status: 'ACCEPTED' });
+		await Company.findByIdAndUpdate(post.companyId, { recruitingPost: numPost });
 		return true;
 	}
 
 	async acceptPost(id) {
 		const check = await Post.findOne({ _id: id });
 		if (!check) return 0;
-		if (check.accept == true) return 1;
-		const accepted = await Post.findByIdAndUpdate(id, { accept: true });
+		if (check.status == 'ACCEPTED') return 1;
+		const accepted = await Post.findByIdAndUpdate(id, { status: 'ACCEPTED' });
 		if (!accepted) return 1;
-		const numPost = await Post.countDocuments({ companyId: accepted.companyId, accept: true, active: true });
-		console.log(numPost);
+		const numPost = await Post.countDocuments({ companyId: accepted.companyId, status: 'ACCEPTED' });
 		await Company.findByIdAndUpdate(accepted.companyId, { recruitingPost: numPost });
-		// const skills = accepted.skill.join(' ');
-		// const listCv = await Cv.find(
-		// 	{ $text: { $search: `${skills}` }, receiveMail: true },
-		// 	{
-		// 		email: 1,
-		// 	},
-		// );
-
-		// const sendMailList = listCv.map((cv) => {
-		// 	sendMailJob(cv.email, skills, `${url_fe}/job/${accepted._id}`);
-		// });
-		// q.push(function () {
-		// 	Promise.all(sendMailList);
-		// });
-		// q.on('success', function (result, job) {
-		// 	console.log('job finished processing:', job.toString().replace(/\n/g, ''));
-		// });
-		// q.start(function (err) {
-		// 	if (err) throw err;
-		// 	console.log('all done:', q.results);
-		// });
 		return 2;
 	}
 	async listsatifieldPosts(skill, email) {
 		// check time nua
-		let posts = await Post.find({ $text: { $search: skill }, accept: true }, { title: 1, address: 1 })
+		let posts = await Post.find({ $text: { $search: skill }, status: 'ACCEPTED' }, { title: 1, address: 1 })
 			.limit(10)
 			.sort({ createdAt: -1 });
 		return { posts, email };
@@ -220,7 +197,6 @@ export default class PostService {
 			{
 				$project: {
 					__v: 0,
-					active: 0,
 					createdAt: 0,
 					updatedAt: 0,
 					apply: 0,
@@ -260,8 +236,8 @@ export default class PostService {
 
 	async listPostsByCompanyId(accountId) {
 		return await Post.find(
-			{ accountId, accept: true, active: true },
-			{ comment: 0, __v: 0, apply: 0, createdAt: 0, companyId: 0, updatedAt: 0, accept: 0, active: 0 },
+			{ accountId, status: 'ACCEPTED' },
+			{ comment: 0, __v: 0, apply: 0, createdAt: 0, companyId: 0, updatedAt: 0, status: 0 },
 		);
 	}
 }

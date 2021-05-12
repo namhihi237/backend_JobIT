@@ -54,4 +54,6 @@ export default class CompayService {
 	async getInfoCompanies(page, take) {
 		return await pagination(Company, {}, page, take, { __v: 0, createdAt: 0 });
 	}
+
+
 }

@@ -1053,6 +1053,179 @@ define({ "api": [
     "groupTitle": "Auth"
   },
   {
+    "type": "get",
+    "url": "/api/v1/auth/profile",
+    "title": "get profile",
+    "name": "get_profile",
+    "group": "Auth",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "user",
+            "description": "<p><code> Objects user</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"user\": {\n            \"_id\": \"601d07f259e12e126c0a2af4\",\n            \"email\": \"yentth239@gmail.com\",\n            \"name\": \"FPT\",\n            \"roleId\": \"601b9d7cdae0a522ac960fe9\"\n        } \n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 400\n{\n  \"status\" : 401,\n  \"msg\": \"user not found\"\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/auth.controller.js",
+    "groupTitle": "Auth"
+  },
+  {
+    "type": "patch",
+    "url": "/api/v1/auth/profile",
+    "title": "update profile",
+    "name": "update_user_profile",
+    "group": "Auth",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>name's user</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>phone's user</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "image",
+            "description": "<p>link image's user</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "address",
+            "description": "<p>address's user</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code></p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 404\n{\n  \"status\" : 404,\n  \"msg\": \"User not found\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/auth.controller.js",
+    "groupTitle": "Auth"
+  },
+  {
     "type": "delete",
     "url": "/api/v1/companies/:id",
     "title": "delete a company",
@@ -1804,9 +1977,9 @@ define({ "api": [
   },
   {
     "type": "delete",
-    "url": "/api/v1/feedbacks/[feedbackId]",
-    "title": "delete feedback",
-    "name": "delete_feedback",
+    "url": "/api/v1/feedbacks/{feedbackId}",
+    "title": "delete a feedback",
+    "name": "delete_a_feedback",
     "group": "Feedback",
     "header": {
       "fields": {
@@ -2327,7 +2500,7 @@ define({ "api": [
   },
   {
     "type": "patch",
-    "url": "/api/v1/posts/[postId]/accept-post",
+    "url": "/api/v1/posts/{postId}/accept-post",
     "title": "accept post",
     "name": "Accept_post",
     "group": "Post",
@@ -2382,7 +2555,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Response (example):",
-          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission accept post\"\n}",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
           "type": "json"
         }
       ]
@@ -2736,6 +2909,72 @@ define({ "api": [
     "groupTitle": "Post"
   },
   {
+    "type": "patch",
+    "url": "/api/v1/posts/{postId}/complete",
+    "title": "accept post",
+    "name": "complete_post",
+    "group": "Post",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code> if everything went fine.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/post.controller.js",
+    "groupTitle": "Post"
+  },
+  {
     "type": "get",
     "url": "/api/v1/posts",
     "title": "get all accepted post",
@@ -2770,7 +3009,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n     \"currentPage\": 2,\n        \"numPages\": 2,\n   posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"name\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n       },\n     ......\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n      \"currentPage\": 2,\n      \"numPages\": 2,\n    posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"name\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n       },\n     ......\n    ]\n}",
           "type": "json"
         }
       ]
@@ -2834,7 +3073,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n   \"posts\": [\n    {\n        \"_id\": \"608bc604e78f864568466972\",\n        \"skill\": [\n            \"C#\",\n            \"Python\"\n        ],\n        \"accept\": true,\n        \"accountId\": \"606491e7831e840015befeee\",\n        \"companyId\": \"606491e8831e840015befef9\",\n        \"title\": \"Recruiting Dev ops \",\n        \"address\": \"Ha Noi\",\n        \"salary\": \"1000 - 2000 $\",\n        \"endTime\": \"2021-05-29\",\n        \"description\": \"1 years experience python\",\n        \"company\": [\n            {\n                \"_id\": \"606491e8831e840015befef9\",\n                \"accountId\": \"606491e7831e840015befeee\",\n                \"email\": \"com1@gmail.com\",\n                \"createdAt\": \"2021-03-31T15:14:48.629Z\",\n                \"updatedAt\": \"2021-05-03T09:25:42.134Z\",\n                \"__v\": 0,\n                \"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg\",\n                \"phone\": \"0989402047\",\n                \"address\": \"Hà Nội\",\n                \"name\": \"Madison\"\n            }\n        ]\n    },\n    {\n        \"_id\": \"608bc61fe78f864568466973\",\n        \"skill\": [\n            \"C#\",\n            \"Python\"\n        ],\n        \"accept\": true,\n        \"accountId\": \"606491e7831e840015befeee\",\n        \"companyId\": \"606491e8831e840015befef9\",\n        \"title\": \"Recruiting Dev ops \",\n        \"address\": \"Da Nang\",\n        \"salary\": \"2000 - 3000 $\",\n        \"endTime\": \"29/5/2021\",\n        \"description\": \"10 years experience python\",\n        \"company\": [\n            {\n                \"_id\": \"606491e8831e840015befef9\",\n                \"accountId\": \"606491e7831e840015befeee\",\n                \"email\": \"com1@gmail.com\",\n                \"createdAt\": \"2021-03-31T15:14:48.629Z\",\n                \"updatedAt\": \"2021-05-03T09:25:42.134Z\",\n                \"__v\": 0,\n                \"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg\",\n                \"phone\": \"0989402047\",\n                \"address\": \"Hà Nội\",\n                \"name\": \"Madison\"\n            }\n        \t]\t\n    \t},\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n   \"posts\": [\n    {\n        \"_id\": \"608bc604e78f864568466972\",\n        \"skill\": [\n            \"C#\",\n            \"Python\"\n        ],\n        \"status\": \"WAITING\",\n        \"accountId\": \"606491e7831e840015befeee\",\n        \"companyId\": \"606491e8831e840015befef9\",\n        \"title\": \"Recruiting Dev ops \",\n        \"address\": \"Ha Noi\",\n        \"salary\": \"1000 - 2000 $\",\n        \"endTime\": \"2021-05-29\",\n        \"description\": \"1 years experience python\",\n        \"company\": [\n            {\n                \"_id\": \"606491e8831e840015befef9\",\n                \"accountId\": \"606491e7831e840015befeee\",\n                \"email\": \"com1@gmail.com\",\n                \"createdAt\": \"2021-03-31T15:14:48.629Z\",\n                \"updatedAt\": \"2021-05-03T09:25:42.134Z\",\n                \"__v\": 0,\n                \"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg\",\n                \"phone\": \"0989402047\",\n                \"address\": \"Hà Nội\",\n                \"name\": \"Madison\"\n            }\n        ]\n    },\n    ]\n}",
           "type": "json"
         }
       ]
@@ -2898,7 +3137,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n\"post\": {\n\t\t\t\t\"_id\": \"608bc604e78f864568466972\",\n\t\t\t\t\"skill\": [\n\t\t\t\t\t\"C#\",\n\t\t\t\t\t\"Python\"\n\t\t\t\t],\n\t\t\t\t\"accept\": true,\n\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\"companyId\": \"606491e8831e840015befef9\",\n\t\t\t\t\"title\": \"Recruiting Dev ops \",\n\t\t\t\t\"address\": \"Ha Noi\",\n\t\t\t\t\"salary\": \"1000 - 2000 $\",\n\t\t\t\t\"endTime\": \"2021-05-29\",\n\t\t\t\t\"description\": \"1 years experience python\",\n\t\t\t\t\"company\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"_id\": \"606491e8831e840015befef9\",\n\t\t\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\t\t\"email\": \"com1@gmail.com\",\n\t\t\t\t\t\t\"createdAt\": \"2021-03-31T15:14:48.629Z\",\n\t\t\t\t\t\t\"updatedAt\": \"2021-05-03T09:25:42.134Z\",\n\t\t\t\t\t\t\"__v\": 0,\n\t\t\t\t\t\t\"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg\",\n\t\t\t\t\t\t\"phone\": \"0989402047\",\n\t\t\t\t\t\t\"address\": \"Hà Nội\",\n\t\t\t\t\t\t\"name\": \"Madison\"\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n    }",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n\"post\": {\n\t\t\t\t\"_id\": \"608bc604e78f864568466972\",\n\t\t\t\t\"skill\": [\n\t\t\t\t\t\"C#\",\n\t\t\t\t\t\"Python\"\n\t\t\t\t],\n\t\t\t\t\"status\": \"WAITING\",\n\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\"companyId\": \"606491e8831e840015befef9\",\n\t\t\t\t\"title\": \"Recruiting Dev ops \",\n\t\t\t\t\"address\": \"Ha Noi\",\n\t\t\t\t\"salary\": \"1000 - 2000 $\",\n\t\t\t\t\"endTime\": \"2021-05-29\",\n\t\t\t\t\"description\": \"1 years experience python\",\n\t\t\t\t\"company\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"_id\": \"606491e8831e840015befef9\",\n\t\t\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\t\t\"email\": \"com1@gmail.com\",\n\t\t\t\t\t\t\"createdAt\": \"2021-03-31T15:14:48.629Z\",\n\t\t\t\t\t\t\"updatedAt\": \"2021-05-03T09:25:42.134Z\",\n\t\t\t\t\t\t\"__v\": 0,\n\t\t\t\t\t\t\"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg\",\n\t\t\t\t\t\t\"phone\": \"0989402047\",\n\t\t\t\t\t\t\"address\": \"Hà Nội\",\n\t\t\t\t\t\t\"name\": \"Madison\"\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n    }",
           "type": "json"
         }
       ]
@@ -3107,178 +3346,5 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/post.controller.js",
     "groupTitle": "Post"
-  },
-  {
-    "type": "get",
-    "url": "/api/v1/auth/profile",
-    "title": "get profile",
-    "name": "get_profile",
-    "group": "auth",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "token",
-            "description": "<p>The token can be generated from your user profile.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example",
-          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
-          "type": "Header"
-        }
-      ]
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "status",
-            "description": "<p><code>200</code></p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p><code>Success</code></p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "user",
-            "description": "<p><code> Objects user</code></p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n    \"user\": {\n            \"_id\": \"601d07f259e12e126c0a2af4\",\n            \"email\": \"yentth239@gmail.com\",\n            \"name\": \"FPT\",\n            \"roleId\": \"601b9d7cdae0a522ac960fe9\"\n        } \n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "Response (example):",
-          "content": "HTTP/1.1 400\n{\n  \"status\" : 401,\n  \"msg\": \"user not found\"\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/auth.controller.js",
-    "groupTitle": "auth"
-  },
-  {
-    "type": "patch",
-    "url": "/api/v1/auth/profile",
-    "title": "update profile",
-    "name": "update_user_profile",
-    "group": "auth",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "token",
-            "description": "<p>The token can be generated from your user profile.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example",
-          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
-          "type": "Header"
-        }
-      ]
-    },
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "name",
-            "description": "<p>name's user</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "phone",
-            "description": "<p>phone's user</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "image",
-            "description": "<p>link image's user</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "address",
-            "description": "<p>address's user</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "status",
-            "description": "<p><code>200</code></p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p><code>Success</code></p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "Response (example):",
-          "content": "HTTP/1.1 404\n{\n  \"status\" : 404,\n  \"msg\": \"User not found\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/auth.controller.js",
-    "groupTitle": "auth"
   }
 ] });

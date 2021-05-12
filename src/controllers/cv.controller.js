@@ -234,7 +234,7 @@ const updateCv = async (req, res, next) => {
 	const { _id } = req.user;
 
 	try {
-		await cvService.update(_id, req.body);
+		if (!(await cvService.update(_id, req.body))) throw new HttpError('Cv not found', 400);
 		res.status(200).json({
 			status: 200,
 			msg: 'Update success',

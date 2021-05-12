@@ -15,7 +15,7 @@ const CvSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		skill: { type: String },
+		skill: [{ type: String, default: [] }],
 		softSkill: {
 			type: String,
 		},

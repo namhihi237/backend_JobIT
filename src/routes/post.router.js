@@ -15,7 +15,7 @@ postRouter
 	.route('/api/v1/posts/need-accept')
 	.get(jwtMidleware, checkPer(ACTION_CODE.VIEW_POSTS_NEED_ACCEPT), postController.getPostsNeedAccept);
 
-postRouter.route('/api/v1/posts/company/:companyId').get( postController.getPostsByCompanyId);
+postRouter.route('/api/v1/posts/company/:companyId').get(postController.getPostsByCompanyId);
 
 postRouter
 	.route('/api/v1/posts/:postId/accept-post')
@@ -35,7 +35,7 @@ postRouter
 	.put(
 		jwtMidleware,
 		checkPer(ACTION_CODE.UPDATE_POST),
-		validateRequestBody.createPostSchema,
+		validateRequestBody.updatePostSchema,
 		postController.updatePost,
 	);
 
@@ -52,3 +52,5 @@ postRouter
 postRouter.route('/api/v1/posts/:_id/apply').get(jwtMidleware, postController.applyJob);
 
 postRouter.route('/api/v1/posts/:_id/apply-list').get(postController.listApply);
+
+postRouter.route('/api/v1/posts/:_id/complete').patch(jwtMidleware, postController.donePost);

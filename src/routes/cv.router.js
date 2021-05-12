@@ -16,4 +16,4 @@ cvRouter.route('/api/v1/cv/user').get(jwtMidleware, cvController.getCvByIter);
 
 cvRouter.route('/api/v1/cv/:id').get(jwtMidleware, cvController.getCv);
 
-cvRouter.route('/api/v1/cv').patch(jwtMidleware, cvController.updateCv);
+cvRouter.route('/api/v1/cv').patch(jwtMidleware, validateRequestBody.updateCvSchema, cvController.updateCv);

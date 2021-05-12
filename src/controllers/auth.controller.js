@@ -225,10 +225,7 @@ const requestResetPassword = async (req, res, next) => {
 		if (!user) throw new HttpError('Email does not exist in the system', 400);
 		const code = generate();
 		await sendEmail(code, email);
-		await Promise.all([
-			Code.findOneAndRemove({ email }),
-			Code.create({ email, code, accountId: user._id }),
-		]);
+		await Promise.all([Code.findOneAndRemove({ email }), Code.create({ email, code, accountId: user._id })]);
 		res.status(200).json({
 			status: 200,
 			msg: 'We sent code to your email, the code only lasts for 5 minutes',
@@ -320,7 +317,7 @@ const changePasswordReset = async (req, res, next) => {
 /**
  * @api {get} /api/v1/auth/profile get profile
  * @apiName get profile
- * @apiGroup auth
+ * @apiGroup Auth
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
@@ -371,7 +368,7 @@ const profile = async (req, res, next) => {
 /**
  * @api {patch} /api/v1/auth/profile update profile
  * @apiName update user profile
- * @apiGroup auth
+ * @apiGroup Auth
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
