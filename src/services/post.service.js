@@ -163,8 +163,8 @@ export default class PostService {
 		let post = await Post.findById(id);
 		if (!post) return false;
 		await Post.findByIdAndDelete({ _id: id });
-		if (post.accept == true && post.active == false) {
-			const numPost = await Post.countDocuments({ companyId: post.companyId, accept: true, active: false });
+		if (post.accept == true && post.active == true) {
+			const numPost = await Post.countDocuments({ companyId: post.companyId, accept: true, active: true });
 			await Company.findByIdAndUpdate(post.companyId, { recruitingPost: numPost });
 		}
 		return true;
@@ -176,7 +176,8 @@ export default class PostService {
 		if (check.accept == true) return 1;
 		const accepted = await Post.findByIdAndUpdate(id, { accept: true });
 		if (!accepted) return 1;
-		const numPost = await Post.countDocuments({ companyId: accepted.companyId, accept: true, active: false });
+		const numPost = await Post.countDocuments({ companyId: accepted.companyId, accept: true, active: true });
+		console.log(numPost);
 		await Company.findByIdAndUpdate(accepted.companyId, { recruitingPost: numPost });
 		// const skills = accepted.skill.join(' ');
 		// const listCv = await Cv.find(
