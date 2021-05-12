@@ -1,9 +1,11 @@
 import mongo from 'mongoose';
 import { Post, Company } from '../models';
 import { HttpError } from '../utils';
-import { PostService, CvService } from '../services';
+import { PostService, CvService , CompanyService} from '../services';
 const postService = new PostService();
 const cvService = new CvService();
+const companyService = new CompanyService();
+
 /**
  * @api {post} /api/v1/posts company create post
  * @apiName Create post
@@ -566,9 +568,11 @@ const getPostsByCompanyId = async (req, res, next) => {
 	const { companyId } = req.params;
 	try {
 		const posts = await postService.listPostsByCompanyId(companyId);
+		const company = await companyService.getCompany(companyId)
 		res.status(200).json({
 			status: 200,
 			msg: 'Success',
+			company,
 			posts,
 		});
 	} catch (error) {
