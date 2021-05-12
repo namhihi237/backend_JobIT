@@ -18,6 +18,10 @@ postRouter
 postRouter.route('/api/v1/posts/company/:companyId').get(jwtMidleware, postController.getPostsByCompanyId);
 
 postRouter
+	.route('/api/v1/posts/:postId/accept-post')
+	.patch(jwtMidleware, checkPer(ACTION_CODE.ACCEPT_POST), postController.acceptPost);
+
+postRouter
 	.route('/api/v1/posts')
 	.post(
 		jwtMidleware,

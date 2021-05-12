@@ -12,10 +12,6 @@ const PostSchema = new Schema(
 			ref: 'company',
 			require: true,
 		},
-		// name: {
-		// 	type: String,
-		// 	required: true,
-		// },
 		title: {
 			type: String,
 		},

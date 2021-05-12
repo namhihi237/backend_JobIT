@@ -1,11 +1,11 @@
-import { Post, ITer, Cv } from '../models';
-import { sendMailJob } from '../utils';
+import { Post, ITer, Cv, Company } from '../models';
+// import { sendMailJob } from '../utils';
 import { envVariables } from '../configs';
 const { url_fe } = envVariables;
-import queue from 'queue';
+// import queue from 'queue';
 import mongo from 'mongoose';
 
-let q = queue({ results: [] });
+// let q = queue({ results: [] });
 
 export default class PostService {
 	async create(data) {
@@ -160,37 +160,46 @@ export default class PostService {
 	}
 
 	async deletePost(id) {
-		if (!(await this.getPost(id))) return false;
+		let post = await Post.findById(id);
+		if (!post) return false;
 		await Post.findByIdAndDelete({ _id: id });
+		if (post.accept == true && post.active == false) {
+			const numPost = await Post.countDocuments({ companyId: post.companyId, accept: true, active: false });
+			await Company.findByIdAndUpdate(post.companyId, { recruitingPost: numPost });
+		}
 		return true;
 	}
 
 	async acceptPost(id) {
-		const accepted = await Post.findByIdAndUpdate({ _id: id }, { accept: true });
-		if (!accepted) return false;
+		const check = await Post.findOne({ _id: id });
+		if (!check) return 0;
+		if (check.accept == true) return 1;
+		const accepted = await Post.findByIdAndUpdate(id, { accept: true });
+		if (!accepted) return 1;
+		const numPost = await Post.countDocuments({ companyId: accepted.companyId, accept: true, active: false });
+		await Company.findByIdAndUpdate(accepted.companyId, { recruitingPost: numPost });
+		// const skills = accepted.skill.join(' ');
+		// const listCv = await Cv.find(
+		// 	{ $text: { $search: `${skills}` }, receiveMail: true },
+		// 	{
+		// 		email: 1,
+		// 	},
+		// );
 
-		const skills = accepted.skill.join(' ');
-		const listCv = await Cv.find(
-			{ $text: { $search: `${skills}` }, receiveMail: true },
-			{
-				email: 1,
-			},
-		);
-
-		const sendMailList = listCv.map((cv) => {
-			sendMailJob(cv.email, skills, `${url_fe}/job/${accepted._id}`);
-		});
-		q.push(function () {
-			Promise.all(sendMailList);
-		});
-		q.on('success', function (result, job) {
-			console.log('job finished processing:', job.toString().replace(/\n/g, ''));
-		});
-		q.start(function (err) {
-			if (err) throw err;
-			console.log('all done:', q.results);
-		});
-		return true;
+		// const sendMailList = listCv.map((cv) => {
+		// 	sendMailJob(cv.email, skills, `${url_fe}/job/${accepted._id}`);
+		// });
+		// q.push(function () {
+		// 	Promise.all(sendMailList);
+		// });
+		// q.on('success', function (result, job) {
+		// 	console.log('job finished processing:', job.toString().replace(/\n/g, ''));
+		// });
+		// q.start(function (err) {
+		// 	if (err) throw err;
+		// 	console.log('all done:', q.results);
+		// });
+		return 2;
 	}
 	async listsatifieldPosts(skill, email) {
 		// check time nua

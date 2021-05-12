@@ -280,13 +280,15 @@ const acceptPost = async (req, res, next) => {
 	const { postId } = req.params;
 	try {
 		if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError('Post not found!', 400);
-
-		if (!(await postService.acceptPost(postId))) throw new HttpError('Post not found!', 400);
+		const check = await postService.acceptPost(postId);
+		if (check == 0) throw new HttpError('Post not found!', 400);
+		if (check == 1) throw new HttpError('Post has been accepted', 400);
 		res.status(200).json({
 			status: 200,
 			msg: 'Success',
 		});
 	} catch (error) {
+		console.log(error);
 		next(error);
 	}
 };
