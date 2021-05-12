@@ -22,5 +22,5 @@ feedbackRouter
 	);
 
 feedbackRouter
-	.route('/api/v1/feedbacks/feedbackId')
+	.route('/api/v1/feedbacks/:feedbackId')
 	.delete(jwtMidleware, checkPer(ACTION_CODE.DELETE_FEEDBACK), feedbackController.deleteFeedback);
