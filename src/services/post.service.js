@@ -247,4 +247,11 @@ export default class PostService {
 		const post = await Post.findById({ _id }, { comment: 0 });
 		return post.apply;
 	}
+
+	async listPostsByCompanyId(accountId) {
+		return await Post.find(
+			{ accountId, accept: true, active: true },
+			{ comment: 0, __v: 0, apply: 0, createdAt: 0, companyId: 0, updatedAt: 0, accept: 0, active: 0 },
+		);
+	}
 }

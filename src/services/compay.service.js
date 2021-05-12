@@ -34,9 +34,8 @@ export default class CompayService {
 		return true;
 	}
 
-	async getCompanys(page, take) {
-		let data = await pagination(Company, {}, page, take);
-		return data;
+	async getCompanies(page, take) {
+		return await pagination(Company, {}, page, take);
 	}
 
 	async deleteCompany(_id) {
@@ -50,5 +49,9 @@ export default class CompayService {
 			...deleteUserPers,
 		]);
 		return true;
+	}
+
+	async getInfoCompanies(page, take) {
+		return await pagination(Company, {}, page, take, { __v: 0, createdAt: 0 });
 	}
 }

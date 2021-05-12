@@ -516,6 +516,64 @@ const getPost = async (req, res, next) => {
 	}
 };
 
+/**
+ * @api {get} /api/v1/posts/company/:companyId get post list of the company
+ * @apiName get post list of the company
+ * @apiGroup Post
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * @apiSuccess {Array} posts <code> posts</code> show list posts
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+		  "posts": [
+			{
+				"skill": [
+					"C#",
+					"Python"
+				],
+				"_id": "608bc604e78f864568466972",
+				"accountId": "606491e7831e840015befeee",
+				"title": "Recruiting Dev ops ",
+				"address": "Ha Noi",
+				"salary": "1000 - 2000 $",
+				"endTime": "2021-05-29",
+				"description": "1 years experience python"
+			},
+			{
+				"skill": [
+					"C#",
+					"Python"
+				],
+				"_id": "608bc61fe78f864568466973",
+				"accountId": "606491e7831e840015befeee",
+				"title": "Recruiting Dev ops ",
+				"address": "Da Nang",
+				"salary": "2000 - 3000 $",
+				"endTime": "29/5/2021",
+				"description": "10 years experience python"
+			},
+ *     }
+ */
+const getPostsByCompanyId = async (req, res, next) => {
+	const { companyId } = req.params;
+	try {
+		const posts = await postService.listPostsByCompanyId(companyId);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			posts,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
 export const postController = {
 	createPost,
 	getAcceptedPosts,
@@ -527,4 +585,5 @@ export const postController = {
 	applyJob,
 	listApply,
 	getPost,
+	getPostsByCompanyId,
 };

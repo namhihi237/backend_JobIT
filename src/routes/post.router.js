@@ -15,6 +15,8 @@ postRouter
 	.route('/api/v1/posts/need-accept')
 	.get(jwtMidleware, checkPer(ACTION_CODE.VIEW_POSTS_NEED_ACCEPT), postController.getPostsNeedAccept);
 
+postRouter.route('/api/v1/posts/company/:companyId').get(jwtMidleware, postController.getPostsByCompanyId);
+
 postRouter
 	.route('/api/v1/posts')
 	.post(

@@ -26,6 +26,10 @@ const CompanySchema = new Schema(
 		address: {
 			type: String,
 		},
+		recruitingPost: {
+			type: Number,
+			default: 0,
+		},
 	},
 	{ timestamps: true },
 );
