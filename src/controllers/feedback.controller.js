@@ -1,4 +1,4 @@
-import { Feedback } from "../models";
+import { Feedback } from '../models';
 
 /**
  * @api {get} /api/v1/feedbacks get all feedbacks
@@ -38,16 +38,16 @@ import { Feedback } from "../models";
  *     }
  */
 const getFeedbacks = async (req, res, next) => {
-    try {
-        const feedbacks = await Feedback.find({}, { updatedAt: 0, __v: 0 });
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-            feedbacks,
-        });
-    } catch (error) {
-        next(error);
-    }
+	try {
+		const feedbacks = await Feedback.find({}, { updatedAt: 0, __v: 0 });
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			feedbacks,
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 /**
@@ -74,22 +74,22 @@ const getFeedbacks = async (req, res, next) => {
  *     }
  */
 const createFeedback = async (req, res, next) => {
-    const { _id } = req.user;
-    const { content } = req.body;
-    try {
-        await Feedback.create({ userId: _id, content });
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-        });
-    } catch (error) {
-        next(error);
-    }
+	const { _id } = req.user;
+	const { content } = req.body;
+	try {
+		await Feedback.create({ userId: _id, content });
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 /**
- * @api {delete} /api/v1/feedbacks/[feedbackId] delete feedback
- * @apiName delete feedback
+ * @api {delete} /api/v1/feedbacks/{feedbackId} delete a feedback
+ * @apiName delete a feedback
  * @apiGroup Feedback
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
@@ -110,23 +110,23 @@ const createFeedback = async (req, res, next) => {
  *     }
  */
 const deleteFeedback = async (req, res, next) => {
-    const { feedbackId } = req.params;
-    try {
-        const deleted = await Feedback.findByIdAndDelete({ _id: feedbackId });
-        if (!deleted) {
-            throw new HttpError("Delete Feedback failed", 400);
-        }
-        res.status(200).json({
-            status: 200,
-            msg: "Success",
-        });
-    } catch (error) {
-        next(error);
-    }
+	const { feedbackId } = req.params;
+	try {
+		const deleted = await Feedback.findByIdAndDelete(feedbackId);
+		if (!deleted) {
+			throw new HttpError('Delete Feedback failed', 400);
+		}
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 export const feedbackController = {
-    getFeedbacks,
-    createFeedback,
-    deleteFeedback,
+	getFeedbacks,
+	createFeedback,
+	deleteFeedback,
 };

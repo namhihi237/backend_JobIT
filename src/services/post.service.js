@@ -162,7 +162,7 @@ export default class PostService {
 	async deletePost(id) {
 		let post = await Post.findById(id);
 		if (!post) return false;
-		await Post.findByIdAndDelete({ _id: id });
+		await Post.findByIdAndDelete(id);
 		if (post.accept == true && post.active == true) {
 			const numPost = await Post.countDocuments({ companyId: post.companyId, accept: true, active: true });
 			await Company.findByIdAndUpdate(post.companyId, { recruitingPost: numPost });
