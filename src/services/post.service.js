@@ -164,7 +164,7 @@ export default class PostService {
 	async donePost(_id) {
 		const post = await Post.findById(_id);
 		if (!post) return false;
-		await Post.findByIdAndUpdate(_id, { status: '' });
+		await Post.findByIdAndUpdate(_id, { status: 'DONE' });
 		const numPost = await Post.countDocuments({ companyId: post.companyId, status: 'ACCEPTED' });
 		await Company.findByIdAndUpdate(post.companyId, { recruitingPost: numPost });
 		return true;

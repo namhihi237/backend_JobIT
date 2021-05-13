@@ -552,7 +552,7 @@ const getPostsByCompanyId = async (req, res, next) => {
 };
 
 /**
- * @api {patch} /api/v1/posts/{postId}/complete  accept post
+ * @api {patch} /api/v1/posts/{postId}/complete  complete post
  * @apiName complete post
  * @apiGroup Post
  * @apiHeader {String} token The token can be generated from your user profile.
