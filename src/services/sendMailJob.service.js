@@ -48,12 +48,12 @@ export default class SendEmailJob {
 				//post send email
 				let postSendEmail = await Promise.all(
 					listNeedEmails.map((el) => {
-						return this.postService.listsatifieldPosts(el.skill, el.email);
+						return this.postService.listsatifieldPosts(el.skill.join(' '), el.email);
 					}),
 				);
 
-				let sendEmail = postSendEmail.map((el) => {
-					sendMailJobShedule('trungnam23799@gmail.com', el.posts[0].title);
+				let sendEmail = postSendEmail.filter((el) => {
+					if (el.posts.length > 0) return sendMailJobShedule(el.email, el.posts[0].title);
 				});
 				this.q.push(function () {
 					Promise.all(sendEmail);

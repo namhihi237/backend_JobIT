@@ -53,7 +53,8 @@ export default class PostService {
 				},
 			])
 				.skip(skip)
-				.limit(take);
+				.limit(take)
+				.sort({ _id: -1 });
 		} else {
 			count = await Post.countDocuments({ status, $text: { $search: `${query}` } });
 			numPages = Math.ceil(count / take);
@@ -103,7 +104,7 @@ export default class PostService {
 			])
 				.skip(skip)
 				.limit(take)
-				.sort({ score: { $meta: 'textScore' } });
+				.sort({ score: { $meta: 'textScore' }, _id: -1 });
 		}
 
 		return {
@@ -140,7 +141,7 @@ export default class PostService {
 					as: 'company',
 				},
 			},
-		]);
+		]).sort({ _id: -1 });
 	}
 
 	async update(id, data) {
@@ -181,7 +182,10 @@ export default class PostService {
 	}
 	async listsatifieldPosts(skill, email) {
 		// check time nua
-		let posts = await Post.find({ $text: { $search: skill }, status: 'ACCEPTED' }, { title: 1, address: 1 })
+		let posts = await Post.find(
+			{ $text: { $search: skill }, status: 'ACCEPTED' },
+			{ title: 1, address: 1, skill: 1 },
+		)
 			.limit(10)
 			.sort({ createdAt: -1 });
 		return { posts, email };
@@ -214,7 +218,7 @@ export default class PostService {
 					as: 'company',
 				},
 			},
-		]);
+		]).sort({ _id: -1 });
 	}
 
 	async applyPost(_id, iterId, cvId) {
@@ -238,6 +242,6 @@ export default class PostService {
 		return await Post.find(
 			{ accountId, status: 'ACCEPTED' },
 			{ comment: 0, __v: 0, apply: 0, createdAt: 0, companyId: 0, updatedAt: 0, status: 0 },
-		);
+		).sort({ _id: -1 });
 	}
 }
