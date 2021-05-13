@@ -30,25 +30,32 @@ export default class PostService {
 					},
 				},
 				{
-					$project: {
-						__v: 0,
-						status: 0,
-						createdAt: 0,
-						updatedAt: 0,
-						apply: 0,
-						comment: 0,
-						company: {
-							createdAt: 0,
-						},
-					},
-				},
-
-				{
 					$lookup: {
 						from: 'company',
 						localField: 'companyId',
 						foreignField: '_id',
 						as: 'company',
+					},
+				},
+				{
+					$project: {
+						__v: 0,
+						status: 0,
+						createdAt: 0,
+						updatedAt: 0,
+						comment: 0,
+						apply: {
+							name: 0,
+							timeApply: 0,
+							email: 0,
+							cvId: 0,
+							_id: 0,
+						},
+						'company.createdAt': 0,
+						'company.updatedAt': 0,
+						'company._id': 0,
+						'company.recruitingPost': 0,
+						'company.__v': 0,
 					},
 				},
 			])
@@ -96,8 +103,19 @@ export default class PostService {
 						status: 0,
 						createdAt: 0,
 						updatedAt: 0,
-						apply: 0,
 						comment: 0,
+						apply: {
+							name: 0,
+							timeApply: 0,
+							email: 0,
+							cvId: 0,
+							_id: 0,
+						},
+						'company.createdAt': 0,
+						'company.updatedAt': 0,
+						'company._id': 0,
+						'company.recruitingPost': 0,
+						'company.__v': 0,
 						score: { $meta: 'textScore' },
 					},
 				},

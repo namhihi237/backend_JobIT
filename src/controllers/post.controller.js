@@ -79,20 +79,32 @@ const createPost = async (req, res, next) => {
           "currentPage": 2,
           "numPages": 2,
  *         posts : [
- *          {
- *           "skill": [
- *               "java",
- *               "nodejs"
- *           ],
- *           "comment": [],
- *           "_id": "601d12b5f391e21c38ea6bfe",
- *           "companyId": "601d07f259e12e126c0a2af4",
- *            "name": "FPT",
- *            "address": "1444 nlb",
- *            "salary": "1200 to 2000$",
- *            "endTime": "21/3/2021",
- *            "description": "nodejs >= 3 year experience",
- *            },
+ *          "posts": [
+            {
+                "_id": "609cee9552522300152fd701",
+                "skill": [
+                    "ReactJS"
+                ],
+                "accountId": "609cab88c85020001578a9a9",
+                "companyId": "609cab89c85020001578a9b0",
+                "title": "Front-end Developer",
+                "address": "Da Nang",
+                "salary": "2000$",
+                "endTime": "1/6/2021",
+                "description": "Work for international customers\nWork with colleagues from Germany, France, the Czech Republic and the US\nBe responsible for the success of your project\nDesign, implement and test web applications\nCollaborate on requirement analysis and specifications\nShare knowledge and experience with your colleagues\nWorking time: 40 hours / week, flexible",
+                "apply": [],
+                "company": [
+                    {
+                        "name": "CES",
+                        "accountId": "609cab88c85020001578a9a9",
+                        "email": "ces@gmail.com",
+                        "address": "Da Nang",
+                        "image": "http://res.cloudinary.com/do-an-cnpm/image/upload/v1620895774/fw8o6u4nyi2vdzet8yh2.jpg",
+                        "phone": "0123456789"
+                    }
+                ],
+                "score": 1.5
+            },
  *          ......
  *         ]
  *     }

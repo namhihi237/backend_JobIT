@@ -49,8 +49,8 @@ const PostSchema = new Schema(
 		},
 		status: {
 			type: String,
-			default: "WAITING",
-			enum :	 ['WAITING','ACCEPTED','DONE']
+			default: 'WAITING',
+			enum: ['WAITING', 'ACCEPTED', 'DONE'],
 		},
 	},
 	{ timestamps: true },
