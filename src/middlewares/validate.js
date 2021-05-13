@@ -24,6 +24,7 @@ const updateInfoSchema = (req, res, next) => {
 		name: Joi.string().required(),
 		address: Joi.string().empty(),
 		phone: Joi.string().empty(),
+		image: Joi.string().empty(),
 	});
 	validateRequest(req, next, schema);
 };
