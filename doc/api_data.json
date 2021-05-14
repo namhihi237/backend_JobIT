@@ -2500,6 +2500,85 @@
   },
   {
     "type": "patch",
+    "url": "/api/v1/posts/accept-many",
+    "title": "accept many posts",
+    "name": "Accept_many_posts",
+    "group": "Post",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Array",
+            "optional": false,
+            "field": "listId",
+            "description": "<p>list _id post need accept</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code> if everything went fine.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/post.controller.js",
+    "groupTitle": "Post"
+  },
+  {
+    "type": "patch",
     "url": "/api/v1/posts/{postId}/accept-post",
     "title": "accept post",
     "name": "Accept_post",
@@ -2911,7 +2990,7 @@
   {
     "type": "patch",
     "url": "/api/v1/posts/{postId}/complete",
-    "title": "accept post",
+    "title": "complete post",
     "name": "complete_post",
     "group": "Post",
     "header": {
@@ -3009,7 +3088,7 @@
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n      \"currentPage\": 2,\n      \"numPages\": 2,\n    posts : [\n     {\n      \"skill\": [\n          \"java\",\n          \"nodejs\"\n      ],\n      \"comment\": [],\n      \"_id\": \"601d12b5f391e21c38ea6bfe\",\n      \"companyId\": \"601d07f259e12e126c0a2af4\",\n       \"name\": \"FPT\",\n       \"address\": \"1444 nlb\",\n       \"salary\": \"1200 to 2000$\",\n       \"endTime\": \"21/3/2021\",\n       \"description\": \"nodejs >= 3 year experience\",\n       },\n     ......\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n      \"currentPage\": 2,\n      \"numPages\": 2,\n    posts : [\n     \"posts\": [\n        {\n            \"_id\": \"609cee9552522300152fd701\",\n            \"skill\": [\n                \"ReactJS\"\n            ],\n            \"accountId\": \"609cab88c85020001578a9a9\",\n            \"companyId\": \"609cab89c85020001578a9b0\",\n            \"title\": \"Front-end Developer\",\n            \"address\": \"Da Nang\",\n            \"salary\": \"2000$\",\n            \"endTime\": \"1/6/2021\",\n            \"description\": \"Work for international customers\\nWork with colleagues from Germany, France, the Czech Republic and the US\\nBe responsible for the success of your project\\nDesign, implement and test web applications\\nCollaborate on requirement analysis and specifications\\nShare knowledge and experience with your colleagues\\nWorking time: 40 hours / week, flexible\",\n            \"apply\": [],\n            \"company\": [\n                {\n                    \"name\": \"CES\",\n                    \"accountId\": \"609cab88c85020001578a9a9\",\n                    \"email\": \"ces@gmail.com\",\n                    \"address\": \"Da Nang\",\n                    \"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1620895774/fw8o6u4nyi2vdzet8yh2.jpg\",\n                    \"phone\": \"0123456789\"\n                }\n            ],\n            \"score\": 1.5\n        },\n     ......\n    ]\n}",
           "type": "json"
         }
       ]
