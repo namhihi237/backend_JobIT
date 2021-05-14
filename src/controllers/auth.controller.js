@@ -151,6 +151,7 @@ const login = async (req, res, next) => {
 			token,
 			name,
 			image,
+			userId: user._id
 		});
 	} catch (error) {
 		next(error);
