@@ -308,6 +308,51 @@ const acceptPost = async (req, res, next) => {
 };
 
 /**
+ * @api {patch} /api/v1/posts/accept-many  accept many posts
+ * @apiName Accept many posts
+ * @apiGroup Post
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiParam {Array} listId list _id post need accept
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success"
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission"
+ *     }
+ */
+const acceptMany = async (req, res, next) => {
+	const { listId } = req.body;
+	try {
+		if (listId && listId.length == 0) {
+			throw new HttpError('List is empty', 400);
+		}
+		for (let i = 0; i < listId.length; i += 100) {
+			let acceptList = listId.slice(i, i + 100).map((e) => {
+				return postService.acceptPost(e);
+			});
+			await Promise.all(acceptList);
+		}
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		});
+	} catch (error) {
+		console.log(error);
+		next(error);
+	}
+};
+
+/**
  * @api {get} /api/v1/posts/company get company post
  * @apiName get company post
  * @apiGroup Post
@@ -611,4 +656,5 @@ export const postController = {
 	getPost,
 	getPostsByCompanyId,
 	donePost,
+	acceptMany,
 };

@@ -22,6 +22,10 @@ postRouter
 	.patch(jwtMidleware, checkPer(ACTION_CODE.ACCEPT_POST), postController.acceptPost);
 
 postRouter
+	.route('/api/v1/posts/accept-many')
+	.patch(jwtMidleware, checkPer(ACTION_CODE.ACCEPT_POST), postController.acceptMany);
+
+postRouter
 	.route('/api/v1/posts')
 	.post(
 		jwtMidleware,
