@@ -144,7 +144,6 @@ export default class PostService {
 					__v: 0,
 					createdAt: 0,
 					updatedAt: 0,
-					apply: 0,
 					comment: 0,
 					company: {
 						createdAt: 0,
@@ -248,12 +247,6 @@ export default class PostService {
 			{ $push: { apply: { name: iter.name, email: iter.email, iterId, cvId } } },
 		);
 		return true;
-	}
-
-	async listApply(_id) {
-		if (!(await this.getPost(_id))) return [];
-		const post = await Post.findById({ _id }, { comment: 0 });
-		return post.apply;
 	}
 
 	async listPostsByCompanyId(accountId) {

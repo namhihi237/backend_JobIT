@@ -55,6 +55,6 @@ postRouter
 
 postRouter.route('/api/v1/posts/:_id/apply').get(jwtMidleware, postController.applyJob);
 
-postRouter.route('/api/v1/posts/:_id/apply-list').get(postController.listApply);
+postRouter.route('/api/v1/posts/:_id/apply-list').get(jwtMidleware, postController.listApply);
 
 postRouter.route('/api/v1/posts/:_id/complete').patch(jwtMidleware, postController.donePost);

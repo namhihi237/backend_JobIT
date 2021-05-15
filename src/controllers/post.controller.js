@@ -473,16 +473,17 @@ const applyJob = async (req, res, next) => {
 const listApply = async (req, res, next) => {
 	const { _id } = req.params;
 	try {
-		const applies = await postService.listApply(_id);
 		const post = await postService.getPost(_id);
-		if (!post) throw new HttpError('Post not found!', 400);
+		if (post.length == 0) throw new HttpError('Post not found!', 400);
+		console.log(post);
 		res.status(200).json({
 			status: 200,
 			msg: 'Success',
-			applies,
-			title: post.title,
+			applies: post[0].apply,
+			title: post[0].title,
 		});
 	} catch (error) {
+		console.log(error);
 		next(error);
 	}
 };
@@ -523,7 +524,6 @@ const listApply = async (req, res, next) => {
 						"email": "com1@gmail.com",
 						"createdAt": "2021-03-31T15:14:48.629Z",
 						"updatedAt": "2021-05-03T09:25:42.134Z",
-						"__v": 0,
 						"image": "http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg",
 						"phone": "0989402047",
 						"address": "Hà Nội",
