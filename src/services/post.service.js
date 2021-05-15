@@ -169,7 +169,7 @@ export default class PostService {
 
 	async deletePost(id) {
 		let post = await Post.findById(id);
-		if (post) return false;
+		if (!post) return false;
 		await Post.findByIdAndDelete(id);
 		if (post.status == 'ACCEPTED') {
 			const numPost = await Post.countDocuments({ companyId: post.companyId, status: 'ACCEPTED' });

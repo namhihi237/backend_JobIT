@@ -256,7 +256,7 @@ const updatePost = async (req, res, next) => {
 const deletePost = async (req, res, next) => {
 	const { postId } = req.params;
 	try {
-		if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError('PostID not found!', 404);
+		if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError('PostID not found!', 400);
 		if (!(await postService.deletePost(postId))) throw new HttpError('Post not found!', 400);
 		res.status(200).json({
 			status: 200,
