@@ -1,6 +1,5 @@
 role,perName,actionCode,check
 admin,Create account moderator,CREATE_MOD,1
-admin,Get all posts need accept,VIEW_POSTS_NEED_ACCEPT,1
 admin,Accept a post,ACCEPT_POST,1
 admin,Delete a post,DELETE_POST,1
 admin,Get all feedbacks,VIEW_FEEDBACKS,1
