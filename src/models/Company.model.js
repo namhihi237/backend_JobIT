@@ -33,5 +33,7 @@ const CompanySchema = new Schema(
 	},
 	{ timestamps: true },
 );
-
+CompanySchema.index({
+	name: 'text',
+});
 export const Company = model('company', CompanySchema, 'company');

@@ -1,7 +1,7 @@
 import { envVariables } from '../configs';
 const { subject, gmail, pass } = envVariables;
 const ALPHABET = '0123456789ABCDEFGHIKLMNOPQRSTUVWXYZ';
-import { passwordResetTemplate } from '../resources';
+import { passwordResetTemplate, sendJobHtml } from '../resources';
 import sgMail from '@sendgrid/mail';
 import nodemailer from 'nodemailer';
 //using sendgrid
@@ -51,12 +51,12 @@ let transporter = nodemailer.createTransport({
 		pass: pass,
 	},
 });
-export const sendMailJobShedule = async (email, title) => {
+export const sendMailJobShedule = async (email, posts) => {
 	await transporter.sendMail({
 		from: gmail,
 		to: email,
 		subject: `[NEW JOB FOR YOU]`,
-		text: `Đã có job mới về ${title} `,
+		html: sendJobHtml(posts),
 	});
 };
 // export const sendEmail = async (code, email) => {

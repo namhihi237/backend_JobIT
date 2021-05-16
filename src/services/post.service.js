@@ -197,12 +197,35 @@ export default class PostService {
 		await Company.findByIdAndUpdate(accepted.companyId, { recruitingPost: numPost });
 		return 2;
 	}
+
 	async listsatifieldPosts(skill, email) {
 		// check time nua
-		let posts = await Post.find(
-			{ $text: { $search: skill }, status: 'ACCEPTED' },
-			{ title: 1, address: 1, skill: 1 },
-		)
+		let posts = await Post.aggregate([
+			{
+				$match: {
+					$text: { $search: skill },
+					status: 'ACCEPTED',
+				},
+			},
+			{
+				$lookup: {
+					from: 'company',
+					localField: 'companyId',
+					foreignField: '_id',
+					as: 'company',
+				},
+			},
+			{
+				$project: {
+					title: 1,
+					address: 1,
+					skill: 1,
+					endTime: 1,
+					'company.image': 1,
+					'company.name': 1,
+				},
+			},
+		])
 			.limit(10)
 			.sort({ createdAt: -1 });
 		return { posts, email };

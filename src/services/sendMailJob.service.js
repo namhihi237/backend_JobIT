@@ -18,7 +18,7 @@ export default class SendEmailJob {
 	q = queue({ results: [] });
 
 	job = new CronJob(
-		'0 * 0 * * *',
+		'0 0 0 * * *',
 		async () => {
 			console.log('You will see this message every minute');
 			// step 1: get all cv (receiveMail = true) => iters =  { email , skill}\
@@ -53,7 +53,7 @@ export default class SendEmailJob {
 				);
 
 				let sendEmail = postSendEmail.filter((el) => {
-					if (el.posts.length > 0) return sendMailJobShedule(el.email, el.posts[0].title);
+					if (el.posts.length > 0) return sendMailJobShedule(el.email, el.posts);
 				});
 				this.q.push(function () {
 					Promise.all(sendEmail);
