@@ -17,7 +17,7 @@ import {
 
 import { SendEmailJob } from './services';
 
-import { initAccountAmin, sendMailJob } from './utils';
+import { initAccountAmin } from './utils';
 export let server;
 const main = async () => {
 	server = new HttpServer(port);

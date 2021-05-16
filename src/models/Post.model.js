@@ -15,6 +15,9 @@ const PostSchema = new Schema(
 		title: {
 			type: String,
 		},
+		name: {
+			type: String,
+		},
 		skill: [{ type: String, default: [] }],
 		address: {
 			type: String,

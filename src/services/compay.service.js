@@ -51,9 +51,8 @@ export default class CompayService {
 		return true;
 	}
 
-	async getInfoCompanies(page, take) {
-		return await pagination(Company, {}, page, take, { __v: 0, createdAt: 0 });
+	async getInfoCompanies(page, take, query) {
+		if (!query) return await pagination(Company, {}, page, take, { __v: 0, createdAt: 0 });
+		return await pagination(Company, { $text: { $search: `${query}` } }, page, take, { __v: 0, createdAt: 0 });
 	}
-
-
 }

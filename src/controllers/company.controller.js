@@ -138,9 +138,9 @@ const deleteCompany = async (req, res, next) => {
  *     }
  */
 const getCompaniesInfo = async (req, res, next) => {
-	const { take, page } = req.query;
+	const { take, page, query } = req.query;
 	try {
-		const data = await companyService.getInfoCompanies(page, take);
+		const data = await companyService.getInfoCompanies(page, take, query);
 		res.status(200).json({
 			status: 200,
 			msg: 'Success',

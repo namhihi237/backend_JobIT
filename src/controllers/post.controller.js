@@ -44,13 +44,12 @@ const createPost = async (req, res, next) => {
 			accountId: _id,
 			companyId: company._id,
 			title,
-			// name: company.name,
+			name: company.name,
 			skill,
 			address,
 			salary,
 			endTime,
 			description,
-			// logo: company.image,
 		};
 		await postService.create(data);
 
@@ -387,9 +386,6 @@ const acceptMany = async (req, res, next) => {
                     "_id": "606491e8831e840015befef9",
                     "accountId": "606491e7831e840015befeee",
                     "email": "com1@gmail.com",
-                    "createdAt": "2021-03-31T15:14:48.629Z",
-                    "updatedAt": "2021-05-03T09:25:42.134Z",
-                    "__v": 0,
                     "image": "http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg",
                     "phone": "0989402047",
                     "address": "Hà Nội",
@@ -522,8 +518,6 @@ const listApply = async (req, res, next) => {
 						"_id": "606491e8831e840015befef9",
 						"accountId": "606491e7831e840015befeee",
 						"email": "com1@gmail.com",
-						"createdAt": "2021-03-31T15:14:48.629Z",
-						"updatedAt": "2021-05-03T09:25:42.134Z",
 						"image": "http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg",
 						"phone": "0989402047",
 						"address": "Hà Nội",
