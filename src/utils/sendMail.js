@@ -1,5 +1,5 @@
 import { envVariables } from '../configs';
-const { subject, gmail, pass } = envVariables;
+const { subject, gmail, pass, url_fe } = envVariables;
 const ALPHABET = '0123456789ABCDEFGHIKLMNOPQRSTUVWXYZ';
 import { passwordResetTemplate, sendJobHtml } from '../resources';
 import sgMail from '@sendgrid/mail';

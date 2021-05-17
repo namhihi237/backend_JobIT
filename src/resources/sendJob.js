@@ -1,3 +1,6 @@
+import { envVariables } from '../configs';
+const { url_fe } = envVariables;
+
 export const sendJobHtml = (posts) => {
 	return `<!DOCTYPE html>
 <html lang="en">
@@ -53,8 +56,8 @@ const renderItem = (posts) => {
 						<div class="card-body">
 							<h5 class="card-title">${posts[i].company[0].name} Recruitment ${posts[i].title}</h5>
 							<p class="card-text"><small class="text-muted">End time: ${posts[i].endTime}</small></p>
-							<a href="https://goofy-mccarthy-a3ea23.netlify.app/">Click to apply Job</a><br/>
-							<a href="https://goofy-mccarthy-a3ea23.netlify.app/">See more jobs here</a>
+							<a href="${url_fe}/posts/${posts[i]._id}">Click to apply Job</a><br/>
+							<a href="${url_fe}">See more jobs here</a>
 						</div>
 					</div>
 				</div>`;

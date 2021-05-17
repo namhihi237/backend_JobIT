@@ -12,7 +12,7 @@ export const envVariables = {
 	api_key: process.env.API_KEY_CLOUD || '484176915684615',
 	api_secret: process.env.API_SECRET_CLOUD || 'hpWWOxyc-cm_Egs5bqRF4UzPJf8',
 	key_admin: '123qwe!@#',
-	url_fe: 'http://localhost/',
+	url_fe: 'https://goofy-mccarthy-a3ea23.netlify.app',
 	SENDGRID_API_KEY:
 		process.env.SENDGRID_API_KEY || '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',
 	VERIFIED_SENDER: process.env.VERIFIED_SENDER || 'poppy99.dev@gmail.com',
