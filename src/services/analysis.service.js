@@ -1,4 +1,6 @@
 import { Post } from '../models';
+import constant from '../constant';
+
 export default class AnalysisService {
 	async post(year) {
 		if (isNaN(year)) return [];
@@ -21,7 +23,51 @@ export default class AnalysisService {
 				],
 			});
 		});
-		let result = await Promise.all(data);
+		return await Promise.all(data);
+	}
+
+	async skillForMonth(month, year) {
+		if (isNaN(year) || isNaN(month)) return [];
+
+		let startMonth = new Date(year, month - 1);
+		let endMonth = new Date(year, month);
+		let analyzeSkill = constant.SKILLS.map((skill) => {
+			return Post.countDocuments({
+				skill,
+				$and: [{ createdAt: { $gte: startMonth } }, { createdAt: { $lte: endMonth } }],
+			});
+		});
+
+		let resultSkill = await Promise.all(analyzeSkill);
+		let result = [];
+		for (let i = 0; i < resultSkill.length; i++) {
+			if (resultSkill[i] > 0) {
+				result.push({ [constant.SKILLS[i]]: resultSkill[i] });
+			}
+		}
+		return result;
+	}
+
+	async skillForYear(year) {
+		if (isNaN(year)) return [];
+
+		let startMonth = new Date(year);
+		let endMonth = new Date(parseInt(year) + 1 + '');
+
+		let analyzeSkill = constant.SKILLS.map((skill) => {
+			return Post.countDocuments({
+				skill,
+				$and: [{ createdAt: { $gte: startMonth } }, { createdAt: { $lte: endMonth } }],
+			});
+		});
+
+		let resultSkill = await Promise.all(analyzeSkill);
+		let result = [];
+		for (let i = 0; i < resultSkill.length; i++) {
+			if (resultSkill[i] > 0) {
+				result.push({ [constant.SKILLS[i]]: resultSkill[i] });
+			}
+		}
 		return result;
 	}
 }
