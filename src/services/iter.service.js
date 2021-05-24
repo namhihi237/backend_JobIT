@@ -63,7 +63,6 @@ export default class IterService {
 			ITer.findByIdAndDelete({ _id }),
 			Account.findByIdAndDelete({ _id: iter.accountId }),
 			UserPer.deleteMany({ userId: iter.accountId }),
-			Cv.findOneAndDelete({ iterId: iter.accountId }),
 		]);
 		return true;
 	}
