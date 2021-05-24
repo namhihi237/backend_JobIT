@@ -315,7 +315,7 @@ define({ "api": [
     "type": "delete",
     "url": "/api/v1/moderators/:id",
     "title": "delete mod",
-    "name": "ddelete_mod",
+    "name": "delete_mod",
     "group": "Admin",
     "header": {
       "fields": {
@@ -432,7 +432,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n           \"data\": {\n                \"page\": 1,\n                \"numPages\": 2,\n                \"result\": [\n                    {\n                        \"_id\": \"605b34cfd16e2c00151b1f05\",\n                        \"userName\": \"admin\",\n                        \"createdAt\": \"2021-03-24T12:47:11.141Z\"\n                    },\n                    {\n                        \"_id\": \"60650f786f6c98001512685e\",\n                        \"userName\": \"moderator1\",\n                        \"createdAt\": \"2021-04-01T00:10:32.452Z\"\n                    },\n                    {\n                        \"_id\": \"6065133f6f6c980015126864\",\n                        \"userName\": \"moderator2\",\n                        \"createdAt\": \"2021-04-01T00:26:39.324Z\"\n                    },\n                ]\n            }\n        }\norExample Response (example):\n    HTTP/1.1 401\n    {\n      \"status\" : 401,\n      \"msg\": \"No token, authorization denied\"\n    }",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n           \"data\": {\n                \"page\": 1,\n                \"numPages\": 2,\n                \"result\": [\n                    {\n                        \"_id\": \"605b34cfd16e2c00151b1f05\",\n                        \"userName\": \"admin\",\n                        \"createdAt\": \"2021-03-24T12:47:11.141Z\"\n                    },\n                    {\n                        \"_id\": \"60650f786f6c98001512685e\",\n                        \"userName\": \"moderator1\",\n                        \"createdAt\": \"2021-04-01T00:10:32.452Z\"\n                    },\n                ]\n            }\n        }\norExample Response (example):\n    HTTP/1.1 401\n    {\n      \"status\" : 401,\n      \"msg\": \"No token, authorization denied\"\n    }",
           "type": "json"
         }
       ]
@@ -636,7 +636,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\"\n        role : \"iter\"\n        token : \"xxx.xxx.xxx\",\n         name : \"Le trung nam\",\n\t\t\timage:\"https://anh.png\"\n    }",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\"\n        role : \"iter\"\n        token : \"xxx.xxx.xxx\",\n        name : \"Le trung nam\",\n\t\t   image:\"https://anh.png\"\n    }",
           "type": "json"
         }
       ]
@@ -1433,7 +1433,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n\t\t\t\"data\": {\n\t\t\t\t\"page\": 1,\n\t\t\t\t\"numPages\": 1,\n\t\t\t\t\"result\": [\n\t\t\t\t{\n\t\t\t\t\t\"recruitingPost\": 6,\n\t\t\t\t\t\"_id\": \"606491e8831e840015befef9\",\n\t\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\t\"email\": \"com1@gmail.com\",\n\t\t\t\t\t\"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1620669960/dxkffb9kic51ylcmxm3b.jpg\",\n\t\t\t\t\t\"phone\": \"0989402047\",\n\t\t\t\t\t\"address\": \"Hà Nội\",\n\t\t\t\t\t\"name\": \"Nam's Company\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"recruitingPost\": 4,\n\t\t\t\t\t\"_id\": \"6080de64035f0700159c8582\",\n\t\t\t\t\t\"accountId\": \"6080de64035f0700159c8577\",\n\t\t\t\t\t\"name\": \"Company\",\n\t\t\t\t\t\"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1620377506/shmw9hqt6rneawugps28.jpg\"\n\t\t\t\t},\n\t\t\t]\n    }",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n\t\t\t\"data\": {\n\t\t\t\t\"page\": 1,\n\t\t\t\t\"numPages\": 1,\n\t\t\t\t\"result\": [\n\t\t\t\t{\n\t\t\t\t\t\"recruitingPost\": 6,\n\t\t\t\t\t\"_id\": \"606491e8831e840015befef9\",\n\t\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\t\"email\": \"com1@gmail.com\",\n\t\t\t\t\t\"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1620669960/dxkffb9kic51ylcmxm3b.jpg\",\n\t\t\t\t\t\"phone\": \"0989402047\",\n\t\t\t\t\t\"address\": \"Hà Nội\",\n\t\t\t\t\t\"name\": \"Nam's Company\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"recruitingPost\": 4,\n\t\t\t\t\t\"_id\": \"6080de64035f0700159c8582\",\n\t\t\t\t\t\"accountId\": \"6080de64035f0700159c8577\",\n\t\t\t\t\t\"email\": \"com1@gmail.com\",\n\t\t\t\t\t\"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1620669960/dxkffb9kic51ylcmxm3b.jpg\",\n\t\t\t\t\t\"phone\": \"0989402047\",\n\t\t\t\t\t\"address\": \"Hà Nội\",\n\t\t\t\t\t\"name\": \"Nam's Company\"\n\t\t\t\t},\n\t\t\t]\n    }",
           "type": "json"
         }
       ]
@@ -1831,72 +1831,6 @@ define({ "api": [
     "groupTitle": "Cv"
   },
   {
-    "type": "delete",
-    "url": "/api/v1/cv",
-    "title": "delete a cv by iterId",
-    "name": "delete_a_cv_by_iterId",
-    "group": "Cv",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "token",
-            "description": "<p>The token can be generated from your user profile.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example",
-          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
-          "type": "Header"
-        }
-      ]
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "status",
-            "description": "<p><code>200</code></p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p><code>Success</code> if everything went fine.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "Response (example):",
-          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/cv.controller.js",
-    "groupTitle": "Cv"
-  },
-  {
     "type": "post",
     "url": "/api/v1/feedbacks",
     "title": "create feedback",
@@ -2179,92 +2113,6 @@ define({ "api": [
         {
           "title": "Response (example):",
           "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/image.controller.js",
-    "groupTitle": "Image"
-  },
-  {
-    "type": "post",
-    "url": "/api/v1/images",
-    "title": "save image database",
-    "name": "save_image_database",
-    "group": "Image",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "token",
-            "description": "<p>The token can be generated from your user profile.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Header-Example",
-          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
-          "type": "Header"
-        }
-      ]
-    },
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "imageUrl",
-            "description": "<p>url's image</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "status",
-            "description": "<p><code>200</code></p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p><code>Success</code></p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Object",
-            "optional": false,
-            "field": "payload",
-            "description": "<p><code>Success</code></p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "Response (example):",
-          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission update profile\"\n}",
           "type": "json"
         }
       ]
@@ -3088,7 +2936,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n      \"currentPage\": 2,\n      \"numPages\": 2,\n    posts : [\n     \"posts\": [\n        {\n            \"_id\": \"609cee9552522300152fd701\",\n            \"skill\": [\n                \"ReactJS\"\n            ],\n            \"accountId\": \"609cab88c85020001578a9a9\",\n            \"companyId\": \"609cab89c85020001578a9b0\",\n            \"title\": \"Front-end Developer\",\n            \"address\": \"Da Nang\",\n            \"salary\": \"2000$\",\n            \"endTime\": \"1/6/2021\",\n            \"description\": \"Work for international customers\\nWork with colleagues from Germany, France, the Czech Republic and the US\\nBe responsible for the success of your project\\nDesign, implement and test web applications\\nCollaborate on requirement analysis and specifications\\nShare knowledge and experience with your colleagues\\nWorking time: 40 hours / week, flexible\",\n            \"apply\": [],\n            \"company\": [\n                {\n                    \"name\": \"CES\",\n                    \"accountId\": \"609cab88c85020001578a9a9\",\n                    \"email\": \"ces@gmail.com\",\n                    \"address\": \"Da Nang\",\n                    \"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1620895774/fw8o6u4nyi2vdzet8yh2.jpg\",\n                    \"phone\": \"0123456789\"\n                }\n            ],\n            \"score\": 1.5\n        },\n     ......\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n      \"currentPage\": 2,\n      \"numPages\": 2,\n    posts : [\n     \"posts\": [\n        {\n            \"_id\": \"609cee9552522300152fd701\",\n            \"skill\": [\n                \"ReactJS\"\n            ],\n            \"accountId\": \"609cab88c85020001578a9a9\",\n            \"companyId\": \"609cab89c85020001578a9b0\",\n            \"title\": \"Front-end Developer\",\n            \"address\": \"Da Nang\",\n            \"salary\": \"2000$\",\n            \"endTime\": \"1/6/2021\",\n            \"description\": \"Work for international customers\\nWork with colleagues from Germany, France, the Czech Republic and the US\\nBe responsible for the success of your project\\nDesign, implement and test web applications\\nCollaborate on requirement analysis and specifications\\nShare knowledge and experience with your colleagues\\nWorking time: 40 hours / week, flexible\",\n            \"apply\": [],\n            \"company\": [\n                {\n                    \"name\": \"CES\",\n                    \"accountId\": \"609cab88c85020001578a9a9\",\n                    \"email\": \"ces@gmail.com\",\n                    \"address\": \"Da Nang\",\n                    \"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1620895774/fw8o6u4nyi2vdzet8yh2.jpg\",\n                    \"phone\": \"0123456789\"\n                }\n            ],\n        },\n     ......\n    ]\n}",
           "type": "json"
         }
       ]
@@ -3152,7 +3000,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n   \"posts\": [\n    {\n        \"_id\": \"608bc604e78f864568466972\",\n        \"skill\": [\n            \"C#\",\n            \"Python\"\n        ],\n        \"status\": \"WAITING\",\n        \"accountId\": \"606491e7831e840015befeee\",\n        \"companyId\": \"606491e8831e840015befef9\",\n        \"title\": \"Recruiting Dev ops \",\n        \"address\": \"Ha Noi\",\n        \"salary\": \"1000 - 2000 $\",\n        \"endTime\": \"2021-05-29\",\n        \"description\": \"1 years experience python\",\n        \"company\": [\n            {\n                \"_id\": \"606491e8831e840015befef9\",\n                \"accountId\": \"606491e7831e840015befeee\",\n                \"email\": \"com1@gmail.com\",\n                \"createdAt\": \"2021-03-31T15:14:48.629Z\",\n                \"updatedAt\": \"2021-05-03T09:25:42.134Z\",\n                \"__v\": 0,\n                \"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg\",\n                \"phone\": \"0989402047\",\n                \"address\": \"Hà Nội\",\n                \"name\": \"Madison\"\n            }\n        ]\n    },\n    ]\n}",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\",\n   \"posts\": [\n    {\n        \"_id\": \"608bc604e78f864568466972\",\n        \"skill\": [\n            \"C#\",\n            \"Python\"\n        ],\n        \"status\": \"WAITING\",\n        \"accountId\": \"606491e7831e840015befeee\",\n        \"companyId\": \"606491e8831e840015befef9\",\n        \"title\": \"Recruiting Dev ops \",\n        \"address\": \"Ha Noi\",\n        \"salary\": \"1000 - 2000 $\",\n        \"endTime\": \"2021-05-29\",\n        \"description\": \"1 years experience python\",\n        \"company\": [\n            {\n                \"_id\": \"606491e8831e840015befef9\",\n                \"accountId\": \"606491e7831e840015befeee\",\n                \"email\": \"com1@gmail.com\",\n                \"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg\",\n                \"phone\": \"0989402047\",\n                \"address\": \"Hà Nội\",\n                \"name\": \"Madison\"\n            }\n        ]\n    },\n    ]\n}",
           "type": "json"
         }
       ]
@@ -3216,7 +3064,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Example",
-          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n\"post\": {\n\t\t\t\t\"_id\": \"608bc604e78f864568466972\",\n\t\t\t\t\"skill\": [\n\t\t\t\t\t\"C#\",\n\t\t\t\t\t\"Python\"\n\t\t\t\t],\n\t\t\t\t\"status\": \"WAITING\",\n\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\"companyId\": \"606491e8831e840015befef9\",\n\t\t\t\t\"title\": \"Recruiting Dev ops \",\n\t\t\t\t\"address\": \"Ha Noi\",\n\t\t\t\t\"salary\": \"1000 - 2000 $\",\n\t\t\t\t\"endTime\": \"2021-05-29\",\n\t\t\t\t\"description\": \"1 years experience python\",\n\t\t\t\t\"company\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"_id\": \"606491e8831e840015befef9\",\n\t\t\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\t\t\"email\": \"com1@gmail.com\",\n\t\t\t\t\t\t\"createdAt\": \"2021-03-31T15:14:48.629Z\",\n\t\t\t\t\t\t\"updatedAt\": \"2021-05-03T09:25:42.134Z\",\n\t\t\t\t\t\t\"__v\": 0,\n\t\t\t\t\t\t\"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg\",\n\t\t\t\t\t\t\"phone\": \"0989402047\",\n\t\t\t\t\t\t\"address\": \"Hà Nội\",\n\t\t\t\t\t\t\"name\": \"Madison\"\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n    }",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n\"post\": {\n\t\t\t\t\"_id\": \"608bc604e78f864568466972\",\n\t\t\t\t\"skill\": [\n\t\t\t\t\t\"C#\",\n\t\t\t\t\t\"Python\"\n\t\t\t\t],\n\t\t\t\t\"status\": \"WAITING\",\n\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\"companyId\": \"606491e8831e840015befef9\",\n\t\t\t\t\"title\": \"Recruiting Dev ops \",\n\t\t\t\t\"address\": \"Ha Noi\",\n\t\t\t\t\"salary\": \"1000 - 2000 $\",\n\t\t\t\t\"endTime\": \"2021-05-29\",\n\t\t\t\t\"description\": \"1 years experience python\",\n\t\t\t\t\"company\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"_id\": \"606491e8831e840015befef9\",\n\t\t\t\t\t\t\"accountId\": \"606491e7831e840015befeee\",\n\t\t\t\t\t\t\"email\": \"com1@gmail.com\",\n\t\t\t\t\t\t\"image\": \"http://res.cloudinary.com/do-an-cnpm/image/upload/v1619978750/w9xmdsqzl3oipdyy1wbp.jpg\",\n\t\t\t\t\t\t\"phone\": \"0989402047\",\n\t\t\t\t\t\t\"address\": \"Hà Nội\",\n\t\t\t\t\t\t\"name\": \"Madison\"\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n    }",
           "type": "json"
         }
       ]
