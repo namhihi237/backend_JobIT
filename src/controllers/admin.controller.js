@@ -169,7 +169,7 @@ const getMods = async (req, res, next) => {
 
 /**
  * @api {delete} /api/v1/moderators/:id delete mod
- * @apiName ddelete mod
+ * @apiName delete mod
  * @apiGroup Admin
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
@@ -197,8 +197,7 @@ const deleteMod = async (req, res, next) => {
 		const mod = await Admin.findById({ _id: id });
 		if (!mod) throw new HttpError('Moderator not found!', 404);
 		if (mod.role == 'admin') throw new HttpError(`Can't delete admin account`, 401);
-		await UserPer.deleteMany({ userId: mod._id });
-
+		await Promise.all([Admin.findByIdAndDelete({ _id: id }), UserPer.deleteMany({ userId: mod._id })]);
 		res.status(200).json({
 			status: 200,
 			msg: 'Success',
