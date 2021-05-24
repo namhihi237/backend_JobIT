@@ -13,6 +13,7 @@ import {
 	cvRouter,
 	imageRouter,
 	permissionRouter,
+	analysisRouter,
 } from './routes';
 
 import { SendEmailJob } from './services';
@@ -36,6 +37,7 @@ const main = async () => {
 	server.registerRouter(cvRouter);
 	server.registerRouter(permissionRouter);
 	server.registerRouter(imageRouter);
+	server.registerRouter(analysisRouter);
 	// initial default role
 	// initialRole();
 	initAccountAmin();

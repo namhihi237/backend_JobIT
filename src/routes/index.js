@@ -7,6 +7,8 @@ import { companyRouter } from './company.router';
 import { cvRouter } from './cv.router';
 import { permissionRouter } from './permission.router';
 import { imageRouter } from './image.router';
+import { analysisRouter } from './analysis.router';
+
 export {
 	authRouter,
 	adminRouter,
@@ -17,4 +19,5 @@ export {
 	cvRouter,
 	permissionRouter,
 	imageRouter,
+	analysisRouter,
 };

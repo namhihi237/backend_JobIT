@@ -5,6 +5,7 @@ import CvService from './cv.service';
 import AuthThenticationService from './auth.service';
 import PermissionService from './permission.service';
 import SendEmailJob from './sendMailJob.service';
+import AnalysisService from './analysis.service';
 
 export {
 	PostService,
@@ -14,4 +15,5 @@ export {
 	IterService,
 	CvService,
 	SendEmailJob,
+	AnalysisService,
 };
