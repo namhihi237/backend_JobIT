@@ -68,7 +68,7 @@ const analysisOfPost = async (req, res, next) => {
  * @apiQuery {Number} year 
  * @apiQuery {Number} month 
  * @apiExample {bash} Curl example
- * curl -H "Authorization: token 5f048fe" -i https://api.example.com/api/v1/analysis/skill?option=month&month=5
+ * curl -H "Authorization: token 5f048fe" -i https://api.example.com/api/v1/analysis/skill?option=month&month=5&year=2021
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code>
  * @apiSuccess {Array} data <code>data</code>
