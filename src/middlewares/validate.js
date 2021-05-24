@@ -23,7 +23,10 @@ const updateInfoSchema = (req, res, next) => {
 	const schema = Joi.object({
 		name: Joi.string().required(),
 		address: Joi.string().empty(),
-		phone: Joi.string().empty(),
+		phone: Joi.string()
+			.empty()
+			.regex(/^(84|0[3|5|7|8|9])+([0-9]{8})$/)
+			.message(`phone incorrect format`),
 		image: Joi.string().empty(),
 	});
 	validateRequest(req, next, schema);
@@ -124,7 +127,12 @@ const createCvSchema = (req, res, next) => {
 		softSkill: Joi.string().required(),
 		experience: Joi.string().required(),
 		description: Joi.string().required(),
-		birthday: Joi.string().required(),
+		birthday: Joi.string()
+			.required()
+			.regex(
+				/^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
+			)
+			.message('birthday incorrect format'),
 		image: Joi.string().required(),
 	});
 	validateRequest(req, next, schema);
@@ -138,7 +146,12 @@ const updateCvSchema = (req, res, next) => {
 		email: Joi.string().email().empty(),
 		experience: Joi.string().empty(),
 		description: Joi.string().empty(),
-		birthday: Joi.string().empty(),
+		birthday: Joi.string()
+			.empty()
+			.regex(
+				/^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
+			)
+			.message('birthday incorrect format'),
 		image: Joi.string(),
 	});
 	validateRequest(req, next, schema);

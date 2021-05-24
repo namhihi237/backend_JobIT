@@ -41,12 +41,10 @@ export default class CompayService {
 	async deleteCompany(_id) {
 		const company = await this.getCompanyById(_id);
 		if (!company) return false;
-		const userPers = await UserPer.find({ userId: company.accountId });
-		const deleteUserPers = userPers.map((e) => UserPer.findByIdAndDelete({ _id: e._id }));
 		await Promise.all([
 			Company.findByIdAndDelete({ _id }),
 			Account.findByIdAndDelete({ _id: company.accountId }),
-			...deleteUserPers,
+			UserPer.deleteMany({ userId: company.accountId }),
 		]);
 		return true;
 	}

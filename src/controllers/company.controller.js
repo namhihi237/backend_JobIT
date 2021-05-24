@@ -131,8 +131,11 @@ const deleteCompany = async (req, res, next) => {
 					"recruitingPost": 4,
 					"_id": "6080de64035f0700159c8582",
 					"accountId": "6080de64035f0700159c8577",
-					"name": "Company",
-					"image": "http://res.cloudinary.com/do-an-cnpm/image/upload/v1620377506/shmw9hqt6rneawugps28.jpg"
+					"email": "com1@gmail.com",
+					"image": "http://res.cloudinary.com/do-an-cnpm/image/upload/v1620669960/dxkffb9kic51ylcmxm3b.jpg",
+					"phone": "0989402047",
+					"address": "Hà Nội",
+					"name": "Nam's Company"
 				},
 			]
  *     }

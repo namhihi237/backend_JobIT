@@ -29,15 +29,14 @@ const iterService = new IterService();
  */
 
 const registerIter = async (req, res, next) => {
-	let { password, email, name } = req.body;
+	let { email } = req.body;
 	email = email.toLowerCase();
 	try {
 		const user = await authService.getAccount({ email });
 		if (user) {
 			throw new HttpError('The email has already been used by another account', 400);
 		}
-		const data = { email, password, name };
-		await authService.register(data, 'iter');
+		await authService.register(req.body, 'iter');
 		res.status(200).json({
 			status: 200,
 			msg: 'Sign up success',
@@ -70,15 +69,14 @@ const registerIter = async (req, res, next) => {
  *     }
  */
 const registerCompany = async (req, res, next) => {
-	let { password, email, name } = req.body;
+	let { email } = req.body;
 	email = email.toLowerCase();
 	try {
 		const user = await authService.getAccount({ email });
 		if (user) {
 			throw new HttpError('The email has already been used by another account', 400);
 		}
-		const data = { email, password, name };
-		await authService.register(data, 'company');
+		await authService.register(req.body, 'company');
 
 		res.status(200).json({
 			status: 200,
@@ -103,8 +101,8 @@ const registerCompany = async (req, res, next) => {
  *         msg: "Success"
  *         role : "iter"
  *         token : "xxx.xxx.xxx",
- *          name : "Le trung nam",
- * 			image:"https://anh.png"
+ *         name : "Le trung nam",
+ * 		   image:"https://anh.png"
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 400
@@ -151,7 +149,7 @@ const login = async (req, res, next) => {
 			token,
 			name,
 			image,
-			userId: user._id
+			userId: user._id,
 		});
 	} catch (error) {
 		next(error);
@@ -193,7 +191,6 @@ const updatePassword = async (req, res, next) => {
 			msg: 'Success',
 		});
 	} catch (error) {
-		console.log(error);
 		next(error);
 	}
 };
@@ -226,7 +223,7 @@ const requestResetPassword = async (req, res, next) => {
 		if (!user) throw new HttpError('Email does not exist in the system', 400);
 		const code = generate();
 		await sendEmail(code, email);
-		await Promise.all([Code.findOneAndRemove({ email }), Code.create({ email, code, accountId: user._id })]);
+		await Promise.all([Code.deleteMany({ email }), Code.create({ email, code, accountId: user._id })]);
 		res.status(200).json({
 			status: 200,
 			msg: 'We sent code to your email, the code only lasts for 5 minutes',
@@ -268,7 +265,6 @@ const confirmCode = async (req, res, next) => {
 			msg: 'Success',
 		});
 	} catch (error) {
-		console.log(error);
 		next(error);
 	}
 };

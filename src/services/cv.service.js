@@ -29,10 +29,6 @@ export default class CvService {
 		return Cv.findOne({ iterId }, { skill: 1, iterId: 1 });
 	}
 
-	async deleteCv(iterId) {
-		return await Cv.findOneAndDelete({ iterId });
-	}
-
 	async update(iterId, data) {
 		return await Cv.findOneAndUpdate({ iterId }, data);
 	}

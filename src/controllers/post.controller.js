@@ -102,7 +102,6 @@ const createPost = async (req, res, next) => {
                         "phone": "0123456789"
                     }
                 ],
-                "score": 1.5
             },
  *          ......
  *         ]
@@ -118,7 +117,6 @@ const getAcceptedPosts = async (req, res, next) => {
 			data: posts,
 		});
 	} catch (error) {
-		console.log(error);
 		next(error);
 	}
 };
@@ -443,7 +441,6 @@ const applyJob = async (req, res, next) => {
 			msg: 'Success',
 		});
 	} catch (error) {
-		console.log(error);
 		next(error);
 	}
 };

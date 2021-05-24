@@ -165,42 +165,6 @@ const getCvByIter = async (req, res, next) => {
 };
 
 /**
- * @api {delete} /api/v1/cv delete a cv by iterId
- * @apiName delete a cv by iterId
- * @apiGroup Cv
- * @apiHeader {String} token The token can be generated from your user profile.
- * @apiHeaderExample {Header} Header-Example
- *     "Authorization: Bearer AAA.BBB.CCC"
- * @apiSuccess {Number} status <code>200</code>
- * @apiSuccess {String} msg <code>Success</code> if everything went fine.
- * @apiSuccessExample {json} Success-Example
- *     HTTP/1.1 200 OK
- *     {
- *         status: 200,
- *         msg: "Success",
- *     }
- * @apiErrorExample Response (example):
- *     HTTP/1.1 401
- *     {
- *       "status" : 401,
- *       "msg": "Denny permission"
- *     }
- */
-const deleteCv = async (req, res, next) => {
-	const { _id } = req.user;
-	try {
-		if (!(await cvService.getCvByUser(_id))) throw new HttpError('Cv not found ', 400);
-		await cvService.deleteCv(_id);
-		res.status(200).json({
-			status: 200,
-			msg: 'Success',
-		});
-	} catch (error) {
-		next(error);
-	}
-};
-
-/**
  * @api {patch} /api/v1/cv update cv
  * @apiName Update cv
  * @apiGroup Cv
@@ -244,4 +208,4 @@ const updateCv = async (req, res, next) => {
 	}
 };
 
-export const cvController = { createCv, getCv, getCvByIter, deleteCv, updateCv };
+export const cvController = { createCv, getCv, getCvByIter, updateCv };

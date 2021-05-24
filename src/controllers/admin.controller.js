@@ -143,11 +143,6 @@ const createMod = async (req, res, next) => {
                         "userName": "moderator1",
                         "createdAt": "2021-04-01T00:10:32.452Z"
                     },
-                    {
-                        "_id": "6065133f6f6c980015126864",
-                        "userName": "moderator2",
-                        "createdAt": "2021-04-01T00:26:39.324Z"
-                    },
                 ]
             }
         }
