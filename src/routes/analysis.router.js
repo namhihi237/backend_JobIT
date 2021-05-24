@@ -10,4 +10,4 @@ export const analysisRouter = Router();
 
 analysisRouter.route('/api/v1/analysis/post').get(authMiddleware.jwtMidleware, analysisController.analysisOfPost);
 
-analysisRouter.route('/api/v1/analysis/skill').get(analysisController.analysisOfSkill);
+analysisRouter.route('/api/v1/analysis/skill').get(authMiddleware.jwtMidleware, analysisController.analysisOfSkill);
