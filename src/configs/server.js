@@ -1,24 +1,25 @@
-import express from "express";
+import express from 'express';
+import log from 'datalog';
 export class HttpServer {
-    constructor(port) {
-        this.port = port;
-        this.app = express();
-    }
+	constructor(port) {
+		this.port = port;
+		this.app = express();
+	}
 
-    getApp() {
-        return this.app;
-    }
-    registerMiddleware(middleware) {
-        middleware(this.app);
-    }
+	getApp() {
+		return this.app;
+	}
+	registerMiddleware(middleware) {
+		middleware(this.app);
+	}
 
-    registerRouter(router) {
-        this.app.use(router);
-    }
+	registerRouter(router) {
+		this.app.use(router);
+	}
 
-    listen() {
-        this.app.listen(this.port, () => {
-            console.log("server is listening on port", this.port);
-        });
-    }
+	listen() {
+		this.app.listen(this.port, () => {
+			log.info(`server is listening on port ${this.port}`);
+		});
+	}
 }

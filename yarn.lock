@@ -1556,6 +1556,11 @@ data-urls@^2.0.0:
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
 
+datalog@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/datalog/-/datalog-2.1.1.tgz#ea36d321b733acfa4a9f3ccf86f9f0a4ea598e23"
+  integrity sha512-NV6Gcan8GcFk46kfrz5CxqD5QuOHiOdFojdfjmSx6uan5iCkNhYyEfoWeQQ7Z5REjothkfrJpr7D6wJxafQjlA==
+
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"

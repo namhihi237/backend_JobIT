@@ -1,48 +1,7 @@
-import { envVariables } from '../configs';
 import bcrypt from 'bcryptjs';
 import { tokenEncode, pagination, HttpError } from '../utils';
-import { Account, Admin, Permission, UserPer } from '../models';
+import { Admin, Permission, UserPer } from '../models';
 import mongo from 'mongoose';
-
-/*
- * @private
- */
-const registerAdmin = async (req, res, next) => {
-	const { userName, password, keyAdmin } = req.body;
-	if (keyAdmin != '1234') throw new HttpError('Failed', 400);
-
-	if (!userName || !password) throw new HttpError('userName or password is empty', 400);
-
-	const hash = await bcrypt.hash(password, 12);
-	if (!hash) throw new HttpError('hash password failed', 400);
-
-	const admin = await Admin.create({
-		userName,
-		password: hash,
-		role: 'admin',
-	});
-	let permissions = await Permission.find({ role: 'admin', check: true });
-	permissions = permissions.map((e) => {
-		// return { actionCode: e.actionCode, check: e.check };
-		return UserPer.create({
-			userId: admin._id,
-			perId: e._id,
-			perName: e.perName,
-			actionCode: e.actionCode,
-			check: true,
-		});
-	});
-	await Promise.all(permissions);
-	res.status(200).json({
-		status: 200,
-		msg: 'Success',
-		userName,
-	});
-	try {
-	} catch (error) {
-		next(error);
-	}
-};
 
 /**
  * @api {post} /api/v1/admin/login login admin, mod
@@ -242,10 +201,8 @@ const deleteMod = async (req, res, next) => {
 		if (!mongo.Types.ObjectId.isValid(id)) throw new HttpError('id is incorrect', 400);
 		const mod = await Admin.findById({ _id: id });
 		if (!mod) throw new HttpError('Moderator not found!', 404);
-		if (mod.role == 'admin') throw new HttpError('Cant delete admin account', 401);
-		const userPers = await UserPer.find({ userId: mod._id });
-		const deleteUserPers = userPers.map((e) => UserPer.findByIdAndDelete({ _id: e._id }));
-		await Promise.all([Admin.findByIdAndDelete({ _id: id }), ...deleteUserPers]);
+		if (mod.role == 'admin') throw new HttpError(`Can't delete admin account`, 401);
+		await UserPer.deleteMany({ userId: mod._id });
 
 		res.status(200).json({
 			status: 200,
@@ -256,7 +213,6 @@ const deleteMod = async (req, res, next) => {
 	}
 };
 export const adminController = {
-	registerAdmin,
 	createMod,
 	login,
 	getMods,
