@@ -1,4 +1,4 @@
-import { Company, Account, UserPer } from '../models';
+import { Company, Account, UserPer, Post } from '../models';
 import { pagination } from '../utils';
 export default class CompayService {
 	async getCompany(_id) {
@@ -45,6 +45,7 @@ export default class CompayService {
 			Company.findByIdAndDelete({ _id }),
 			Account.findByIdAndDelete({ _id: company.accountId }),
 			UserPer.deleteMany({ userId: company.accountId }),
+			Post.deleteMany({ accountId: company.accountId }),
 		]);
 		return true;
 	}
