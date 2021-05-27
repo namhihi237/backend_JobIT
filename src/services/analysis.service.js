@@ -1,4 +1,4 @@
-import { Post } from '../models';
+import { ITer, Post, Company } from '../models';
 import constant from '../constant';
 
 export default class AnalysisService {
@@ -69,5 +69,10 @@ export default class AnalysisService {
 			}
 		}
 		return result;
+	}
+
+	async analysisUser() {
+		const [numberOfIter, numberOfCompany] = await Promise.all([ITer.countDocuments(), Company.countDocuments()]);
+		return { numberOfIter, numberOfCompany };
 	}
 }

@@ -124,7 +124,49 @@ const analysisOfSkill = async (req, res, next) => {
 	}
 };
 
+const analysisUser = async (req, res, next) => {
+	try {
+		const data = await analysisService.analysisUser();
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			data,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
+/**
+ * @api {get} /api/v1/analysis/user analyze user
+ * @apiName analyze user
+ * @apiGroup Analysis
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiQuery {String} option 
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * @apiSuccess {Array} data <code>data</code>
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ {
+    "status": 200,
+    "msg": "Success",
+    "data": {
+        "numberOfIter": 15,
+        "numberOfCompany": 7
+    }
+}
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission"
+ *     }
+ */
 export const analysisController = {
 	analysisOfPost,
 	analysisOfSkill,
+	analysisUser,
 };
