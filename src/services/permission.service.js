@@ -1,5 +1,5 @@
 import { Account, Admin, Permission, UserPer } from '../models';
-
+import _ from 'lodash';
 export default class PermissionService {
 	async getPermissions(role) {
 		console.log(role);
@@ -51,9 +51,7 @@ export default class PermissionService {
 							{ _id: 1 },
 						);
 						// console.log(userPerDels);
-						userPerDels = userPerDels.map((e) =>
-							UserPer.findByIdAndDelete({ _id: e._id }),
-						);
+						userPerDels = userPerDels.map((e) => UserPer.findByIdAndDelete({ _id: e._id }));
 						addUserPers = [...addUserPers, ...userPerDels];
 					}
 				}
@@ -86,9 +84,7 @@ export default class PermissionService {
 							{ _id: 1 },
 						);
 						// console.log(userPerDels);
-						userPerDels = userPerDels.map((e) =>
-							UserPer.findByIdAndDelete({ _id: e._id }),
-						);
+						userPerDels = userPerDels.map((e) => UserPer.findByIdAndDelete({ _id: e._id }));
 						addUserPers = [...addUserPers, ...userPerDels];
 					}
 				}
@@ -99,10 +95,7 @@ export default class PermissionService {
 
 	async updateUserPermisson(userId, permissions) {
 		const newPermission = permissions.map((e) => {
-			return UserPer.findOneAndUpdate(
-				{ userId, _id: e._id, check: !e.check },
-				{ check: e.check },
-			);
+			return UserPer.findOneAndUpdate({ userId, _id: e._id, check: !e.check }, { check: e.check });
 		});
 		await Promise.all(newPermission);
 	}

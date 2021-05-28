@@ -1,6 +1,6 @@
 import { envVariables } from '../configs';
 const { url_fe } = envVariables;
-
+import _ from 'lodash';
 export const sendJobHtml = (posts) => {
 	return `<!DOCTYPE html>
 <html lang="en">
@@ -50,11 +50,11 @@ const renderItem = (posts) => {
 	for (let i = 0; i < posts.length; i++) {
 		rs += `<div class="row no-gutters">
 					<div class="col-md-4">
-						<img src="${posts[i].company[0].image}" class="card-img logo" alt="..." />
+						<img src="${_.get(posts[i].company[0], 'image')}" class="card-img logo" alt="..." />
 					</div>
 					<div class="col-md-8">
 						<div class="card-body">
-							<h5 class="card-title">${posts[i].company[0].name} Recruitment ${posts[i].title}</h5>
+							<h5 class="card-title">${_.get(posts[i].company[0], 'name')} Recruitment ${posts[i].title}</h5>
 							<p class="card-text"><small class="text-muted">End time: ${posts[i].endTime}</small></p>
 							<a href="${url_fe}/posts/${posts[i]._id}">Click to apply Job</a><br/>
 							<a href="${url_fe}">See more jobs here</a>
