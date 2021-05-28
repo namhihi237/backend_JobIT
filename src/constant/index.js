@@ -18,6 +18,7 @@ export default {
 		DELETE_POST: 'DELETE_POST',
 		ACCEPT_POST: 'ACCEPT_POST',
 		GET_COMPANY_POST: 'GET_COMPANY_POST',
+		ANALYSIS: 'ANALYSIS'
 	},
 	SKILLS: ['C', 'C++', 'C#', 'Java', 'Javascript', 'PHP', 'Python', 'NodeJS', 'Spring', 'Flask', 'VueJS', 'ReactJS'],
 };

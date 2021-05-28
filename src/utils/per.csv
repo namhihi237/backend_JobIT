@@ -10,6 +10,7 @@ admin,Update permission,UPDATE_PERMISSION,1
 admin,Update user permission,UPDATE_USER_PERMISSION,1
 admin,Get all users,GET_USERS,1
 admin,Delete user,DELETE_USER,1
+admin,Analysis,ANALYSIS,1
 company,View post,VIEW_POST,1   
 company,View all posts,VIEW_POSTS,1
 company,Create a post,CREATE_POST,1
@@ -25,3 +26,4 @@ moderator,Accept post,ACCEPT_POST,1
 moderator,Delete post,DELETE_POST,1
 moderator,Delete a feedback,DELETE_FEEDBACK,1
 moderator,View all feedbacks,VIEW_FEEDBACKS,1
+moderator,Analysis,ANALYSIS,0
