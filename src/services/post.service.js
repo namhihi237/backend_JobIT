@@ -275,7 +275,7 @@ export default class PostService {
 	async listPostsByCompanyId(accountId) {
 		return await Post.find(
 			{ accountId, status: 'ACCEPTED' },
-			{ comment: 0, __v: 0, apply: 0, createdAt: 0, companyId: 0, updatedAt: 0, status: 0 },
+			{ comment: 0, __v: 0, createdAt: 0, companyId: 0, updatedAt: 0, status: 0 },
 		).sort({ _id: -1 });
 	}
 }
