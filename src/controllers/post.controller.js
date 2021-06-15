@@ -37,7 +37,10 @@ const companyService = new CompanyService();
 const createPost = async (req, res, next) => {
 	const { _id } = req.user;
 	const { title, skill, address, salary, endTime, description } = req.body;
+
 	try {
+		const date = new Date(endTime.split('/').reverse().join('/'));
+		if (date < new Date()) throw new HttpError('end time cannot less than now');
 		const company = await Company.findOne({ accountId: _id });
 		if (!company) throw new HttpError('Failed', 401);
 		const data = {
@@ -58,7 +61,6 @@ const createPost = async (req, res, next) => {
 			msg: 'Success',
 		});
 	} catch (error) {
-		console.log(error);
 		next(error);
 	}
 };
@@ -212,6 +214,9 @@ const updatePost = async (req, res, next) => {
 	const { postId } = req.params;
 	const { skill, address, salary, endTime, description, title } = req.body;
 	try {
+		const date = new Date(endTime.split('/').reverse().join('/'));
+		if (date < new Date()) throw new HttpError('end time cannot less than now');
+
 		if (!mongo.Types.ObjectId.isValid(postId)) throw new HttpError('Not found post!', 400);
 
 		const postWithUser = await Post.findOne({ accountId: _id, _id: postId }, { __v: 1 });

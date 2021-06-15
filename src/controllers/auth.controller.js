@@ -397,6 +397,7 @@ const updateProfile = async (req, res, next) => {
 		user = await iterService.getIter(_id);
 	}
 	if (!user) throw new HttpError('user not found', 400);
+
 	if (role == 'company') {
 		await companyService.update(_id, req.body);
 	} else if (role == 'iter') {

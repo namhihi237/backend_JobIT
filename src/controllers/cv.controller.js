@@ -41,6 +41,8 @@ const createCv = async (req, res, next) => {
 		if (cvExist) throw new HttpError('You already have cv', 400);
 		const user = await iterService.getIter(_id);
 		if (!user) throw new HttpError('Iter not found', 400);
+		const date = new Date(birthday.split('/').reverse().join('/'));
+		if (date > new Date()) throw new HttpError('birthday cannot greater than now', 400);
 		const { email, name } = user;
 		const data = {
 			iterId: _id,
@@ -198,7 +200,11 @@ const updateCv = async (req, res, next) => {
 	const { _id } = req.user;
 
 	try {
+		const { birthday } = req.body;
+		const date = new Date(birthday.split('/').reverse().join('/'));
+		if (date > new Date()) throw new HttpError('birthday cannot greater than now', 400);
 		if (!(await cvService.update(_id, req.body))) throw new HttpError('Cv not found', 400);
+
 		res.status(200).json({
 			status: 200,
 			msg: 'Update success',
