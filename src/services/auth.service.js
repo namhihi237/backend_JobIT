@@ -11,7 +11,7 @@ export default class AuthThenticationService {
 		// create new account
 		const hash = await bcrypt.hash(data.password, 12);
 		let acc = await Account.create({ email: data.email, password: hash, role });
-		// defaul permission for account
+		// default permission for account
 		let permissions = await Permission.find({ role, check: true });
 		permissions = permissions.map((e) => {
 			return UserPer.create({

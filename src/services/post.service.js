@@ -11,7 +11,6 @@ export default class PostService {
 		take = isNaN(take) ? 10 : take - 0;
 		let count;
 		let numPages;
-
 		if (!query) {
 			count = await Post.countDocuments({ status });
 			numPages = Math.ceil(count / take);
@@ -59,9 +58,9 @@ export default class PostService {
 					},
 				},
 			])
+				.sort({ _id: -1 })
 				.skip(skip)
-				.limit(take)
-				.sort({ _id: -1 });
+				.limit(take);
 		} else {
 			count = await Post.countDocuments({ status, $text: { $search: `${query}` } });
 			numPages = Math.ceil(count / take);
@@ -120,9 +119,9 @@ export default class PostService {
 					},
 				},
 			])
+				.sort({ score: { $meta: 'textScore' }, _id: -1 })
 				.skip(skip)
-				.limit(take)
-				.sort({ score: { $meta: 'textScore' }, _id: -1 });
+				.limit(take);
 		}
 
 		return {
@@ -226,8 +225,8 @@ export default class PostService {
 				},
 			},
 		])
-			.limit(10)
-			.sort({ createdAt: -1 });
+			.sort({ createdAt: -1 })
+			.limit(10);
 		return { posts, email };
 	}
 
