@@ -17,5 +17,5 @@ export const envVariables = {
 		process.env.SENDGRID_API_KEY || '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',
 	VERIFIED_SENDER: process.env.VERIFIED_SENDER || 'poppy99.dev@gmail.com',
 	gmail: 'poppy99.dev@gmail.com',
-	pass: 'Namvippro23799@',
+	pass: 'namvippro23799@',
 };
