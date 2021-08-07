@@ -51,7 +51,7 @@ postRouter
 	.route('/api/v1/posts/company')
 	.get(jwtMidleware, checkPer(ACTION_CODE.GET_COMPANY_POST), postController.getCompanyPost);
 
-postRouter.route('/api/v1/posts/:_id/apply').get(jwtMidleware, postController.applyJob);
+postRouter.route('/api/v1/posts/:_id/apply').get(jwtMidleware,checkPer(ACTION_CODE.APPLY_JOB), postController.applyJob);
 
 postRouter.route('/api/v1/posts/:_id/apply-list').get(jwtMidleware, postController.listApply);
 
