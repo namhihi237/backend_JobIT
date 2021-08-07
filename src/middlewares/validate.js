@@ -25,7 +25,7 @@ const updateInfoSchema = (req, res, next) => {
 		address: Joi.string().empty(),
 		phone: Joi.string()
 			.empty()
-			.regex(/^(84|0[3|5|7|8|9])+([0-9]{8})$/)
+			.regex(/^(84|0[1-9])+([0-9]{8,20})$/)
 			.message(`phone incorrect format`),
 		image: Joi.string().empty(),
 	});
