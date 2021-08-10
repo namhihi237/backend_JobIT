@@ -6,6 +6,7 @@ import AuthThenticationService from './auth.service';
 import PermissionService from './permission.service';
 import SendEmailJob from './sendMailJob.service';
 import AnalysisService from './analysis.service';
+import NotificationService from './notification.service';
 
 export {
 	PostService,
@@ -16,4 +17,5 @@ export {
 	CvService,
 	SendEmailJob,
 	AnalysisService,
+	NotificationService,
 };

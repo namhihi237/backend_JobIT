@@ -1,5 +1,7 @@
 import { Post, ITer, Company } from '../models';
 import mongo from 'mongoose';
+import NotificationService from './notification.service';
+const notification = new NotificationService();
 export default class PostService {
 	async create(data) {
 		await Post.create(data);
@@ -276,5 +278,16 @@ export default class PostService {
 			{ accountId, status: 'ACCEPTED' },
 			{ comment: 0, __v: 0, createdAt: 0, companyId: 0, updatedAt: 0, status: 0 },
 		).sort({ _id: -1 });
+	}
+
+	async responseListApply(postId, iterId, content) {
+		const post = await Post.findById(postId);
+		if (!post) return false;
+		const notify = {
+			title: `Response apply post ${post.title}`,
+			content: content,
+		};
+		// save notification into database
+		await notification.createNotification(iterId, notify);
 	}
 }

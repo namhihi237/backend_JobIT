@@ -8,7 +8,7 @@ import { cvRouter } from './cv.router';
 import { permissionRouter } from './permission.router';
 import { imageRouter } from './image.router';
 import { analysisRouter } from './analysis.router';
-
+import { notificationRouter } from './notification.router';
 export {
 	authRouter,
 	adminRouter,
@@ -20,4 +20,5 @@ export {
 	permissionRouter,
 	imageRouter,
 	analysisRouter,
+	notificationRouter,
 };

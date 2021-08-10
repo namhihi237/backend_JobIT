@@ -1,10 +1,11 @@
 import mongo from 'mongoose';
 import { Post, Company } from '../models';
 import { HttpError } from '../utils';
-import { PostService, CvService, CompanyService } from '../services';
+import { PostService, CvService, CompanyService, IterService } from '../services';
 const postService = new PostService();
 const cvService = new CvService();
 const companyService = new CompanyService();
+const iterService = new IterService();
 
 /**
  * @api {post} /api/v1/posts company create post
@@ -639,6 +640,55 @@ const donePost = async (req, res, next) => {
 	}
 };
 
+/**
+ * @api {post} /api/v1/posts/{postId}/response-apply  response iter has apply
+ * @apiName response iter
+ * @apiGroup Post
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiParam {iterId} iterId's iter has apply
+ * @apiParam {content} content
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success"
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission"
+ *     }
+ */
+const responseListApply = async (req, res, next) => {
+	const { postId } = req.params;
+	const { iterId, content } = req.body;
+	try {
+		if (!iterId && !content) {
+			throw new HttpError('Empty data', 400);
+		}
+		if (!postId) throw new HttpError('Post not found!', 404);
+		const post = await postService.getPost(postId);
+		if (!post) throw new HttpError('Post not found!', 404);
+
+		const iter = await iterService.getIter(iterId);
+		if (!iter) throw new HttpError('iter not found', 400);
+
+		await postService.responseListApply(postId, iterId, content);
+
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
 export const postController = {
 	createPost,
 	getAcceptedPosts,
@@ -653,4 +703,5 @@ export const postController = {
 	getPostsByCompanyId,
 	donePost,
 	acceptMany,
+	responseListApply,
 };

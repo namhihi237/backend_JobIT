@@ -8,6 +8,7 @@ import { cvController } from './cv.controller';
 import { permissionController } from './permission.controller';
 import { imageController } from './image.controller';
 import { analysisController } from './analysis.contoller';
+import { notificationController } from './notification.controller';
 
 export {
 	authController,
@@ -20,4 +21,5 @@ export {
 	permissionController,
 	imageController,
 	analysisController,
+	notificationController,
 };
