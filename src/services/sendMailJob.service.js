@@ -1,5 +1,5 @@
 import { CronJob } from 'cron';
-import { PostService, CvService, IterService } from '../services';
+import { PostService, CvService, iterService } from '../services';
 import { sendMailJobShedule } from '../utils';
 import queue from 'queue';
 import _ from 'lodash';
@@ -14,7 +14,7 @@ import _ from 'lodash';
 export default class SendEmailJob {
 	postService = new PostService();
 	cvService = new CvService();
-	iterService = new IterService();
+	iterService = iterService;
 	q = queue({ results: [] });
 
 	job = new CronJob(

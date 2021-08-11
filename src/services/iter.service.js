@@ -1,7 +1,7 @@
 import { ITer, Account, UserPer, Cv } from '../models';
 import { pagination } from '../utils';
 
-export default class IterService {
+class IterService {
 	async getIter(id) {
 		return await ITer.findOne(
 			{ accountId: id },
@@ -71,3 +71,5 @@ export default class IterService {
 		return await ITer.findOneAndUpdate({ accountId }, { receiveMail });
 	}
 }
+
+export const iterService = new IterService();

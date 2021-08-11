@@ -1,9 +1,8 @@
 import mongo from 'mongoose';
 import { HttpError } from '../utils';
-import { CvService, IterService } from '../services';
+import { CvService, iterService } from '../services';
 import { Cv } from '../models';
 const cvService = new CvService();
-const iterService = new IterService();
 
 /**
  * @api {post} /api/v1/cv create cv

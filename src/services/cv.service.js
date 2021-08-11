@@ -1,7 +1,6 @@
 import { Cv } from '../models';
-import IterService from './iter.service';
+import { iterService } from './iter.service';
 import _ from 'lodash';
-const iterService = new IterService();
 
 export default class CvService {
 	async create(data) {

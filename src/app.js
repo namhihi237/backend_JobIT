@@ -17,7 +17,7 @@ import {
 	notificationRouter,
 } from './routes';
 
-import { SendEmailJob } from './services';
+import { SendEmailJob, socketServer } from './services';
 
 import { initAccountAmin } from './utils';
 export let server;
@@ -44,6 +44,8 @@ const main = async () => {
 	// initialRole();
 	initAccountAmin();
 	server.registerMiddleware(errorHandle);
+
+	server.socketEventHandler(socketServer);
 	cron.job.start();
 };
 main();

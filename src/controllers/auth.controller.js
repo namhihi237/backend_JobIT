@@ -1,11 +1,10 @@
 import { Code, Account, ITer, Company } from '../models';
 import bcrypt from 'bcryptjs';
 import { HttpError, tokenEncode, sendEmail, generate } from '../utils';
-import { AuthThenticationService, CompanyService, IterService } from '../services';
+import { AuthThenticationService, CompanyService, iterService } from '../services';
 import _ from 'lodash';
 const authService = new AuthThenticationService();
 const companyService = new CompanyService();
-const iterService = new IterService();
 /**
  * @api {post} /api/v1/auth/register-iter register iter
  * @apiName Register Iter

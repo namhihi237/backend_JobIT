@@ -1,7 +1,6 @@
 import mongo from 'mongoose';
 import { HttpError } from '../utils';
-import { IterService, CvService } from '../services';
-const iterService = new IterService();
+import { iterService, CvService } from '../services';
 const cvService = new CvService();
 
 /**
