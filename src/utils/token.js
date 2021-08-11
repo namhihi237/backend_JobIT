@@ -10,6 +10,5 @@ export const tokenEncode = (data) => {
 };
 
 export const verifyToken = (token) => {
-	const data = jwt.verify(token, jwtSecret);
-	return data;
+	return jwt.verify(token, jwtSecret);
 };
