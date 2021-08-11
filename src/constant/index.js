@@ -19,7 +19,11 @@ export default {
 		ACCEPT_POST: 'ACCEPT_POST',
 		GET_COMPANY_POST: 'GET_COMPANY_POST',
 		ANALYSIS: 'ANALYSIS',
-		APPLY_JOB: 'APPLY_JOB'
+		APPLY_JOB: 'APPLY_JOB',
 	},
 	SKILLS: ['C', 'C++', 'C#', 'Java', 'Javascript', 'PHP', 'Python', 'NodeJS', 'Spring', 'Flask', 'VueJS', 'ReactJS'],
+	NOTIFICATIONS_TYPE: {
+		SYSTEM: 'SYSTEM',
+		POST: 'POST',
+	},
 };

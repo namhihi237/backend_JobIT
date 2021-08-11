@@ -9,6 +9,7 @@ const notificationService = new NotificationService();
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
+ *@apiSampleRequest .../api/v1/notifications?page=1&take=10
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code> if everything went fine.
  * @apiSuccessExample {json} Success-Example
@@ -16,23 +17,31 @@ const notificationService = new NotificationService();
  *     {
  *         status: 200,
  *         msg: "Success"
-            "notifications": [
+ * data : {
+        "currentPage": 1,
+        "numPages": 4,
+        "notifications": [
                 {
-                    "_id": "611241d2d9a9613bf4c16ac6",
+                    "_id": "6113817877a68f477c7dd873",
                     "userId": "61123eb11b85e832a85d4fd9",
                     "title": "Response apply post Fullstack Dev (Java, JavaScript)",
-                    "content": "YOu have accept",
-                    "createdAt": "2021-08-10T09:07:30.591Z",
+                    "type": "POST",
+                    "postId": "61123e461b85e832a85d4fd8",
+                    "content": "FPT agree your apply, please wait an email to confirm",
+                    "createdAt": "2021-08-11T07:51:20.870Z"
                 },
                 {
-                    "_id": "611242b54bc0693714ed1d4e",
+                     "_id": "6113817877a68f477c7dd873",
                     "userId": "61123eb11b85e832a85d4fd9",
                     "title": "Response apply post Fullstack Dev (Java, JavaScript)",
-                    "content": "YOu have accept",
-                    "createdAt": "2021-08-10T09:11:17.381Z",
+                    "type": "POST",
+                    "postId": "61123e461b85e832a85d4fd8",
+                    "content": "FPT agree your apply, please wait an email to confirm",
+                    "createdAt": "2021-08-11T07:51:20.870Z"
                 }
             ]
- *     }
+        }
+ *    }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 401
  *     {
@@ -42,11 +51,12 @@ const notificationService = new NotificationService();
  */
 const notifications = async (req, res, next) => {
 	try {
-		const notifications = await notificationService.getNotifications(req.user._id);
+		const { page, take } = req.query;
+		const data = await notificationService.getNotifications(req.user._id, page, take);
 		res.status(200).json({
 			status: 200,
 			msg: 'Success',
-			notifications,
+			data,
 		});
 	} catch (error) {
 		next(error);
