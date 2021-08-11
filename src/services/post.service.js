@@ -1,6 +1,9 @@
 import { Post, ITer, Company } from '../models';
 import mongo from 'mongoose';
 import NotificationService from './notification.service';
+import { iterService } from '.';
+
+import constant from '../constant';
 const notification = new NotificationService();
 export default class PostService {
 	async create(data) {
@@ -280,14 +283,35 @@ export default class PostService {
 		).sort({ _id: -1 });
 	}
 
-	async responseListApply(postId, iterId, content) {
+	async responseListApply(postId, listResponse) {
 		const post = await Post.findById(postId);
 		if (!post) return false;
-		const notify = {
-			title: `Response apply post ${post.title}`,
-			content: content,
-		};
-		// save notification into database
-		await notification.createNotification(iterId, notify);
+		let listApply = post.apply || [];
+		const listIter = listResponse.map((iter) => {
+			return iterService.getIter(iter.iterId);
+		});
+		const listResponsePromise = listResponse.map((item, index) => {
+			if (!listIter[index]) return null;
+			else {
+				const index = listApply.findIndex((apply) => {
+					return JSON.stringify(apply.iterId) == JSON.stringify(item.iterId) && apply.status == 'pending';
+				});
+				if (index == -1) return null;
+				listApply[index].status = item.status == 'agree' ? 'agreed' : 'rejected';
+				let notify = {
+					title: `Response apply post ${post.title}`,
+					type: constant.NOTIFICATIONS_TYPE.POST,
+					postId,
+				};
+				notify.content =
+					item.status == 'agree'
+						? `${post.name} agree your apply, please wait an email to confirm`
+						: `${post.name} reject your apply`;
+
+				return notification.createNotification(item.iterId, notify);
+			}
+		});
+		await Post.findByIdAndUpdate(postId, { apply: listApply });
+		await Promise.all(listResponsePromise);
 	}
 }

@@ -1,11 +1,10 @@
 import mongo from 'mongoose';
 import { Post, Company } from '../models';
 import { HttpError } from '../utils';
-import { PostService, CvService, CompanyService, IterService } from '../services';
+import { PostService, CvService, CompanyService, iterService } from '../services';
 const postService = new PostService();
 const cvService = new CvService();
 const companyService = new CompanyService();
-const iterService = new IterService();
 
 /**
  * @api {post} /api/v1/posts company create post
@@ -647,8 +646,19 @@ const donePost = async (req, res, next) => {
  * @apiHeader {String} token The token can be generated from your user profile.
  * @apiHeaderExample {Header} Header-Example
  *     "Authorization: Bearer AAA.BBB.CCC"
- * @apiParam {iterId} iterId's iter has apply
- * @apiParam {content} content
+ *@apiParamExample {json} Request-Example:
+                 { 
+				"listResponse" : [
+					{
+						"iterId": "61123eb11b85e832a85d4fd9",
+						"status" : "agree"
+					},
+					{
+						"iterId": "61123eb11b85e832a85d4fd9",
+						"status" : "reject"
+					}
+				]
+			}
  * @apiSuccess {Number} status <code>200</code>
  * @apiSuccess {String} msg <code>Success</code> if everything went fine.
  * @apiSuccessExample {json} Success-Example
@@ -666,19 +676,13 @@ const donePost = async (req, res, next) => {
  */
 const responseListApply = async (req, res, next) => {
 	const { postId } = req.params;
-	const { iterId, content } = req.body;
+	const { listResponse } = req.body;
 	try {
-		if (!iterId && !content) {
-			throw new HttpError('Empty data', 400);
-		}
 		if (!postId) throw new HttpError('Post not found!', 404);
 		const post = await postService.getPost(postId);
 		if (!post) throw new HttpError('Post not found!', 404);
 
-		const iter = await iterService.getIter(iterId);
-		if (!iter) throw new HttpError('iter not found', 400);
-
-		await postService.responseListApply(postId, iterId, content);
+		await postService.responseListApply(postId, listResponse);
 
 		res.status(200).json({
 			status: 200,

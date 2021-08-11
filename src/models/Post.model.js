@@ -38,6 +38,11 @@ const PostSchema = new Schema(
 				},
 				name: { type: String },
 				email: { type: String },
+				status: {
+					type: String,
+					enum: ['pending', 'agreed', 'rejected'],
+					default: 'pending',
+				},
 				timeApply: {
 					type: Date,
 					default: new Date(),
