@@ -2580,6 +2580,77 @@ define({ "api": [
     "groupTitle": "Iter"
   },
   {
+    "type": "get",
+    "url": "/api/v1/notifications",
+    "title": "get notifications",
+    "name": "get_notifications",
+    "group": "Notification",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "sampleRequest": [
+      {
+        "url": ".../api/v1/notifications?page=1&take=10"
+      }
+    ],
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code> if everything went fine.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\"\ndata : {\n        \"currentPage\": 1,\n        \"numPages\": 4,\n        \"notifications\": [\n                {\n                    \"_id\": \"6113817877a68f477c7dd873\",\n                    \"userId\": \"61123eb11b85e832a85d4fd9\",\n                    \"title\": \"Response apply post Fullstack Dev (Java, JavaScript)\",\n                    \"type\": \"POST\",\n                    \"postId\": \"61123e461b85e832a85d4fd8\",\n                    \"content\": \"FPT agree your apply, please wait an email to confirm\",\n                    \"createdAt\": \"2021-08-11T07:51:20.870Z\"\n                },\n                {\n                     \"_id\": \"6113817877a68f477c7dd873\",\n                    \"userId\": \"61123eb11b85e832a85d4fd9\",\n                    \"title\": \"Response apply post Fullstack Dev (Java, JavaScript)\",\n                    \"type\": \"POST\",\n                    \"postId\": \"61123e461b85e832a85d4fd8\",\n                    \"content\": \"FPT agree your apply, please wait an email to confirm\",\n                    \"createdAt\": \"2021-08-11T07:51:20.870Z\"\n                }\n            ]\n        }\n   }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"No token, authorization denied\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/notification.controller.js",
+    "groupTitle": "Notification"
+  },
+  {
     "type": "patch",
     "url": "/api/v1/posts/accept-many",
     "title": "accept many posts",
@@ -3499,6 +3570,81 @@ define({ "api": [
         {
           "title": "Success-Example",
           "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/post.controller.js",
+    "groupTitle": "Post"
+  },
+  {
+    "type": "post",
+    "url": "/api/v1/posts/{postId}/response-apply",
+    "title": "response iter has apply",
+    "name": "response_iter",
+    "group": "Post",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "parameter": {
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "                 { \n\t\t\t\t\"listResponse\" : [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"iterId\": \"61123eb11b85e832a85d4fd9\",\n\t\t\t\t\t\t\"status\" : \"agree\"\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"iterId\": \"61123eb11b85e832a85d4fd9\",\n\t\t\t\t\t\t\"status\" : \"reject\"\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code> if everything went fine.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
           "type": "json"
         }
       ]
