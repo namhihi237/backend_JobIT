@@ -693,6 +693,63 @@ const responseListApply = async (req, res, next) => {
 	}
 };
 
+/**
+ * @api {get} /api/v1/posts/applied get all applied posts by iter
+ * @apiName get all applied posts by iter
+ * @apiGroup Post
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code>
+ * @apiSuccess {Array} posts <code>Array Objects post</code> show all post need accept
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *        status: 200,
+ *        msg: "Success",
+ *          posts : [
+ *          {
+ * 			"status": "agreed",
+ *           "skill": [
+ *               "java",
+ *               "nodejs"
+ *           ],
+ *           "comment": [],
+ *           "_id": "601d12b5f391e21c38ea6bfe",
+ *           "companyId": "601d07f259e12e126c0a2af4",
+ *            "name": "FPT",
+ *            "address": "1444 nlb",
+ *            "salary": "1200 to 2000$",
+ *            "endTime": "21/3/2021",
+ *            "description": "nodejs >= 3 year experience",
+ *             "createdAt": "2021-02-05T09:41:09.446Z"
+ *            },
+ *          ....
+ *         ]
+        }
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission create post"
+ *     }
+ */
+const listAppliedPosts = async (req, res, next) => {
+	try {
+		const userId = req.user._id;
+		const posts = await postService.listAppliedPosts(userId);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			posts,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
 export const postController = {
 	createPost,
 	getAcceptedPosts,
@@ -708,4 +765,5 @@ export const postController = {
 	donePost,
 	acceptMany,
 	responseListApply,
+	listAppliedPosts,
 };

@@ -314,4 +314,24 @@ export default class PostService {
 		await Post.findByIdAndUpdate(postId, { apply: listApply });
 		await Promise.all(listResponsePromise);
 	}
+
+	async listAppliedPosts(iterId) {
+		let posts = await Post.find(
+			{
+				apply: { $elemMatch: { iterId } },
+			},
+			{
+				__v: 0,
+				updatedAt: 0,
+			},
+		).sort({ _id: -1 });
+
+		posts = posts.map((post) => {
+			post.status = post.apply.find((iter) => JSON.stringify(iter.iterId) == JSON.stringify(iterId)).status;
+			post.apply = null;
+			delete post.apply;
+			return post;
+		});
+		return posts;
+	}
 }
