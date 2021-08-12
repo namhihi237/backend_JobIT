@@ -9,5 +9,5 @@ import { Code } from './codeReset';
 import { Account } from './Account';
 import { UserPer } from './UserPer.model';
 import { Notification } from './Notification.model';
-
-export { Admin, Company, ITer, Permission, Cv, Post, Feedback, Code, Account, UserPer, Notification };
+import { Follow } from './follow.model';
+export { Admin, Company, ITer, Permission, Cv, Post, Feedback, Code, Account, UserPer, Notification, Follow };
