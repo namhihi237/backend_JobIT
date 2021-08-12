@@ -8,6 +8,7 @@ import SendEmailJob from './sendMailJob.service';
 import AnalysisService from './analysis.service';
 import NotificationService from './notification.service';
 import { socketServer } from './socket';
+import { followerService } from './followerService';
 export {
 	PostService,
 	AuthThenticationService,
@@ -19,4 +20,5 @@ export {
 	AnalysisService,
 	NotificationService,
 	socketServer,
+	followerService,
 };

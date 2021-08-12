@@ -1,4 +1,4 @@
-import { Code, Account, ITer, Company } from '../models';
+import { Code, Account, ITer, Company, Follow } from '../models';
 import bcrypt from 'bcryptjs';
 import { HttpError, tokenEncode, sendEmail, generate } from '../utils';
 import { AuthThenticationService, CompanyService, iterService } from '../services';

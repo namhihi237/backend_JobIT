@@ -9,6 +9,7 @@ import { permissionRouter } from './permission.router';
 import { imageRouter } from './image.router';
 import { analysisRouter } from './analysis.router';
 import { notificationRouter } from './notification.router';
+import { followRoute } from './follow.router';
 export {
 	authRouter,
 	adminRouter,
@@ -21,4 +22,5 @@ export {
 	imageRouter,
 	analysisRouter,
 	notificationRouter,
+	followRoute,
 };

@@ -15,6 +15,7 @@ import {
 	permissionRouter,
 	analysisRouter,
 	notificationRouter,
+	followRoute,
 } from './routes';
 
 import { SendEmailJob, socketServer } from './services';
@@ -40,6 +41,7 @@ const main = async () => {
 	server.registerRouter(imageRouter);
 	server.registerRouter(analysisRouter);
 	server.registerRouter(notificationRouter);
+	server.registerRouter(followRoute);
 	// initial default role
 	// initialRole();
 	initAccountAmin();
