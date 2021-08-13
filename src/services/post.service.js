@@ -1,13 +1,26 @@
 import { Post, ITer, Company } from '../models';
 import mongo from 'mongoose';
 import NotificationService from './notification.service';
+import { followerService } from '../services';
 import { iterService } from '.';
-
+import c from '../constant';
 import constant from '../constant';
 const notification = new NotificationService();
 export default class PostService {
 	async create(data) {
-		await Post.create(data);
+		const post = await Post.create(data);
+		// send notification for iter had follow
+		const followers = await followerService.getFollowers(data.accountId);
+		const notifications = followers.map((follower) => {
+			return {
+				type: constant.NOTIFICATIONS_TYPE.POST,
+				title: `New job`,
+				content: `${data.name} had post new job for ${data.skill.join(' ')}`,
+				postId: post._id,
+				userId: follower,
+			};
+		});
+		await notification.createManyNotifications(notifications);
 	}
 
 	async getPosts(query, status, page = 0, take = 10) {

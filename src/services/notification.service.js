@@ -33,4 +33,8 @@ export default class NotificationService {
 	async createNotification(userId, notification) {
 		return Notification.create({ userId, ...notification });
 	}
+
+	async createManyNotifications(notifications) {
+		return Notification.create(notifications);
+	}
 }

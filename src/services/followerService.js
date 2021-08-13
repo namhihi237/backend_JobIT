@@ -36,6 +36,11 @@ export default class FollowService {
 		const follow = await Follow.find({ iterId }, { companyId: 1, _id: 0 });
 		return follow.map((f) => f.companyId);
 	}
+
+	async getFollowers(companyId) {
+		const follow = await Follow.find({ companyId }, { iterId: 1, _id: 0 });
+		return follow.map((f) => f.iterId);
+	}
 }
 
 export const followerService = new FollowService();
