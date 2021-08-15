@@ -63,6 +63,6 @@ postRouter.route('/api/v1/posts/:postId/response-apply').post(jwtMidleware, post
 
 postRouter.route('/api/v1/posts/applied').get(jwtMidleware, postController.listAppliedPosts);
 
-postRouter.route('/api/v1/posts/save').post(jwtMidleware, postController.savePost);
+postRouter.route('/api/v1/posts/saved').post(jwtMidleware, postController.savePost);
 
-postRouter.route('/api/v1/posts/save').get(jwtMidleware, postController.listSavedPosts);
+postRouter.route('/api/v1/posts/saved').get(jwtMidleware, postController.listSavedPosts);
