@@ -7,7 +7,7 @@ export const envVariables = {
 		'mongodb+srv://cnpm:cnpm17t1@cluster0.n1nom.mongodb.net/dbTest?retryWrites=true&w=majority',
 	jwtSecret: process.env.JWT_SECRET || 'doancnpm!@#',
 	nodeEnv: process.env.NODE_ENV || 'development',
-	subject: process.env.SUBJECT || '[CODE RESET :]',
+	subject: process.env.SUBJECT || 'CODE RESET PASSWORD',
 	cloud_name: process.env.CLOUD_NAME || 'do-an-cnpm',
 	api_key: process.env.API_KEY_CLOUD || '484176915684615',
 	api_secret: process.env.API_SECRET_CLOUD || 'hpWWOxyc-cm_Egs5bqRF4UzPJf8',

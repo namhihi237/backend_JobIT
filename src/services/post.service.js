@@ -8,19 +8,7 @@ import constant from '../constant';
 const notification = new NotificationService();
 export default class PostService {
 	async create(data) {
-		const post = await Post.create(data);
-		// send notification for iter had follow
-		const followers = await followerService.getFollowers(data.accountId);
-		const notifications = followers.map((follower) => {
-			return {
-				type: constant.NOTIFICATIONS_TYPE.POST,
-				title: `New job`,
-				content: `${data.name} had post new job for ${data.skill.join(' ')}`,
-				postId: post._id,
-				userId: follower,
-			};
-		});
-		await notification.createManyNotifications(notifications);
+		return await Post.create(data);
 	}
 
 	async getPosts(query, status, page = 0, take = 10) {
@@ -212,6 +200,28 @@ export default class PostService {
 		if (!accepted) return 1;
 		const numPost = await Post.countDocuments({ companyId: accepted.companyId, status: 'ACCEPTED' });
 		await Company.findByIdAndUpdate(accepted.companyId, { recruitingPost: numPost });
+		// send notification for iter had follow
+		const followers = await followerService.getFollowers(check.accountId);
+		const notifications = followers.map((follower) => {
+			return {
+				type: constant.NOTIFICATIONS_TYPE.POST,
+				title: `New job`,
+				content: `${check.name} had posted a new job to looking for ${check.title} for ${data.skill.join(
+					', ',
+				)}`,
+				postId: check._id,
+				userId: follower,
+			};
+		});
+		// notification for company
+		notifications.push({
+			type: constant.NOTIFICATIONS_TYPE.SYSTEM,
+			title: `Accepted post`,
+			content: `${check.title} had accepted`,
+			postId: check._id,
+			userId: check.accountId,
+		});
+		await notification.createManyNotifications(notifications);
 		return 2;
 	}
 
