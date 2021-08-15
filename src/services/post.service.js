@@ -206,7 +206,7 @@ export default class PostService {
 			return {
 				type: constant.NOTIFICATIONS_TYPE.POST,
 				title: `New job`,
-				content: `${check.name} had posted a new job to looking for ${check.title} for ${data.skill.join(
+				content: `${check.name} had posted a new job to looking for ${check.title} for ${check.skill.join(
 					', ',
 				)}`,
 				postId: check._id,
