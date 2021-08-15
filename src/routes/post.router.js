@@ -62,3 +62,7 @@ postRouter.route('/api/v1/posts/:_id/complete').patch(jwtMidleware, postControll
 postRouter.route('/api/v1/posts/:postId/response-apply').post(jwtMidleware, postController.responseListApply);
 
 postRouter.route('/api/v1/posts/applied').get(jwtMidleware, postController.listAppliedPosts);
+
+postRouter.route('/api/v1/posts/save').post(jwtMidleware, postController.savePost);
+
+postRouter.route('/api/v1/posts/save').get(jwtMidleware, postController.listSavedPosts);

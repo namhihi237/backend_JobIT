@@ -751,6 +751,107 @@ const listAppliedPosts = async (req, res, next) => {
 	}
 };
 
+/**
+ * @api {post} /api/v1/posts/saved  save post
+ * @apiName save post
+ * @apiGroup Post
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiParam {String} postId The id of the post to save.
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success"
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission"
+ *     }
+ */
+const savePost = async (req, res, next) => {
+	const { postId } = req.body;
+	const userId = req.user._id;
+	try {
+		const post = await postService.getPost(postId);
+		if (!post) throw new HttpError('Post not found!', 404);
+		const save = await postService.savePost(userId, postId);
+
+		res.status(200).json({
+			status: 200,
+			msg: `You have successfully ${save ? 'saved' : 'un saved'}`,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
+/**
+ * @api {get} /api/v1/posts/saved  list saved posts
+ * @apiName list saved posts
+ * @apiGroup Post
+ * @apiHeader {String} token The token can be generated from your user profile.
+ * @apiHeaderExample {Header} Header-Example
+ *     "Authorization: Bearer AAA.BBB.CCC"
+ * @apiSuccess {Number} status <code>200</code>
+ * @apiSuccess {String} msg <code>Success</code> if everything went fine.
+ * @apiSuccess {Array} post list saved posts
+ * @apiSuccessExample {json} Success-Example
+ *     HTTP/1.1 200 OK
+ *     {
+ *         status: 200,
+ *         msg: "Success",
+		  "posts": [
+				{
+					"_id": "6116850ebe367b1234c31ac7",
+					"iterId": "61123eb11b85e832a85d4fd9",
+					"postId": "61123e461b85e832a85d4fd8",
+					"post": [
+						{
+							"_id": "61123e461b85e832a85d4fd8",
+							"skill": [
+								"Python",
+								"Java"
+							],
+							"status": "ACCEPTED",
+							"companyId": "61123e1f1b85e832a85d4fd7",
+							"title": "Fullstack Dev (Java, JavaScript)",
+							"name": "FPT",
+							"address": "Da Nang",
+							"salary": "2000 - 3000 $",
+							"endTime": "29/8/2021",
+							"description": "Work for international customers",
+							"__v": 0
+						}
+					]
+				}
+			]
+ *     }
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401
+ *     {
+ *       "status" : 401,
+ *       "msg": "Denny permission"
+ *     }
+ */
+const listSavedPosts = async (req, res, next) => {
+	try {
+		const posts = await postService.getSavedPosts(req.user._id);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			posts,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
 export const postController = {
 	createPost,
 	getAcceptedPosts,
@@ -767,4 +868,6 @@ export const postController = {
 	acceptMany,
 	responseListApply,
 	listAppliedPosts,
+	listSavedPosts,
+	savePost,
 };

@@ -1,4 +1,4 @@
-import { Post, ITer, Company } from '../models';
+import { Post, ITer, Company, SavedPost } from '../models';
 import mongo from 'mongoose';
 import NotificationService from './notification.service';
 import { followerService } from '../services';
@@ -346,5 +346,45 @@ export default class PostService {
 			return post;
 		});
 		return posts;
+	}
+
+	async savePost(iterId, postId) {
+		const save = await SavedPost.findOne({ postId, iterId });
+		if (save) {
+			await SavedPost.findByIdAndDelete(save._id);
+			return false;
+		}
+		await SavedPost.create({ iterId, postId });
+		return true;
+	}
+
+	async getSavedPosts(iterId) {
+		return SavedPost.aggregate([
+			{
+				$match: {
+					iterId: mongo.Types.ObjectId(iterId),
+				},
+			},
+
+			{
+				$lookup: {
+					from: 'post',
+					localField: 'postId',
+					foreignField: '_id',
+					as: 'post',
+				},
+			},
+			{
+				$project: {
+					__v: 0,
+					createdAt: 0,
+					updatedAt: 0,
+					'post.apply': 0,
+					'post.accountId': 0,
+					'post.createdAt': 0,
+					'post.updatedAt': 0,
+				},
+			},
+		]).sort({ _id: -1 });
 	}
 }

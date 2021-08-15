@@ -10,4 +10,19 @@ import { Account } from './Account';
 import { UserPer } from './UserPer.model';
 import { Notification } from './Notification.model';
 import { Follow } from './follow.model';
-export { Admin, Company, ITer, Permission, Cv, Post, Feedback, Code, Account, UserPer, Notification, Follow };
+import { SavedPost } from './SavedPost';
+export {
+	Admin,
+	Company,
+	ITer,
+	Permission,
+	Cv,
+	Post,
+	Feedback,
+	Code,
+	Account,
+	UserPer,
+	Notification,
+	Follow,
+	SavedPost,
+};

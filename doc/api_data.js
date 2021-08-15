@@ -3797,6 +3797,79 @@ define({ "api": [
     "groupTitle": "Post"
   },
   {
+    "type": "get",
+    "url": "/api/v1/posts/saved",
+    "title": "list saved posts",
+    "name": "list_saved_posts",
+    "group": "Post",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code> if everything went fine.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "post",
+            "description": "<p>list saved posts</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "    HTTP/1.1 200 OK\n    {\n        status: 200,\n        msg: \"Success\",\n\t\t  \"posts\": [\n\t\t\t\t{\n\t\t\t\t\t\"_id\": \"6116850ebe367b1234c31ac7\",\n\t\t\t\t\t\"iterId\": \"61123eb11b85e832a85d4fd9\",\n\t\t\t\t\t\"postId\": \"61123e461b85e832a85d4fd8\",\n\t\t\t\t\t\"post\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"_id\": \"61123e461b85e832a85d4fd8\",\n\t\t\t\t\t\t\t\"skill\": [\n\t\t\t\t\t\t\t\t\"Python\",\n\t\t\t\t\t\t\t\t\"Java\"\n\t\t\t\t\t\t\t],\n\t\t\t\t\t\t\t\"status\": \"ACCEPTED\",\n\t\t\t\t\t\t\t\"companyId\": \"61123e1f1b85e832a85d4fd7\",\n\t\t\t\t\t\t\t\"title\": \"Fullstack Dev (Java, JavaScript)\",\n\t\t\t\t\t\t\t\"name\": \"FPT\",\n\t\t\t\t\t\t\t\"address\": \"Da Nang\",\n\t\t\t\t\t\t\t\"salary\": \"2000 - 3000 $\",\n\t\t\t\t\t\t\t\"endTime\": \"29/8/2021\",\n\t\t\t\t\t\t\t\"description\": \"Work for international customers\",\n\t\t\t\t\t\t\t\"__v\": 0\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t]\n    }",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/post.controller.js",
+    "groupTitle": "Post"
+  },
+  {
     "type": "post",
     "url": "/api/v1/posts/{postId}/response-apply",
     "title": "response iter has apply",
@@ -3830,6 +3903,85 @@ define({ "api": [
           "type": "json"
         }
       ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p><code>200</code></p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p><code>Success</code> if everything went fine.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Example",
+          "content": "HTTP/1.1 200 OK\n{\n    status: 200,\n    msg: \"Success\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response (example):",
+          "content": "HTTP/1.1 401\n{\n  \"status\" : 401,\n  \"msg\": \"Denny permission\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "F:/CNPM/BackEnd_JobIT/src/controllers/post.controller.js",
+    "groupTitle": "Post"
+  },
+  {
+    "type": "post",
+    "url": "/api/v1/posts/saved",
+    "title": "save post",
+    "name": "save_post",
+    "group": "Post",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>The token can be generated from your user profile.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example",
+          "content": "\"Authorization: Bearer AAA.BBB.CCC\"",
+          "type": "Header"
+        }
+      ]
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "postId",
+            "description": "<p>The id of the post to save.</p>"
+          }
+        ]
+      }
     },
     "success": {
       "fields": {
