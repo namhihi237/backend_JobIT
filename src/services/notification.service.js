@@ -17,7 +17,7 @@ export default class NotificationService {
 			};
 
 		const skip = (page - 1) * take;
-		const notifications = await Notification.find({ userId }, { __v: 0, updatedAt: 0 })
+		notifications = await Notification.find({ userId }, { __v: 0, updatedAt: 0 })
 			.sort({ createdAt: -1 })
 			.skip(skip)
 			.limit(take)
