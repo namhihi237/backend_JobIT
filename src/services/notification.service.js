@@ -2,7 +2,7 @@ import { Notification } from '../models';
 
 export default class NotificationService {
 	async getNotifications(userId, page, take) {
-		let posts = [];
+		let notifications = [];
 		page = isNaN(page) ? 1 : page - 0;
 		take = isNaN(take) ? 10 : take - 0;
 		let count;
@@ -13,7 +13,7 @@ export default class NotificationService {
 			return {
 				currentPage: page,
 				numPages,
-				posts,
+				notifications,
 			};
 
 		const skip = (page - 1) * take;
