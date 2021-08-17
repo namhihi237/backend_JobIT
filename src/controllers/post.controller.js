@@ -807,30 +807,38 @@ const savePost = async (req, res, next) => {
  *         status: 200,
  *         msg: "Success",
 		  "posts": [
-				{
-					"_id": "6116850ebe367b1234c31ac7",
-					"iterId": "61123eb11b85e832a85d4fd9",
-					"postId": "61123e461b85e832a85d4fd8",
-					"post": [
+			{
+				"_id": "611b770ec59b1d001636626d",
+				"iterId": "60a2341a4cc537001530a875",
+				"postId": "6118cef9098ab10016619916",
+				"post": {
+					"_id": "6118cef9098ab10016619916",
+					"skill": [
+						"C#",
+						"PHP"
+					],
+					"status": "ACCEPTED",
+					"companyId": "60c813d60b0cc400154b8f73",
+					"title": "Nodejs developer",
+					"name": "Madison Technologies",
+					"address": "HA Noi",
+					"salary": "1500 - 2500 $",
+					"endTime": "19/8/2021",
+					"description": "EEEEEE",
+					"apply": [
 						{
-							"_id": "61123e461b85e832a85d4fd8",
-							"skill": [
-								"Python",
-								"Java"
-							],
-							"status": "ACCEPTED",
-							"companyId": "61123e1f1b85e832a85d4fd7",
-							"title": "Fullstack Dev (Java, JavaScript)",
-							"name": "FPT",
-							"address": "Da Nang",
-							"salary": "2000 - 3000 $",
-							"endTime": "29/8/2021",
-							"description": "Work for international customers",
-							"__v": 0
+							"iterId": "60a2341a4cc537001530a875"
+						}
+					],
+					"company": [
+						{
+							"accountId": "60c813d50b0cc400154b8f6b",
+							"image": "https://res.cloudinary.com/do-an-cnpm/image/upload/v1628150573/madison_kwqube.jpg"
 						}
 					]
 				}
-			]
+			},
+		]
  *     }
  * @apiErrorExample Response (example):
  *     HTTP/1.1 401

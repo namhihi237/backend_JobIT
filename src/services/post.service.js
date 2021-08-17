@@ -3,7 +3,6 @@ import mongo from 'mongoose';
 import NotificationService from './notification.service';
 import { followerService } from '../services';
 import { iterService } from '.';
-import c from '../constant';
 import constant from '../constant';
 const notification = new NotificationService();
 export default class PostService {
@@ -385,6 +384,12 @@ export default class PostService {
 				},
 			},
 			{
+				$unwind: {
+					path: '$post',
+					preserveNullAndEmptyArrays: true,
+				},
+			},
+			{
 				$project: {
 					__v: 0,
 					createdAt: 0,
@@ -392,6 +397,35 @@ export default class PostService {
 					'post.accountId': 0,
 					'post.createdAt': 0,
 					'post.updatedAt': 0,
+					'post.apply._id': 0,
+					'post.apply.status': 0,
+					'post.apply.name': 0,
+					'post.apply.email': 0,
+					'post.apply.timeApply': 0,
+					'post.apply.cvId': 0,
+					'post.__v': 0,
+				},
+			},
+			{
+				$lookup: {
+					from: 'company',
+					localField: 'post.companyId',
+					foreignField: '_id',
+					as: 'post.company',
+				},
+			},
+			{
+				$project: {
+					'post.company._id': 0,
+					'post.company.recruitingPost': 0,
+					'post.company.email': 0,
+					'post.company.address': 0,
+					'post.company.updatedAt': 0,
+					'post.company.createdAt': 0,
+					'post.company.__v': 0,
+					'post.company.numberOfFollowers': 0,
+					'post.company.phone': 0,
+					'post.company.accountId': 0,
 				},
 			},
 		]).sort({ _id: -1 });
