@@ -10,7 +10,7 @@
 		"start": "node -r esm ./src/app.js",
 		"test": "jest --config ./jest.config.json",
 		"test:watch": "npm run test -- --watch",
-		"deloy": "git push heroku main",
+		"deploy": "git push heroku main",
 		"log": "heroku logs --tail"
 	},
 	"dependencies": {
