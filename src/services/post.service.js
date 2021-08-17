@@ -389,7 +389,6 @@ export default class PostService {
 					__v: 0,
 					createdAt: 0,
 					updatedAt: 0,
-					'post.apply': 0,
 					'post.accountId': 0,
 					'post.createdAt': 0,
 					'post.updatedAt': 0,
