@@ -5,6 +5,7 @@ import { followerService } from '../services';
 import { iterService } from '.';
 import constant from '../constant';
 const notification = new NotificationService();
+import { pusher } from '../utils';
 export default class PostService {
 	async create(data) {
 		return await Post.create(data);
@@ -221,6 +222,9 @@ export default class PostService {
 			userId: check.accountId,
 		});
 		await notification.createManyNotifications(notifications);
+		pusher.trigger(`notification-${check.accountId}`, 'push-new-notification', {
+			message: 'new notification',
+		});
 		return 2;
 	}
 
