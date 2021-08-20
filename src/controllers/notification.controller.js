@@ -62,7 +62,33 @@ const notifications = async (req, res, next) => {
 		next(error);
 	}
 };
+const numberOfNotifications = async (req, res, next) => {
+	try {
+		const numberOfNotifications = await notificationService.getNumberOfNotifications(req.user._id);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+			numberOfNotifications,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
+const reset = async (req, res, next) => {
+	try {
+		await notificationService.reset(req.user._id);
+		res.status(200).json({
+			status: 200,
+			msg: 'Success',
+		});
+	} catch (error) {
+		next(error);
+	}
+};
 
 export const notificationController = {
 	notifications,
+	numberOfNotifications,
+	reset,
 };

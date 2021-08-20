@@ -3,10 +3,10 @@
 const config = {
 	mongodb: {
 		// TODO Change (or review) the url to your MongoDB:
-		url: 'mongodb+srv://cnpm:cnpm17t1@cluster0.n1nom.mongodb.net/jobIT?retryWrites=true&w=majority',
+		url: 'mongodb+srv://cnpm:cnpm17t1@cluster0.n1nom.mongodb.net/dbTest?retryWrites=true&w=majority',
 
 		// TODO Change this to your database name:
-		databaseName: 'jobIT',
+		databaseName: 'dbTest',
 
 		options: {
 			useNewUrlParser: true, // removes a deprecation warning when connecting

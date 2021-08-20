@@ -199,7 +199,7 @@ export default class PostService {
 		const accepted = await Post.findByIdAndUpdate(id, { status: 'ACCEPTED' });
 		if (!accepted) return 1;
 		const numPost = await Post.countDocuments({ companyId: accepted.companyId, status: 'ACCEPTED' });
-		await Company.findByIdAndUpdate(accepted.companyId, { recruitingPost: numPost });
+		const company = await Company.findByIdAndUpdate(accepted.companyId, { recruitingPost: numPost });
 		// send notification for iter had follow
 		const followers = await followerService.getFollowers(check.accountId);
 		const notifications = followers.map((follower) => {
@@ -222,8 +222,13 @@ export default class PostService {
 			userId: check.accountId,
 		});
 		await notification.createManyNotifications(notifications);
+		console.log(`notification-${check.accountId}`);
+		// update numberOfNotifications of company
+		await Company.findByIdAndUpdate(company._id, { numberOfNotifications: company.numberOfNotifications + 1 });
+
+		// send number notification for company
 		pusher.trigger(`notification-${check.accountId}`, 'push-new-notification', {
-			message: 'new notification',
+			numberOfNotifications: company.numberOfNotifications + 1,
 		});
 		return 2;
 	}

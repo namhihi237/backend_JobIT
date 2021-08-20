@@ -33,6 +33,10 @@ const ITerSchema = new Schema(
 			type: Boolean,
 			default: false,
 		},
+		numberOfNotifications: {
+			type: Number,
+			default: 0,
+		},
 	},
 	{ timestamps: true },
 );

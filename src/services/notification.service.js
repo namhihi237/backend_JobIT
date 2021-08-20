@@ -1,4 +1,4 @@
-import { Notification } from '../models';
+import { Notification, Account, Company, ITer } from '../models';
 
 export default class NotificationService {
 	async getNotifications(userId, page, take) {
@@ -36,5 +36,31 @@ export default class NotificationService {
 
 	async createManyNotifications(notifications) {
 		return Notification.create(notifications);
+	}
+
+	async getNumberOfNotifications(userId) {
+		const account = await Account.findById(userId);
+		if (!account) return 0;
+		if (account.role == 'iter') {
+			const iter = await Iter.findOne({ accountId: userId });
+			return iter.numberOfNotifications;
+		}
+		if (account.role == 'company') {
+			const company = await Company.findOne({ accountId: userId });
+			return company.numberOfNotifications;
+		}
+	}
+
+	async reset(userId) {
+		const account = await Account.findById(userId);
+		if (!account) return 0;
+		if (account.role == 'iter') {
+			await Iter.findOneAndUpdate({ accountId: userId }, { numberOfNotifications: 0 });
+			return;
+		}
+		if (account.role == 'company') {
+			await Company.findOneAndUpdate({ accountId: userId }, { numberOfNotifications: 0 });
+			return;
+		}
 	}
 }
