@@ -1,4 +1,4 @@
-import { Notification, Account, Company, ITer } from '../models';
+import { Notification, Account, Company, Iter } from '../models';
 
 export default class NotificationService {
 	async getNotifications(userId, page, take) {
