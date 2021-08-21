@@ -71,6 +71,7 @@ const numberOfNotifications = async (req, res, next) => {
 			numberOfNotifications,
 		});
 	} catch (error) {
+		console.log(error);
 		next(error);
 	}
 };
@@ -83,6 +84,7 @@ const reset = async (req, res, next) => {
 			msg: 'Success',
 		});
 	} catch (error) {
+		console.log(error);
 		next(error);
 	}
 };
