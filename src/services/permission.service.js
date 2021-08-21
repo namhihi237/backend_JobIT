@@ -2,8 +2,6 @@ import { Account, Admin, Permission, UserPer } from '../models';
 import _ from 'lodash';
 export default class PermissionService {
 	async getPermissions(role) {
-		console.log(role);
-
 		if (!role) return await Permission.find();
 		else return await Permission.find({ role });
 	}
@@ -50,7 +48,6 @@ export default class PermissionService {
 							},
 							{ _id: 1 },
 						);
-						// console.log(userPerDels);
 						userPerDels = userPerDels.map((e) => UserPer.findByIdAndDelete({ _id: e._id }));
 						addUserPers = [...addUserPers, ...userPerDels];
 					}

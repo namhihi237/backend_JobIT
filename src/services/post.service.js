@@ -1,4 +1,4 @@
-import { Post, ITer, Company, SavedPost } from '../models';
+import { Post, ITer, Company, SavedPost, Follow } from '../models';
 import mongo from 'mongoose';
 import NotificationService from './notification.service';
 import { followerService } from '../services';
@@ -222,13 +222,36 @@ export default class PostService {
 			userId: check.accountId,
 		});
 		await notification.createManyNotifications(notifications);
-		console.log(`notification-${check.accountId}`);
 		// update numberOfNotifications of company
 		await Company.findByIdAndUpdate(company._id, { numberOfNotifications: company.numberOfNotifications + 1 });
 
 		// send number notification for company
 		pusher.trigger(`notification-${check.accountId}`, 'push-new-notification', {
 			numberOfNotifications: company.numberOfNotifications + 1,
+		});
+		// send notification for iter had follow
+
+		const itersHasFollow = await ITer.find(
+			{
+				accountId: {
+					$in: followers.map((follower) => follower.toString()),
+				},
+			},
+			{
+				_id: 1,
+				accountId: 1,
+				numberOfNotifications: 1,
+			},
+		);
+		const itersHasFollowIncrement = itersHasFollow.map((iter) => {
+			return ITer.findByIdAndUpdate(iter._id, { numberOfNotifications: iter.numberOfNotifications + 1 });
+		});
+
+		await Promise.all(itersHasFollowIncrement);
+		itersHasFollow.forEach((iter) => {
+			pusher.trigger(`notification-${iter.accountId}`, 'push-new-notification', {
+				numberOfNotifications: iter.numberOfNotifications + 1,
+			});
 		});
 		return 2;
 	}
@@ -318,9 +341,11 @@ export default class PostService {
 		const post = await Post.findById(postId);
 		if (!post) return false;
 		let listApply = post.apply || [];
-		const listIter = listResponse.map((iter) => {
+		let listIter = listResponse.map((iter) => {
 			return iterService.getIter(iter.iterId);
 		});
+		listIter = await Promise.all(listIter);
+
 		const listResponsePromise = listResponse.map((item, index) => {
 			if (!listIter[index]) return null;
 			else {
@@ -330,7 +355,7 @@ export default class PostService {
 				if (index == -1) return null;
 				listApply[index].status = item.status == 'agree' ? 'agreed' : 'rejected';
 				let notify = {
-					title: `Response apply post ${post.title}`,
+					title: `Response apply`,
 					type: constant.NOTIFICATIONS_TYPE.POST,
 					postId,
 				};
@@ -344,6 +369,17 @@ export default class PostService {
 		});
 		await Post.findByIdAndUpdate(postId, { apply: listApply });
 		await Promise.all(listResponsePromise);
+		// increment the number of notification
+		const iterIncrement = listIter.map((iter) => {
+			return ITer.findByIdAndUpdate(iter._id, { numberOfNotifications: iter.numberOfNotifications + 1 });
+		});
+		// pusher notification
+		listIter.forEach((iter) => {
+			pusher.trigger(`notification-${iter.accountId}`, 'push-new-notification', {
+				numberOfNotifications: iter.numberOfNotifications + 1,
+			});
+		});
+		await Promise.all(iterIncrement);
 	}
 
 	async listAppliedPosts(iterId) {
