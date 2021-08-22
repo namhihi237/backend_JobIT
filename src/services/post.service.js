@@ -371,13 +371,16 @@ export default class PostService {
 		await Promise.all(listResponsePromise);
 		// increment the number of notification
 		const iterIncrement = listIter.map((iter) => {
+			if (!iter) return null;
 			return ITer.findByIdAndUpdate(iter._id, { numberOfNotifications: iter.numberOfNotifications + 1 });
 		});
 		// pusher notification
 		listIter.forEach((iter) => {
-			pusher.trigger(`notification-${iter.accountId}`, 'push-new-notification', {
-				numberOfNotifications: iter.numberOfNotifications + 1,
-			});
+			if (iter) {
+				pusher.trigger(`notification-${iter.accountId}`, 'push-new-notification', {
+					numberOfNotifications: iter.numberOfNotifications + 1,
+				});
+			}
 		});
 		await Promise.all(iterIncrement);
 	}
