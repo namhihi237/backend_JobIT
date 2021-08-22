@@ -690,6 +690,7 @@ const responseListApply = async (req, res, next) => {
 			msg: 'Success',
 		});
 	} catch (error) {
+		console.log(error);
 		next(error);
 	}
 };
