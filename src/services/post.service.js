@@ -211,6 +211,7 @@ export default class PostService {
 				)}`,
 				postId: check._id,
 				userId: follower,
+				image: company.image,
 			};
 		});
 		// notification for company
@@ -220,6 +221,7 @@ export default class PostService {
 			content: `${check.title} had accepted`,
 			postId: check._id,
 			userId: check.accountId,
+			image: 'https://res.cloudinary.com/do-an-cnpm/image/upload/v1629615468/ic_launcher_zxt0ie.png',
 		});
 		await notification.createManyNotifications(notifications);
 		// update numberOfNotifications of company
@@ -337,13 +339,14 @@ export default class PostService {
 		).sort({ _id: -1 });
 	}
 
-	async responseListApply(postId, listResponse) {
+	async responseListApply(userId, postId, listResponse) {
 		const post = await Post.findById(postId);
 		if (!post) return false;
 		let listApply = post.apply || [];
 		let listIter = listResponse.map((iter) => {
 			return iterService.getIter(iter.iterId);
 		});
+		const company = await Company.findById(userId);
 		listIter = await Promise.all(listIter);
 
 		const listResponsePromise = listResponse.map((item, index) => {
@@ -355,9 +358,10 @@ export default class PostService {
 				if (index == -1) return null;
 				listApply[index].status = item.status == 'agree' ? 'agreed' : 'rejected';
 				let notify = {
-					title: `Response apply`,
+					title: `Response`,
 					type: constant.NOTIFICATIONS_TYPE.POST,
 					postId,
+					image: company.image,
 				};
 				notify.content =
 					item.status == 'agree'

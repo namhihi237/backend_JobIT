@@ -20,6 +20,9 @@ export const notificationSchema = new Schema(
 		postId: {
 			type: String,
 		},
+		image: {
+			type: String,
+		},
 	},
 	{ timestamps: true },
 );

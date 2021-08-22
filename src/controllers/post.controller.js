@@ -678,12 +678,13 @@ const donePost = async (req, res, next) => {
 const responseListApply = async (req, res, next) => {
 	const { postId } = req.params;
 	const { listResponse } = req.body;
+	const { _id } = req.user;
 	try {
 		if (!postId) throw new HttpError('Post not found!', 404);
 		const post = await postService.getPost(postId);
 		if (!post) throw new HttpError('Post not found!', 404);
 
-		await postService.responseListApply(postId, listResponse);
+		await postService.responseListApply(_id, postId, listResponse);
 
 		res.status(200).json({
 			status: 200,
