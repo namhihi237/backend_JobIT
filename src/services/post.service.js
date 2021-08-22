@@ -346,7 +346,7 @@ export default class PostService {
 		let listIter = listResponse.map((iter) => {
 			return iterService.getIter(iter.iterId);
 		});
-		const company = await Company.findById(userId);
+		const company = await Company.findOne({ accountId: userId });
 		listIter = await Promise.all(listIter);
 
 		const listResponsePromise = listResponse.map((item, index) => {
