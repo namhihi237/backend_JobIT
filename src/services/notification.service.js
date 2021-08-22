@@ -1,5 +1,5 @@
 import { Notification, Account, Company, ITer } from '../models';
-
+import { pusher } from '../utils';
 export default class NotificationService {
 	async getNotifications(userId, page, take) {
 		let notifications = [];
@@ -54,6 +54,9 @@ export default class NotificationService {
 	async reset(userId) {
 		const account = await Account.findById(userId);
 		if (!account) return 0;
+		pusher.trigger(`notification-${userId}`, 'push-new-notification', {
+			numberOfNotifications: 0,
+		});
 		if (account.role == 'iter') {
 			await ITer.findOneAndUpdate({ accountId: userId }, { numberOfNotifications: 0 });
 			return;
