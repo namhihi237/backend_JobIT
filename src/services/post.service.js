@@ -372,7 +372,6 @@ export default class PostService {
 			}
 		});
 		await Post.findByIdAndUpdate(postId, { apply: listApply });
-		await Promise.all(listResponsePromise);
 		// increment the number of notification
 		const iterIncrement = listIter.map((iter) => {
 			if (!iter) return null;
@@ -386,7 +385,7 @@ export default class PostService {
 				});
 			}
 		});
-		await Promise.all(iterIncrement);
+		await Promise.all([...iterIncrement, ...listResponsePromise]);
 	}
 
 	async listAppliedPosts(iterId) {
