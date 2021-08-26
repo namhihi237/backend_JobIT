@@ -8,9 +8,7 @@ const { ACTION_CODE } = constant;
 
 export const feedbackRouter = Router();
 
-feedbackRouter
-	.route('/api/v1/feedbacks')
-	.get(jwtMidleware, checkPer(ACTION_CODE.VIEW_FEEDBACKS), feedbackController.getFeedbacks);
+feedbackRouter.route('/api/v1/feedbacks').get(jwtMidleware, feedbackController.getFeedbacks);
 
 feedbackRouter
 	.route('/api/v1/feedbacks')
