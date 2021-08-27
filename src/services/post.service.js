@@ -47,7 +47,6 @@ export default class PostService {
 						__v: 0,
 						status: 0,
 						createdAt: 0,
-						updatedAt: 0,
 						comment: 0,
 						apply: {
 							name: 0,
@@ -64,7 +63,7 @@ export default class PostService {
 					},
 				},
 			])
-				.sort({ _id: -1 })
+				.sort({ updatedAt: -1 })
 				.skip(skip)
 				.limit(take);
 		} else {
@@ -107,7 +106,6 @@ export default class PostService {
 						__v: 0,
 						status: 0,
 						createdAt: 0,
-						updatedAt: 0,
 						comment: 0,
 						apply: {
 							name: 0,
@@ -125,7 +123,7 @@ export default class PostService {
 					},
 				},
 			])
-				.sort({ score: { $meta: 'textScore' }, _id: -1 })
+				.sort({ score: { $meta: 'textScore' }, updatedAt: -1 })
 				.skip(skip)
 				.limit(take);
 		}
